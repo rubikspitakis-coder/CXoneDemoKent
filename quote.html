@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Quote | Kent Removals & Storage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
+        .kent-navy { background-color: #1B2A4A; }
+        .kent-navy-text { color: #1B2A4A; }
+        .kent-orange { background-color: #E8612D; }
+        .kent-orange-text { color: #E8612D; }
+        .kent-orange-hover:hover { background-color: #d14f1f; }
+        .kent-light-bg { background-color: #F7F5F2; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Top Nav Bar -->
+    <nav class="bg-white py-4 px-6 md:px-12 flex justify-between items-center sticky top-0 z-50 shadow-sm">
+        <a href="index.html" class="flex items-center cursor-pointer rounded overflow-hidden" style="background-color: #3A231C;">
+            <img src="logo.png" alt="Kent Removals & Storage" class="h-12 block">
+        </a>
+        <div class="hidden lg:flex gap-8 kent-navy-text font-medium text-sm">
+            <a href="index.html" class="hover:text-[#E8612D] transition-colors">Home</a>
+            <a href="#" class="hover:text-[#E8612D] flex items-center gap-1 transition-colors">Moving <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" class="hover:text-[#E8612D] flex items-center gap-1 transition-colors">Storage <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" class="hover:text-[#E8612D] transition-colors">Contact</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="tel:1300490557" class="hidden md:flex items-center gap-2 kent-navy-text text-sm font-semibold">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                1300 490 557
+            </a>
+            <button class="kent-orange text-white px-6 py-2.5 rounded-full font-semibold text-sm kent-orange-hover transition-all">
+                Get a Quote
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="kent-navy py-12 px-6 md:px-12 text-center">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-3">Get a Free Moving Quote</h1>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">Tell us about your move and we'll provide a tailored quote. Or chat with an expert who already knows what you're looking for.</p>
+    </section>
+
+    <!-- Quote Form + Sidebar -->
+    <section class="py-12 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12">
+
+            <!-- Quote Form -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl shadow-lg p-8 md:p-10">
+                    <h2 class="text-2xl font-bold kent-navy-text mb-8">Your Move Details</h2>
+
+                    <!-- Move Type -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-3">Type of Move</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button class="move-type-btn border-2 border-gray-200 rounded-xl py-3 px-4 text-center font-semibold text-gray-600 hover:border-[#E8612D] hover:text-[#E8612D] transition-all focus:outline-none" data-type="Local">
+                                <svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                                Local
+                            </button>
+                            <button class="move-type-btn border-2 border-gray-200 rounded-xl py-3 px-4 text-center font-semibold text-gray-600 hover:border-[#E8612D] hover:text-[#E8612D] transition-all focus:outline-none" data-type="Interstate">
+                                <svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                                Interstate
+                            </button>
+                            <button class="move-type-btn border-2 border-gray-200 rounded-xl py-3 px-4 text-center font-semibold text-gray-600 hover:border-[#E8612D] hover:text-[#E8612D] transition-all focus:outline-none" data-type="International">
+                                <svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                International
+                            </button>
+                            <button class="move-type-btn border-2 border-gray-200 rounded-xl py-3 px-4 text-center font-semibold text-gray-600 hover:border-[#E8612D] hover:text-[#E8612D] transition-all focus:outline-none" data-type="Storage Only">
+                                <svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                                Storage
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Locations -->
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="moveFrom" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-2">Moving From</label>
+                            <input type="text" id="moveFrom" placeholder="e.g. Sydney, NSW" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#1B2A4A] outline-none transition-all text-base">
+                        </div>
+                        <div>
+                            <label for="moveTo" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-2">Moving To</label>
+                            <input type="text" id="moveTo" placeholder="e.g. Melbourne, VIC" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#1B2A4A] outline-none transition-all text-base">
+                        </div>
+                    </div>
+
+                    <!-- Date & Home Size -->
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="moveDate" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-2">Preferred Move Date</label>
+                            <input type="date" id="moveDate" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#1B2A4A] outline-none transition-all text-base">
+                        </div>
+                        <div>
+                            <label for="homeSize" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-2">Home Size</label>
+                            <select id="homeSize" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#1B2A4A] outline-none transition-all text-base appearance-none bg-white">
+                                <option value="">Select...</option>
+                                <option value="Studio/1 Bedroom">Studio / 1 Bedroom</option>
+                                <option value="2 Bedrooms">2 Bedrooms</option>
+                                <option value="3 Bedrooms">3 Bedrooms</option>
+                                <option value="4+ Bedrooms">4+ Bedrooms</option>
+                                <option value="Office/Commercial">Office / Commercial</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details -->
+                    <h3 class="text-lg font-bold kent-navy-text mb-4 mt-8">Your Contact Details</h3>
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="fullName" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-2">Full Name</label>
+                            <input type="text" id="fullName" placeholder="John Smith" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#1B2A4A] outline-none transition-all text-base">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-2">Email</label>
+                            <input type="email" id="email" placeholder="john@example.com" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#1B2A4A] outline-none transition-all text-base">
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="phone" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-2">Phone</label>
+                            <input type="tel" id="phone" placeholder="0412 345 678" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#1B2A4A] outline-none transition-all text-base">
+                        </div>
+                        <div>
+                            <label for="notes" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-2">Additional Notes</label>
+                            <input type="text" id="notes" placeholder="e.g. piano, fragile items..." class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#1B2A4A] outline-none transition-all text-base">
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="submitQuote" class="kent-orange text-white px-10 py-4 rounded-full font-bold text-lg kent-orange-hover transition-all shadow-lg flex-1">
+                            Submit Quote Request
+                        </button>
+                        <button id="chatWithDetails" class="kent-navy text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#243660] transition-all flex-1 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                            Chat with an Expert
+                        </button>
+                    </div>
+                    <p id="quoteSuccess" class="hidden mt-6 text-center text-green-600 font-semibold text-lg">✓ Quote request submitted! We'll be in touch shortly.</p>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:w-1/3 space-y-6">
+                <!-- Why Kent -->
+                <div class="kent-light-bg rounded-2xl p-6">
+                    <h3 class="text-lg font-bold kent-navy-text mb-4">Why choose Kent?</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3 text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span>Trusted by Australians since 1946</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span>Personal move coordinator assigned</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span>Full insurance coverage included</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-gray-700">
+                            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span>4.5★ rated on Google (1195 reviews)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Callback -->
+                <div class="kent-navy rounded-2xl p-6 text-white text-center">
+                    <h3 class="text-lg font-bold mb-2">Prefer to talk?</h3>
+                    <p class="text-gray-300 text-sm mb-4">Get a callback from a Kent moving expert.</p>
+                    <button id="callbackBtnQuote" class="w-full kent-orange text-white py-3 rounded-full font-bold kent-orange-hover transition-all">
+                        Request a Callback
+                    </button>
+                    <a href="tel:1300490557" class="block mt-3 text-gray-300 hover:text-white text-sm transition-colors">or call 1300 490 557</a>
+                </div>
+
+                <!-- Quote summary (updates live) -->
+                <div class="border-2 border-gray-200 rounded-2xl p-6">
+                    <h3 class="text-lg font-bold kent-navy-text mb-4">Your Quote Summary</h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between"><span>Move Type:</span><span id="summaryType" class="font-semibold kent-navy-text">—</span></div>
+                        <div class="flex justify-between"><span>From:</span><span id="summaryFrom" class="font-semibold kent-navy-text">—</span></div>
+                        <div class="flex justify-between"><span>To:</span><span id="summaryTo" class="font-semibold kent-navy-text">—</span></div>
+                        <div class="flex justify-between"><span>Date:</span><span id="summaryDate" class="font-semibold kent-navy-text">—</span></div>
+                        <div class="flex justify-between"><span>Home Size:</span><span id="summarySize" class="font-semibold kent-navy-text">—</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#111C33] py-8 px-6 md:px-12 text-center text-gray-400 text-sm">
+        <p>© 2026 Kent Removals &amp; Storage Demo. Australia's trusted family-owned relocation experts since 1946.</p>
+    </footer>
+
+    <!-- Callback Modal -->
+    <div id="callbackModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[#1B2A4A]/60 backdrop-blur-md"></div>
+        <div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform transition-all">
+            <div class="kent-navy p-10 text-white text-center relative">
+                <button id="closeModal" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <h2 class="text-3xl font-bold mb-4">Talk to an Expert</h2>
+                <p class="text-gray-300 text-lg">Leave your number and we'll call you back as soon as possible.</p>
+            </div>
+            <div class="p-10">
+                <div class="mb-8">
+                    <label for="phoneInput" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-3">Phone Number</label>
+                    <input type="tel" id="phoneInput" placeholder="e.g. 0412 345 678" class="w-full px-5 py-4 rounded-xl border-2 border-gray-100 focus:border-[#1B2A4A] focus:ring-0 outline-none transition-all text-xl">
+                    <p id="errorText" class="text-red-600 text-sm mt-3 hidden font-medium">Please enter a valid phone number.</p>
+                </div>
+                <button id="submitCallback" class="w-full kent-orange text-white py-5 rounded-xl font-bold text-xl kent-orange-hover transition-all shadow-lg flex items-center justify-center gap-3">
+                    <span id="btnText">Request Callback</span>
+                    <svg id="loadingSpinner" class="animate-spin h-6 w-6 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Quote Form Logic ---
+            let selectedMoveType = '';
+
+            // Move type buttons
+            document.querySelectorAll('.move-type-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.move-type-btn').forEach(b => {
+                        b.classList.remove('border-[#E8612D]', 'text-[#E8612D]', 'bg-orange-50');
+                        b.classList.add('border-gray-200', 'text-gray-600');
+                    });
+                    btn.classList.remove('border-gray-200', 'text-gray-600');
+                    btn.classList.add('border-[#E8612D]', 'text-[#E8612D]', 'bg-orange-50');
+                    selectedMoveType = btn.dataset.type;
+                    document.getElementById('summaryType').textContent = selectedMoveType;
+                    updateCustomFields();
+                });
+            });
+
+            // Live summary updates
+            const fields = { moveFrom: 'summaryFrom', moveTo: 'summaryTo', moveDate: 'summaryDate', homeSize: 'summarySize' };
+            Object.entries(fields).forEach(([inputId, summaryId]) => {
+                document.getElementById(inputId).addEventListener('input', () => {
+                    const val = document.getElementById(inputId).value;
+                    document.getElementById(summaryId).textContent = val || '—';
+                    updateCustomFields();
+                });
+                document.getElementById(inputId).addEventListener('change', () => {
+                    const val = document.getElementById(inputId).value;
+                    document.getElementById(summaryId).textContent = val || '—';
+                    updateCustomFields();
+                });
+            });
+
+            function getQuoteSummary() {
+                return {
+                    moveType: selectedMoveType || 'Not selected',
+                    from: document.getElementById('moveFrom').value || '',
+                    to: document.getElementById('moveTo').value || '',
+                    date: document.getElementById('moveDate').value || '',
+                    homeSize: document.getElementById('homeSize').value || '',
+                    name: document.getElementById('fullName').value || '',
+                    email: document.getElementById('email').value || '',
+                    phone: document.getElementById('phone').value || '',
+                    notes: document.getElementById('notes').value || ''
+                };
+            }
+
+            function updateCustomFields() {
+                if (!window.cxone) return;
+                const q = getQuoteSummary();
+                const parts = [];
+                if (q.moveType !== 'Not selected') parts.push(q.moveType);
+                if (q.from) parts.push('from ' + q.from);
+                if (q.to) parts.push('to ' + q.to);
+                if (q.homeSize) parts.push(q.homeSize);
+                if (q.date) parts.push('on ' + q.date);
+
+                cxone('chat', 'setCustomerCustomField', 'service_interest', q.moveType);
+                cxone('chat', 'setCustomerCustomField', 'page_viewed', 'Get a Quote');
+
+                if (q.name) cxone('chat', 'setCustomerName', q.name);
+            }
+
+            // Submit quote
+            document.getElementById('submitQuote').addEventListener('click', () => {
+                const q = getQuoteSummary();
+                if (!q.name || !q.phone) {
+                    alert('Please enter your name and phone number.');
+                    return;
+                }
+                updateCustomFields();
+                document.getElementById('quoteSuccess').classList.remove('hidden');
+                document.getElementById('submitQuote').disabled = true;
+                document.getElementById('submitQuote').textContent = 'Submitted ✓';
+            });
+
+            // Chat with details — opens chat and pre-fills context
+            document.getElementById('chatWithDetails').addEventListener('click', () => {
+                const q = getQuoteSummary();
+                updateCustomFields();
+
+                if (window.cxone) {
+                    // Pre-fill customer name if provided
+                    if (q.name) cxone('chat', 'setCustomerName', q.name);
+
+                    // Build a summary to pass as custom fields
+                    const summary = [];
+                    if (q.moveType !== 'Not selected') summary.push('Move: ' + q.moveType);
+                    if (q.from && q.to) summary.push(q.from + ' → ' + q.to);
+                    else if (q.from) summary.push('From: ' + q.from);
+                    if (q.homeSize) summary.push('Size: ' + q.homeSize);
+                    if (q.date) summary.push('Date: ' + q.date);
+                    if (q.notes) summary.push('Notes: ' + q.notes);
+
+                    if (summary.length > 0) {
+                        cxone('chat', 'setCustomerCustomField', 'quote_details', summary.join(' | '));
+                    }
+
+                    // Open the chat
+                    cxone('chat', 'openChatWindow');
+                }
+            });
+
+            // --- Callback Modal ---
+            const modal = document.getElementById('callbackModal');
+            const phoneInput = document.getElementById('phoneInput');
+            const submitBtn = document.getElementById('submitCallback');
+            const closeBtn = document.getElementById('closeModal');
+            const errorText = document.getElementById('errorText');
+            const btnText = document.getElementById('btnText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            const openModal = () => { modal.classList.remove('hidden'); phoneInput.focus(); document.body.style.overflow = 'hidden'; };
+            const closeModalFn = () => { modal.classList.add('hidden'); document.body.style.overflow = ''; errorText.classList.add('hidden'); phoneInput.value = ''; };
+
+            document.getElementById('callbackBtnQuote').addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModalFn);
+            modal.addEventListener('click', (e) => { if (e.target.id === 'callbackModal') closeModalFn(); });
+
+            submitBtn.addEventListener('click', () => {
+                const phone = phoneInput.value.trim();
+                if (phone && /^\+?\d{8,15}$/.test(phone.replace(/\s/g, ''))) {
+                    errorText.classList.add('hidden');
+                    sendCallbackRequest(phone);
+                } else {
+                    errorText.classList.remove('hidden');
+                }
+            });
+
+            async function getToken() {
+                const tokenUrl = 'https://cxone.niceincontact.com/auth/token';
+                const clientId = '996b7e33-2d5b-41df-aae9-93cf5dd4282d';
+                const clientSecret = 'pHXexVN4Q1vhQ2898t8A9g==';
+                const accessKey = '62KRPEH6BI7W5TMQA2AE5I7OHCAMGAWJQIHAWOT2VH3KVUCXGOBA====';
+                const secretKey = 'WU4EFIJABCT2FATFDFVPLYAU4GASZRKV72XU6NCR6S73KZXMSLQA====';
+                const authString = btoa(`${clientId}:${clientSecret}`);
+                const response = await fetch(tokenUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Basic ${authString}` },
+                    body: new URLSearchParams({ 'grant_type': 'password', 'username': accessKey, 'password': secretKey, 'scope': 'incontact.agent incontact.realtime incontact.admin' })
+                });
+                if (!response.ok) throw new Error('Failed to fetch token');
+                const data = await response.json();
+                return data.access_token;
+            }
+
+            async function sendCallbackRequest(phoneNumber) {
+                try {
+                    submitBtn.disabled = true;
+                    btnText.innerText = "Submitting...";
+                    loadingSpinner.classList.remove('hidden');
+                    const token = await getToken();
+                    const response = await fetch(`https://api-b32.nice-incontact.com/incontactapi/services/v32.0/queuecallback?phoneNumber=${encodeURIComponent(phoneNumber)}&callerId=%2B61385610000&skill=25174628`, {
+                        method: 'POST', headers: { 'Accept': '*/*', 'Authorization': `Bearer ${token}` }
+                    });
+                    if (response.ok) {
+                        btnText.innerText = "Success!";
+                        loadingSpinner.classList.add('hidden');
+                        setTimeout(() => { closeModalFn(); alert("Your callback request has been submitted. A Kent expert will call you shortly."); btnText.innerText = "Request Callback"; submitBtn.disabled = false; }, 1000);
+                    } else { throw new Error("API Response Error"); }
+                } catch (error) {
+                    console.error("Callback error:", error);
+                    alert("There was an error sending your callback request. Please try again later.");
+                    submitBtn.disabled = false; btnText.innerText = "Request Callback"; loadingSpinner.classList.add('hidden');
+                }
+            }
+        });
+    </script>
+
+    <!-- CXone Chat Widget -->
+    <script>
+        (function(n,u){
+        window.CXoneDfo=n,
+        window[n]=window[n]||function(){(window[n].q=window[n].q||[]).push(arguments)},window[n].u=u,
+        e=document.createElement("script"),e.type="module",e.src=u+"?"+Math.round(Date.now()/1e3/3600),
+        document.head.appendChild(e)
+        })('cxone','https://web-modules-de-na1.niceincontact.com/loader/1/loader.js');
+
+        cxone('init', '1092');
+        cxone('guide', 'init', 'bb179a83-f2c6-4fb8-a020-1af5eb9d759f');
+
+        // Page context
+        cxone('chat', 'setCustomerCustomField', 'page_viewed', 'Get a Quote');
+
+        // Widget size
+        cxone('guide', 'setDesiredGuideWidth', '400px');
+        cxone('guide', 'setDesiredGuideHeight', '40em');
+        cxone('chat', 'setWindowWidth', '400px');
+        cxone('chat', 'setWindowHeight', '700px');
+
+        // Kent branding - Guide widget
+        cxone('guide', 'setCustomCss', `
+            [data-selector="GUIDE_CHANNEL_BUTTON"] { background: #1B2A4A !important; }
+            [data-selector="PORTAL_HEADER_ICON"] { display: none !important; }
+            [data-selector="PORTAL_HEADER"] { background: #FFFFFF url('logo.png') no-repeat center 12px !important; background-size: 150px auto !important; color: #1B2A4A !important; border-bottom: 1px solid #e5e7eb !important; padding-top: 70px !important; padding-bottom: 8px !important; overflow: visible !important; }
+            [data-selector="PORTAL_TITLE"] { display: none !important; }
+            [data-selector="PORTAL_SUBTITLE"] { display: none !important; }
+            [data-selector="PORTAL_BODY"] { background: #F7F5F2 !important; }
+            [data-selector="CHANNELS_WIDGET"] { background: #F7F5F2 !important; }
+            [data-selector="KB_WIDGET"] { background: #F7F5F2 !important; }
+            [data-selector="KB_WIDGET_TITLE"] { color: #1B2A4A !important; }
+            [data-selector="KB_WIDGET_SEARCHBAR"] { border-color: #1B2A4A !important; }
+            [data-selector="KB_SEE_MORE_BUTTON"] { color: #E8612D !important; }
+            [data-selector="GUIDE_CHANNEL_BUTTON_1"], [data-selector="GUIDE_CHANNEL_BUTTON_2"], [data-selector="GUIDE_CHANNEL_BUTTON_3"], [data-selector="GUIDE_CHANNEL_BUTTON_4"] { color: #1B2A4A !important; }
+            [data-selector="BEGIN_CHAT"] { background: #E8612D !important; color: #FFFFFF !important; }
+            [data-selector="SEND_EMAIL"] { background: #E8612D !important; color: #FFFFFF !important; }
+            [data-selector="OFFER_BUTTON_1"] { background: #E8612D !important; color: #FFFFFF !important; }
+            [data-selector="GUIDE_FRAME_CONTENT"] { border-radius: 12px !important; overflow: hidden !important; }
+        `);
+
+        // Kent branding - Chat window
+        cxone('chat', 'setCustomCss', `
+            [data-selector="HEADER"] { background: #1B2A4A !important; color: #FFFFFF !important; }
+            [data-selector="HEADER_MINIMIZE_WINDOW"] { color: #FFFFFF !important; }
+            [data-selector="HEADER_ACTION_MENU_BUTTON"] { color: #FFFFFF !important; }
+            [data-selector="CUSTOMER_MESSAGE_BUBBLE"] { background: #1B2A4A !important; color: #FFFFFF !important; }
+            [data-selector="AGENT_MESSAGE_BUBBLE"] { background: #F7F5F2 !important; color: #1B2A4A !important; }
+            [data-selector="SEND_BUTTON"] { background: #E8612D !important; color: #FFFFFF !important; }
+            [data-selector="PRIMARY_BUTTON"] { background: #E8612D !important; color: #FFFFFF !important; border-radius: 9999px !important; }
+            [data-selector="SECONDARY_BUTTON"] { border-color: #1B2A4A !important; color: #1B2A4A !important; border-radius: 9999px !important; }
+            [data-selector="CONTENT"] { background: #FFFFFF !important; }
+            [data-selector="TEXTAREA"] { border-color: #1B2A4A !important; }
+            [data-selector="START_NEW_CHAT"] { background: #E8612D !important; color: #FFFFFF !important; border-radius: 9999px !important; }
+        `);
+    </script>
+</body>
+</html>
