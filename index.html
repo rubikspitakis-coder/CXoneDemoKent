@@ -603,7 +603,7 @@
                             cxone('chat', 'setCustomerCustomField', 'service_interest', stored.join(', '));
                             
                             // Ensure the Guide window is open before sending the message
-                            cxone('guide', 'openGuideWindow');
+                            cxone('guide', 'openMenu');
                             
                             setTimeout(() => {
                                 cxone('guide', 'sendMessage', `I have a question about ${label.toLowerCase()}.`);
