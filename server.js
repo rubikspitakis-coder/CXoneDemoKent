@@ -106,6 +106,32 @@ app.post('/api/work-item', async (req, res) => {
   }
 });
 
+// Studio trigger — GET endpoint so GETPAGE action can call it
+app.get('/api/studio-callback', async (req, res) => {
+  const { phone } = req.query;
+  if (!phone) return res.status(400).send('phone parameter is required');
+
+  try {
+    const token = await getToken();
+    const apiUrl = `${process.env.CXONE_API_BASE}/queuecallback?phoneNumber=${encodeURIComponent(phone)}&callerId=${process.env.CXONE_CALLER_ID}&skill=${process.env.CXONE_CALLBACK_SKILL}`;
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Accept': '*/*', 'Authorization': `Bearer ${token}` }
+    });
+
+    if (response.ok) {
+      res.status(200).send('OK');
+    } else {
+      const err = await response.text();
+      res.status(response.status).send(err);
+    }
+  } catch (error) {
+    console.error('Studio callback error:', error);
+    res.status(500).send('Error');
+  }
+});
+
 // Video call work item
 app.post('/api/video-callback', async (req, res) => {
   const { surflyUrl } = req.body;

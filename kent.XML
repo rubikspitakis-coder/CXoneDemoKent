@@ -162,7 +162,7 @@ ASSIGN customerNotes = "{quoteData.QuoteData.notes}"</string>
       </Parameters>
       <DefaultNextAction>
         <Text />
-        <ActionID>5</ActionID>
+        <ActionID>12</ActionID>
         <Index>0</Index>
         <LabelDistance xsi:nil="true" />
         <Segments />
@@ -176,40 +176,6 @@ ASSIGN customerNotes = "{quoteData.QuoteData.notes}"</string>
       <LibraryID>4b611ba4-8e81-45a6-9fcc-97c24f43ccbc</LibraryID>
       <ExtraInfo>
         <DefaultBranch>
-          <ActionId>5</ActionId>
-          <Segments />
-        </DefaultBranch>
-        <Branches />
-        <CaseBranches />
-      </ExtraInfo>
-      <xws>0</xws>
-      <yws>0</yws>
-    </ActionStruct>
-    <ActionStruct>
-      <ActionID>5</ActionID>
-      <Action>SETSECURITYUSER</Action>
-      <Caption>Set Security User</Caption>
-      <Parameters>
-        <string>6893790</string>
-        <string>Default</string>
-        <string>SecurityUser</string>
-      </Parameters>
-      <DefaultNextAction>
-        <Text />
-        <ActionID>12</ActionID>
-        <Index>0</Index>
-        <LabelDistance xsi:nil="true" />
-        <Segments />
-      </DefaultNextAction>
-      <Branches />
-      <Cases />
-      <X>704</X>
-      <Y>240</Y>
-      <DependencyOrder>5</DependencyOrder>
-      <Impl_Type>0</Impl_Type>
-      <LibraryID>3425c7d5-66ba-4aae-b32c-ea3e5061191e</LibraryID>
-      <ExtraInfo>
-        <DefaultBranch>
           <ActionId>12</ActionId>
           <Segments />
         </DefaultBranch>
@@ -221,13 +187,13 @@ ASSIGN customerNotes = "{quoteData.QuoteData.notes}"</string>
     </ActionStruct>
     <ActionStruct>
       <ActionID>12</ActionID>
-      <Action>SNIPPET</Action>
+      <Action>GETPAGE</Action>
       <Caption>Queue Outbound Call</Caption>
       <Parameters>
-        <string>ASSIGN restProxy = GetRESTProxy(SecurityUser)
-ASSIGN cbUrl = "https://api-b32.nice-incontact.com/incontactapi/services/v32.0/queuecallback?phoneNumber={customerPhone}&amp;callerId=%2B61385610000&amp;skill=25174628"
-ASSIGN callResult = restProxy.MakeRestRequest(cbUrl, "", "", "POST")</string>
+        <string>https://YOUR-RAILWAY-DOMAIN.up.railway.app/api/studio-callback?phone={customerPhone}</string>
+        <string>30</string>
         <string>Limit2K</string>
+        <string>callbackResult</string>
       </Parameters>
       <DefaultNextAction>
         <Text />
@@ -238,11 +204,11 @@ ASSIGN callResult = restProxy.MakeRestRequest(cbUrl, "", "", "POST")</string>
       </DefaultNextAction>
       <Branches />
       <Cases />
-      <X>800</X>
+      <X>704</X>
       <Y>240</Y>
-      <DependencyOrder>6</DependencyOrder>
+      <DependencyOrder>5</DependencyOrder>
       <Impl_Type>0</Impl_Type>
-      <LibraryID>b333da63-33c8-4297-a58a-e9546cf7f0f2</LibraryID>
+      <LibraryID>3ce5dfc9-4a58-4814-9a4b-258423d4d0d0</LibraryID>
       <ExtraInfo>
         <DefaultBranch>
           <ActionId>-1</ActionId>
