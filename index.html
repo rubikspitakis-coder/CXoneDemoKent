@@ -594,13 +594,14 @@
                     document.getElementById('tabImage').src = tabData[tab].image;
                     document.getElementById('tabCTA').textContent = tabData[tab].cta;
 
-                    // Pass browsing context to CXone agent
+                    // Pass browsing context to CXone agent (persists across pages)
                     if (window.cxone) {
                         const labels = { local: 'Local Moving', interstate: 'Interstate Moving', international: 'International Moving', storage: 'Storage Solutions' };
                         const label = labels[tab];
-                        if (!window._kentServices) window._kentServices = new Set();
-                        window._kentServices.add(label);
-                        cxone('chat', 'setCustomerCustomField', 'service_interest', Array.from(window._kentServices).join(', '));
+                        const stored = JSON.parse(sessionStorage.getItem('kentServices') || '[]');
+                        if (!stored.includes(label)) stored.push(label);
+                        sessionStorage.setItem('kentServices', JSON.stringify(stored));
+                        cxone('chat', 'setCustomerCustomField', 'service_interest', stored.join(', '));
                     }
                 });
             });
@@ -610,9 +611,10 @@
                 link.addEventListener('click', () => {
                     const service = link.dataset.service;
                     if (window.cxone && service) {
-                        if (!window._kentServices) window._kentServices = new Set();
-                        window._kentServices.add(service);
-                        cxone('chat', 'setCustomerCustomField', 'service_interest', Array.from(window._kentServices).join(', '));
+                        const stored = JSON.parse(sessionStorage.getItem('kentServices') || '[]');
+                        if (!stored.includes(service)) stored.push(service);
+                        sessionStorage.setItem('kentServices', JSON.stringify(stored));
+                        cxone('chat', 'setCustomerCustomField', 'service_interest', stored.join(', '));
                     }
                 });
             });
@@ -632,8 +634,9 @@
         cxone('guide', 'init', 'bb179a83-f2c6-4fb8-a020-1af5eb9d759f');
 
         // Kent Removals - pass visitor context to agents
+        const initialServices = JSON.parse(sessionStorage.getItem('kentServices') || '[]');
         cxone('chat', 'setCustomerCustomField', 'page_viewed', 'Kent Removals Homepage');
-        cxone('chat', 'setCustomerCustomField', 'service_interest', 'Not yet selected');
+        cxone('chat', 'setCustomerCustomField', 'service_interest', initialServices.join(', ') || 'Not yet selected');
 
         // Kent Removals - widget size
         cxone('guide', 'setDesiredGuideWidth', '400px');

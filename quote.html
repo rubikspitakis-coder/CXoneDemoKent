@@ -231,66 +231,89 @@
             // --- Quote Form Logic ---
             let selectedMoveType = '';
 
-            // Move type buttons
-            document.querySelectorAll('.move-type-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.move-type-btn').forEach(b => {
-                        b.classList.remove('border-[#E8612D]', 'text-[#E8612D]', 'bg-orange-50');
-                        b.classList.add('border-gray-200', 'text-gray-600');
-                    });
-                    btn.classList.remove('border-gray-200', 'text-gray-600');
-                    btn.classList.add('border-[#E8612D]', 'text-[#E8612D]', 'bg-orange-50');
-                    selectedMoveType = btn.dataset.type;
-                    document.getElementById('summaryType').textContent = selectedMoveType;
-                    updateCustomFields();
-                });
-            });
-
-            // Live summary updates
-            const fields = { moveFrom: 'summaryFrom', moveTo: 'summaryTo', moveDate: 'summaryDate', homeSize: 'summarySize' };
-            Object.entries(fields).forEach(([inputId, summaryId]) => {
-                document.getElementById(inputId).addEventListener('input', () => {
-                    const val = document.getElementById(inputId).value;
-                    document.getElementById(summaryId).textContent = val || '—';
-                    updateCustomFields();
-                });
-                document.getElementById(inputId).addEventListener('change', () => {
-                    const val = document.getElementById(inputId).value;
-                    document.getElementById(summaryId).textContent = val || '—';
-                    updateCustomFields();
-                });
-            });
-
-            function getQuoteSummary() {
-                return {
-                    moveType: selectedMoveType || 'Not selected',
-                    from: document.getElementById('moveFrom').value || '',
-                    to: document.getElementById('moveTo').value || '',
-                    date: document.getElementById('moveDate').value || '',
-                    homeSize: document.getElementById('homeSize').value || '',
-                    name: document.getElementById('fullName').value || '',
-                    email: document.getElementById('email').value || '',
-                    phone: document.getElementById('phone').value || '',
-                    notes: document.getElementById('notes').value || ''
-                };
-            }
-
-            function updateCustomFields() {
-                if (!window.cxone) return;
-                const q = getQuoteSummary();
-                const parts = [];
-                if (q.moveType !== 'Not selected') parts.push(q.moveType);
-                if (q.from) parts.push('from ' + q.from);
-                if (q.to) parts.push('to ' + q.to);
-                if (q.homeSize) parts.push(q.homeSize);
-                if (q.date) parts.push('on ' + q.date);
-
-                cxone('chat', 'setCustomerCustomField', 'service_interest', q.moveType);
-                cxone('chat', 'setCustomerCustomField', 'page_viewed', 'Get a Quote');
-
-                if (q.name) cxone('chat', 'setCustomerName', q.name);
-            }
-
+                        // Move type buttons
+                        document.querySelectorAll('.move-type-btn').forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                document.querySelectorAll('.move-type-btn').forEach(b => {
+                                    b.classList.remove('border-[#E8612D]', 'text-[#E8612D]', 'bg-orange-50');
+                                    b.classList.add('border-gray-200', 'text-gray-600');
+                                });
+                                btn.classList.remove('border-gray-200', 'text-gray-600');
+                                btn.classList.add('border-[#E8612D]', 'text-[#E8612D]', 'bg-orange-50');
+                                selectedMoveType = btn.dataset.type;
+                                document.getElementById('summaryType').textContent = selectedMoveType;
+            
+                                // Accumulate service interest in sessionStorage
+                                if (selectedMoveType) {
+                                    const stored = JSON.parse(sessionStorage.getItem('kentServices') || '[]');
+                                    if (!stored.includes(selectedMoveType)) stored.push(selectedMoveType);
+                                    sessionStorage.setItem('kentServices', JSON.stringify(stored));
+                                }
+            
+                                updateCustomFields();
+                            });
+                        });
+            
+                        // Live summary updates
+                        const fields = { moveFrom: 'summaryFrom', moveTo: 'summaryTo', moveDate: 'summaryDate', homeSize: 'summarySize' };
+                        Object.entries(fields).forEach(([inputId, summaryId]) => {
+                            document.getElementById(inputId).addEventListener('input', () => {
+                                const val = document.getElementById(inputId).value;
+                                document.getElementById(summaryId).textContent = val || '—';
+                                updateCustomFields();
+                            });
+                            document.getElementById(inputId).addEventListener('change', () => {
+                                const val = document.getElementById(inputId).value;
+                                document.getElementById(summaryId).textContent = val || '—';
+                                updateCustomFields();
+                            });
+                        });
+            
+                        // Also track contact detail fields
+                        ['fullName', 'email', 'phone', 'notes'].forEach(id => {
+                            document.getElementById(id).addEventListener('input', () => updateCustomFields());
+                        });
+            
+                        function getQuoteSummary() {
+                            return {
+                                moveType: selectedMoveType || 'Not selected',
+                                from: document.getElementById('moveFrom').value || '',
+                                to: document.getElementById('moveTo').value || '',
+                                date: document.getElementById('moveDate').value || '',
+                                homeSize: document.getElementById('homeSize').value || '',
+                                name: document.getElementById('fullName').value || '',
+                                email: document.getElementById('email').value || '',
+                                phone: document.getElementById('phone').value || '',
+                                notes: document.getElementById('notes').value || ''
+                            };
+                        }
+            
+                        function updateCustomFields() {
+                            if (!window.cxone) return;
+                            const q = getQuoteSummary();
+            
+                            // Build quote_details summary on every change
+                            const summary = [];
+                            if (q.moveType !== 'Not selected') summary.push('Move: ' + q.moveType);
+                            if (q.from && q.to) summary.push(q.from + ' → ' + q.to);
+                            else if (q.from) summary.push('From: ' + q.from);
+                            else if (q.to) summary.push('To: ' + q.to);
+                            if (q.homeSize) summary.push('Size: ' + q.homeSize);
+                            if (q.date) summary.push('Date: ' + q.date);
+                            if (q.phone) summary.push('Phone: ' + q.phone);
+                            if (q.email) summary.push('Email: ' + q.email);
+                            if (q.notes) summary.push('Notes: ' + q.notes);
+            
+                            // Use accumulated interests from sessionStorage
+                            const storedServices = JSON.parse(sessionStorage.getItem('kentServices') || '[]');
+                            cxone('chat', 'setCustomerCustomField', 'service_interest', storedServices.join(', ') || q.moveType);
+                            
+                            cxone('chat', 'setCustomerCustomField', 'page_viewed', 'Get a Quote');
+                            if (summary.length > 0) {
+                                cxone('chat', 'setCustomerCustomField', 'quote_details', summary.join(' | '));
+                            }
+                            if (q.name) cxone('chat', 'setCustomerName', q.name);
+                        }
             // Submit quote
             document.getElementById('submitQuote').addEventListener('click', () => {
                 const q = getQuoteSummary();
@@ -306,27 +329,8 @@
 
             // Chat with details — opens chat and pre-fills context
             document.getElementById('chatWithDetails').addEventListener('click', () => {
-                const q = getQuoteSummary();
                 updateCustomFields();
-
                 if (window.cxone) {
-                    // Pre-fill customer name if provided
-                    if (q.name) cxone('chat', 'setCustomerName', q.name);
-
-                    // Build a summary to pass as custom fields
-                    const summary = [];
-                    if (q.moveType !== 'Not selected') summary.push('Move: ' + q.moveType);
-                    if (q.from && q.to) summary.push(q.from + ' → ' + q.to);
-                    else if (q.from) summary.push('From: ' + q.from);
-                    if (q.homeSize) summary.push('Size: ' + q.homeSize);
-                    if (q.date) summary.push('Date: ' + q.date);
-                    if (q.notes) summary.push('Notes: ' + q.notes);
-
-                    if (summary.length > 0) {
-                        cxone('chat', 'setCustomerCustomField', 'quote_details', summary.join(' | '));
-                    }
-
-                    // Open the chat
                     cxone('chat', 'openChatWindow');
                 }
             });
