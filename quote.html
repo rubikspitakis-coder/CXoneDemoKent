@@ -348,7 +348,7 @@
                 }
             });
 
-            // Chat with details — triggers a Work Item (which can trigger a call) and pre-fills context
+            // Chat with details — triggers Work Item for outbound call + opens Guide chat for Customer Card
             document.getElementById('chatWithDetails').addEventListener('click', async () => {
                 const q = getQuoteSummary();
                 const btn = document.getElementById('chatWithDetails');
@@ -366,11 +366,31 @@
                     btnText.innerText = "Requesting call...";
                     spinner.classList.remove('hidden');
 
-                    // 1. Sync all current form data to CXone Agent
+                    // 1. Sync all current form data to CXone Customer Card
                     updateCustomFields();
 
-                    // 2. Queue the Work Item (which triggers the specialized demo flow)
+                    // 2. Queue the Work Item (Studio triggers the outbound voice call)
                     await sendWorkItemRequest(q);
+
+                    // 3. Open the Guide chat widget so the agent gets the Customer Card
+                    if (window.cxone) {
+                        cxone('chat', 'setCustomerName', q.name);
+                        cxone('guide', 'setCustomFields', {
+                            contactCustomFields: [{ident: 'Email', value: q.email, hidden: false}]
+                        });
+                        cxone('guide', 'openMenu');
+                        setTimeout(() => {
+                            const details = [];
+                            if (q.from && q.to) details.push(q.from + ' → ' + q.to);
+                            if (q.homeSize) details.push('Size: ' + q.homeSize);
+                            if (q.date) details.push('Date: ' + q.date);
+                            if (q.phone) details.push('Phone: ' + q.phone);
+                            cxone('guide', 'sendMessage',
+                                'I\'ve requested a callback regarding my quote. ' +
+                                (details.length > 0 ? 'Details: ' + details.join(', ') + '.' : '')
+                            );
+                        }, 500);
+                    }
 
                     btnText.innerText = "Request Sent ✓";
                     spinner.classList.add('hidden');
