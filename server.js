@@ -69,11 +69,10 @@ app.post('/api/work-item', async (req, res) => {
 
   try {
     const token = await getToken();
-    const apiUrl = `${process.env.CXONE_API_BASE}/interactions/work-items`;
+    const apiUrl = `${process.env.CXONE_API_BASE}/interactions/work-items?pointOfContact=${process.env.CXONE_WORKITEM_POC}`;
 
     const payload = {
-      pointOfContact: process.env.CXONE_WORKITEM_POC,
-      payload: { name, phone, email, from, to, date, size, notes, requestType: 'Quote Consultation Callback' },
+      notes: `Name: ${name} | Phone: ${phone} | Email: ${email} | From: ${from} | To: ${to} | Date: ${date} | Size: ${size} | Notes: ${notes} | Type: Quote Consultation Callback`,
       mediaType: 'WorkItem'
     };
 
