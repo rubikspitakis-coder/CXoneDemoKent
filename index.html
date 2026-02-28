@@ -448,6 +448,11 @@
     <!-- Callback & Tab Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Clear session storage if arriving from a different domain or fresh entry (to reset demo context)
+            if (!document.referrer || !document.referrer.includes(window.location.hostname)) {
+                sessionStorage.removeItem('kentServices');
+            }
+
             // --- Callback Modal ---
             const modal = document.getElementById('callbackModal');
             const phoneInput = document.getElementById('phoneInput');
