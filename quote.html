@@ -320,7 +320,7 @@
                                             if (q.name) cxone('chat', 'setCustomerName', q.name);
                                             if (q.email) {
                                                 cxone('guide', 'setCustomFields', {
-                                                    contactCustomFields: [{ident: 'email', value: q.email, hidden: false}]
+                                                    contactCustomFields: [{ident: 'Email', value: q.email, hidden: false}]
                                                 });
                                             }
                                         }            // Submit quote
@@ -338,7 +338,7 @@
                 // Launch chat within the Guide widget after submission
                 if (window.cxone) {
                     cxone('guide', 'setCustomFields', {
-                        contactCustomFields: [{ident: 'email', value: q.email, hidden: false}]
+                        contactCustomFields: [{ident: 'Email', value: q.email, hidden: false}]
                     });
 
                     cxone('guide', 'openGuideWindow');
