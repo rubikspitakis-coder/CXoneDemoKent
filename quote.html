@@ -325,6 +325,14 @@
                 document.getElementById('quoteSuccess').classList.remove('hidden');
                 document.getElementById('submitQuote').disabled = true;
                 document.getElementById('submitQuote').textContent = 'Submitted ✓';
+
+                // Launch chat within the Guide widget after submission
+                if (window.cxone) {
+                    cxone('guide', 'openGuideWindow');
+                    setTimeout(() => {
+                        cxone('guide', 'sendMessage', 'I have just submitted a quote request and would like to discuss it.');
+                    }, 500);
+                }
             });
 
             // Chat with details — triggers an immediate callback and pre-fills context
