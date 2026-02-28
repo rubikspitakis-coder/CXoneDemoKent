@@ -103,25 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       function sendCallbackRequest(phoneNumber) {
-  fetch(`https://api-b32.nice-incontact.com/incontactapi/services/v32.0/queuecallback?phoneNumber=%2B61416012160&callerId=%2B61385610000&skill=25174628`, {
-    method: 'POST',
-    headers: {
-      'Accept': '*/*',
-      'Authorization': `Bearer YOUR_PLACEHOLDER_JWT_TOKEN`
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      alert("Your callback request has been submitted. We will call you shortly.");
-    } else {
-      alert(`Failed to request callback. Status: ${response.status} - ${response.statusText}. Please try again later.`);
-    }
-  })
-  .catch(error => {
-    console.error("Callback error:", error);
-    alert("There was an error sending your callback request.");
-  });
-}
+        fetch('/api/callback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phoneNumber })
+        })
+        .then(response => {
+          if (response.ok) {
+            alert("Your callback request has been submitted. We will call you shortly.");
+          } else {
+            alert(`Failed to request callback. Status: ${response.status} - ${response.statusText}. Please try again later.`);
+          }
+        })
+        .catch(error => {
+          console.error("Callback error:", error);
+          alert("There was an error sending your callback request.");
+        });
+      }
 
       function sendVideoCallRequest(surflyUrl, buttonElement) {
         if (buttonElement) {
@@ -129,17 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
           buttonElement.textContent = 'Requesting Video Call...';
         }
 
-        fetch('https://api-b32.nice-incontact.com/incontactapi/services/v32.0/interactions/work-items?pointOfContact=53858778', {
+        fetch('/api/video-callback', {
           method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImN4b25lLWF0cy0yMjAxMDEtdWgifQ.eyJyb2xlIjp7ImxlZ2FjeUlkIjoiQWRtaW5pc3RyYXRvciIsImlkIjoiMTFlODQ3M2EtODIxZS1jNTEwLTgwMzItMDI0MmFjMTEwMDA1IiwibGFzdFVwZGF0ZVRpbWUiOjE3NTMyMDYyMDMwMDAsInNlY29uZGFyeVJvbGVzIjpbXX0sInZpZXdzIjp7fSwiaWNTUElkIjoiNTgiLCJpY0FnZW50SWQiOiI2ODk1MjA0Iiwic3ViIjoidXNlcjoxMWU5Mzg4Ny0zNjVkLTg1ZjAtYWZlMy0wMjQyYWMxMTAwMDIiLCJpc3MiOiJodHRwczovL2F1dGgubmljZS1pbmNvbnRhY3QuY29tIiwiZ2l2ZW5fbmFtZSI6IlRpbSIsImF1ZCI6IjUzZDkxMmQzLWI3ZDAtNGQ4NS1iOWYyLTQ3ZWQwNzc5ZmEwYUBjeG9uZSIsImljQlVJZCI6NDU5NzM1OSwibmFtZSI6InRpbWhAYjMyLmNjb20iLCJ0ZW5hbnRJZCI6IjExZTg0NzNhLTdmYTYtZTc0MC04NzgzLTAyNDJhYzExMDAwNiIsImZhbWlseV9uYW1lIjoiSHVnZ2lucyIsImlhdCI6MTc1MzY3MzU3MywiZXhwIjoxNzUzNjc3MTczfQ.WBCJ6DaX0JqGojPXoENvUe6jhYVWEhfNgogo3cfXAtdmRaqtDWe25od5awniTrRUW7BBXcLIzCUgpsikQWmot09DxhKJUmq_sfJVYxJC1QpLSz1B2jYcdebBFFysBu_3Tl8OaMtWxDCvPmNh_R7VWSVgtvAvJ66QbuIPLriuMGI',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            "notes": `Surfly Video Call Requested: ${surflyUrl}`,
-            "mediaType": "WorkItem"
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ surflyUrl })
         })
         .then(response => {
           if (buttonElement) {
