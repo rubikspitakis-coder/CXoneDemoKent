@@ -333,6 +333,13 @@
 
                 // Launch chat within the Guide widget after submission
                 if (window.cxone) {
+                    // Set identity for better DFO mapping
+                    cxone('chat', 'setIdentity', {
+                        email: q.email,
+                        firstName: q.name.split(' ')[0] || '',
+                        lastName: q.name.split(' ').slice(1).join(' ') || ''
+                    });
+
                     cxone('guide', 'openGuideWindow');
                     setTimeout(() => {
                         cxone('guide', 'sendMessage', 'I have just submitted a quote request and would like to discuss it.');
