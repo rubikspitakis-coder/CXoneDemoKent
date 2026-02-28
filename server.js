@@ -63,6 +63,11 @@ app.post('/api/callback', async (req, res) => {
 });
 
 // Create a Work Item (quote consultation callback)
+function escapeXml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 app.post('/api/work-item', async (req, res) => {
   const { name, phone, email, from, to, date, size, notes } = req.body;
   if (!phone) return res.status(400).json({ error: 'phone is required' });
@@ -71,8 +76,10 @@ app.post('/api/work-item', async (req, res) => {
     const token = await getToken();
     const apiUrl = `${process.env.CXONE_API_BASE}/interactions/work-items?pointOfContact=${process.env.CXONE_WORKITEM_POC}`;
 
+    const xmlNotes = `<QuoteData><name>${escapeXml(name)}</name><phone>${escapeXml(phone)}</phone><email>${escapeXml(email)}</email><moveFrom>${escapeXml(from)}</moveFrom><moveTo>${escapeXml(to)}</moveTo><moveDate>${escapeXml(date)}</moveDate><homeSize>${escapeXml(size)}</homeSize><notes>${escapeXml(notes)}</notes></QuoteData>`;
+
     const payload = {
-      notes: JSON.stringify({ name, phone, email, from, to, date, size, notes, requestType: 'Quote Consultation Callback' }),
+      notes: xmlNotes,
       mediaType: 'WorkItem'
     };
 

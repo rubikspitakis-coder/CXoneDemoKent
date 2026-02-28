@@ -42,16 +42,16 @@
       <Parameters>
         <string>DYNAMIC workitemData FROM __workitem
 ASSIGN rawPayload = "{workitemData.WorkItem.WorkItemPayload}"
-DYNAMIC quoteData FROM rawPayload AS JSON
+DYNAMIC quoteData FROM rawPayload
 
-ASSIGN customerName = "{quoteData.name}"
-ASSIGN customerPhone = "{quoteData.phone}"
-ASSIGN customerEmail = "{quoteData.email}"
-ASSIGN moveFrom = "{quoteData.from}"
-ASSIGN moveTo = "{quoteData.to}"
-ASSIGN moveDate = "{quoteData.date}"
-ASSIGN homeSize = "{quoteData.size}"
-ASSIGN customerNotes = "{quoteData.notes}"</string>
+ASSIGN customerName = "{quoteData.QuoteData.name}"
+ASSIGN customerPhone = "{quoteData.QuoteData.phone}"
+ASSIGN customerEmail = "{quoteData.QuoteData.email}"
+ASSIGN moveFrom = "{quoteData.QuoteData.moveFrom}"
+ASSIGN moveTo = "{quoteData.QuoteData.moveTo}"
+ASSIGN moveDate = "{quoteData.QuoteData.moveDate}"
+ASSIGN homeSize = "{quoteData.QuoteData.homeSize}"
+ASSIGN customerNotes = "{quoteData.QuoteData.notes}"</string>
         <string>Limit2K</string>
       </Parameters>
       <DefaultNextAction>
