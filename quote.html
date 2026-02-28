@@ -318,7 +318,14 @@
                                 cxone('chat', 'setCustomerCustomField', 'quote_details', summary.join(' | '));
                             }
                                             if (q.name) cxone('chat', 'setCustomerName', q.name);
-                                            if (q.email) cxone('chat', 'setCustomerEmail', q.email);
+                                            if (q.email) {
+                                                cxone('chat', 'setCustomerEmail', q.email);
+                                                cxone('chat', 'setIdentity', {
+                                                    email: q.email,
+                                                    firstName: q.name ? q.name.split(' ')[0] : '',
+                                                    lastName: q.name ? q.name.split(' ').slice(1).join(' ') : ''
+                                                });
+                                            }
                                         }            // Submit quote
             document.getElementById('submitQuote').addEventListener('click', () => {
                 const q = getQuoteSummary();
