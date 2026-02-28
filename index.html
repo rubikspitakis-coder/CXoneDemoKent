@@ -630,8 +630,13 @@
                         sessionStorage.setItem('kentServices', JSON.stringify(stored));
                         if (window.cxone) {
                             cxone('chat', 'setCustomerCustomField', 'service_interest', stored.join(', '));
-                            // Launch chat within the Guide widget
-                            cxone('guide', 'sendMessage', `I have a question about ${label.toLowerCase()}.`);
+                            
+                            // Ensure the Guide window is open before sending the message
+                            cxone('guide', 'openGuideWindow');
+                            
+                            setTimeout(() => {
+                                cxone('guide', 'sendMessage', `I have a question about ${label.toLowerCase()}.`);
+                            }, 500);
                         }
                     });
                 }
