@@ -190,7 +190,7 @@ ASSIGN customerNotes = "{quoteData.QuoteData.notes}"</string>
       <Action>GETPAGE</Action>
       <Caption>Queue Outbound Call</Caption>
       <Parameters>
-        <string>https://YOUR-RAILWAY-DOMAIN.up.railway.app/api/studio-callback?phone={customerPhone}</string>
+        <string>https://cxonedemo.up.railway.app/api/studio-callback?phone={customerPhone}</string>
         <string>30</string>
         <string>Limit2K</string>
         <string>callbackResult</string>
