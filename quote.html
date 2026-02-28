@@ -331,7 +331,8 @@
             document.getElementById('chatWithDetails').addEventListener('click', () => {
                 updateCustomFields();
                 if (window.cxone) {
-                    cxone('chat', 'openChatWindow');
+                    // Launch chat within the Guide widget
+                    cxone('guide', 'sendMessage', 'I would like to chat with an expert about my quote.');
                 }
             });
 
