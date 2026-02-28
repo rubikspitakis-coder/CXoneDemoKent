@@ -597,7 +597,10 @@
                     // Pass browsing context to CXone agent
                     if (window.cxone) {
                         const labels = { local: 'Local Moving', interstate: 'Interstate Moving', international: 'International Moving', storage: 'Storage Solutions' };
-                        cxone('chat', 'setCustomerCustomField', 'service_interest', labels[tab]);
+                        const label = labels[tab];
+                        if (!window._kentServices) window._kentServices = new Set();
+                        window._kentServices.add(label);
+                        cxone('chat', 'setCustomerCustomField', 'service_interest', Array.from(window._kentServices).join(', '));
                     }
                 });
             });
@@ -607,7 +610,9 @@
                 link.addEventListener('click', () => {
                     const service = link.dataset.service;
                     if (window.cxone && service) {
-                        cxone('chat', 'setCustomerCustomField', 'service_interest', service);
+                        if (!window._kentServices) window._kentServices = new Set();
+                        window._kentServices.add(service);
+                        cxone('chat', 'setCustomerCustomField', 'service_interest', Array.from(window._kentServices).join(', '));
                     }
                 });
             });
