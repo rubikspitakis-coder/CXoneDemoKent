@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScriptContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" noNamespaceSchemaLocation="http://lab-iniws01/scriptcontainer.xsd" BusNo="4597359" UserID="39647695">
+  <Actions>
+    <ActionStruct>
+      <ActionID>1</ActionID>
+      <Action>BEGIN</Action>
+      <Caption>Begin</Caption>
+      <Parameters>
+        <string />
+        <string />
+        <string />
+      </Parameters>
+      <DefaultNextAction>
+        <Text />
+        <ActionID>9</ActionID>
+        <Index>0</Index>
+        <LabelDistance xsi:nil="true" />
+        <Segments />
+      </DefaultNextAction>
+      <Branches />
+      <Cases />
+      <X>224</X>
+      <Y>240</Y>
+      <DependencyOrder>0</DependencyOrder>
+      <Impl_Type>0</Impl_Type>
+      <LibraryID>b2f794c5-0232-40e7-9830-76d573bf57d7</LibraryID>
+      <ExtraInfo>
+        <DefaultBranch>
+          <ActionId>9</ActionId>
+          <Segments />
+        </DefaultBranch>
+        <Branches />
+        <CaseBranches />
+      </ExtraInfo>
+      <xws>0</xws>
+      <yws>0</yws>
+    </ActionStruct>
+    <ActionStruct>
+      <ActionID>9</ActionID>
+      <Action>SNIPPET</Action>
+      <Caption>Parse Work Item</Caption>
+      <Parameters>
+        <string>DYNAMIC workitemData FROM __workitem
+ASSIGN rawPayload = "{workitemData.WorkItem.WorkItemPayload}"
+DYNAMIC quoteData FROM rawPayload AS JSON
+
+ASSIGN customerName = "{quoteData.name}"
+ASSIGN customerPhone = "{quoteData.phone}"
+ASSIGN customerEmail = "{quoteData.email}"
+ASSIGN moveFrom = "{quoteData.from}"
+ASSIGN moveTo = "{quoteData.to}"
+ASSIGN moveDate = "{quoteData.date}"
+ASSIGN homeSize = "{quoteData.size}"
+ASSIGN customerNotes = "{quoteData.notes}"</string>
+        <string>Limit2K</string>
+      </Parameters>
+      <DefaultNextAction>
+        <Text />
+        <ActionID>11</ActionID>
+        <Index>0</Index>
+        <LabelDistance xsi:nil="true" />
+        <Segments />
+      </DefaultNextAction>
+      <Branches />
+      <Cases />
+      <X>320</X>
+      <Y>240</Y>
+      <DependencyOrder>1</DependencyOrder>
+      <Impl_Type>0</Impl_Type>
+      <LibraryID>b333da63-33c8-4297-a58a-e9546cf7f0f2</LibraryID>
+      <ExtraInfo>
+        <DefaultBranch>
+          <ActionId>11</ActionId>
+          <Segments />
+        </DefaultBranch>
+        <Branches />
+        <CaseBranches />
+      </ExtraInfo>
+      <xws>0</xws>
+      <yws>0</yws>
+    </ActionStruct>
+    <ActionStruct>
+      <ActionID>11</ActionID>
+      <Action>CCARDCREATE</Action>
+      <Caption>CCCreate</Caption>
+      <Parameters>
+        <string />
+        <string />
+      </Parameters>
+      <DefaultNextAction>
+        <Text />
+        <ActionID>2</ActionID>
+        <Index>0</Index>
+        <LabelDistance xsi:nil="true" />
+        <Segments />
+      </DefaultNextAction>
+      <Branches />
+      <Cases />
+      <X>416</X>
+      <Y>240</Y>
+      <DependencyOrder>2</DependencyOrder>
+      <Impl_Type>0</Impl_Type>
+      <LibraryID>889cda0d-5ee8-49b4-be52-7bb176ac01ed</LibraryID>
+      <ExtraInfo>
+        <DefaultBranch>
+          <ActionId>2</ActionId>
+          <Segments />
+        </DefaultBranch>
+        <Branches />
+        <CaseBranches />
+      </ExtraInfo>
+      <xws>0</xws>
+      <yws>0</yws>
+    </ActionStruct>
+    <ActionStruct>
+      <ActionID>2</ActionID>
+      <Action>REQAGENT</Action>
+      <Caption>Reqagent</Caption>
+      <Parameters>
+        <string>21014636</string>
+        <string />
+        <string>DefaultfromSkill</string>
+        <string>0</string>
+        <string>1</string>
+        <string />
+        <string>1000</string>
+        <string />
+        <string>AfterSequence</string>
+        <string>DefaultFromSkill</string>
+        <string />
+        <string>1</string>
+        <string>20</string>
+        <string>NotApplicable</string>
+      </Parameters>
+      <Branches />
+      <Cases />
+      <X>512</X>
+      <Y>240</Y>
+      <DependencyOrder>3</DependencyOrder>
+      <Impl_Type>0</Impl_Type>
+      <LibraryID>689a4a1b-fa0d-47b3-9a02-cbeb4735f08f</LibraryID>
+      <ExtraInfo>
+        <DefaultBranch>
+          <ActionId>-1</ActionId>
+          <Segments />
+        </DefaultBranch>
+        <Branches />
+        <CaseBranches />
+      </ExtraInfo>
+      <xws>0</xws>
+      <yws>0</yws>
+    </ActionStruct>
+    <ActionStruct>
+      <ActionID>3</ActionID>
+      <Action>ONANSWER</Action>
+      <Caption>Onanswer</Caption>
+      <Parameters>
+        <string>SKLNAME</string>
+        <string>FIRST</string>
+        <string>LAST</string>
+        <string>AGENTID</string>
+      </Parameters>
+      <DefaultNextAction>
+        <Text />
+        <ActionID>5</ActionID>
+        <Index>0</Index>
+        <LabelDistance xsi:nil="true" />
+        <Segments />
+      </DefaultNextAction>
+      <Branches />
+      <Cases />
+      <X>608</X>
+      <Y>240</Y>
+      <DependencyOrder>4</DependencyOrder>
+      <Impl_Type>0</Impl_Type>
+      <LibraryID>4b611ba4-8e81-45a6-9fcc-97c24f43ccbc</LibraryID>
+      <ExtraInfo>
+        <DefaultBranch>
+          <ActionId>5</ActionId>
+          <Segments />
+        </DefaultBranch>
+        <Branches />
+        <CaseBranches />
+      </ExtraInfo>
+      <xws>0</xws>
+      <yws>0</yws>
+    </ActionStruct>
+    <ActionStruct>
+      <ActionID>5</ActionID>
+      <Action>SETSECURITYUSER</Action>
+      <Caption>Set Security User</Caption>
+      <Parameters>
+        <string>6893790</string>
+        <string>Default</string>
+        <string>SecurityUser</string>
+      </Parameters>
+      <DefaultNextAction>
+        <Text />
+        <ActionID>12</ActionID>
+        <Index>0</Index>
+        <LabelDistance xsi:nil="true" />
+        <Segments />
+      </DefaultNextAction>
+      <Branches />
+      <Cases />
+      <X>704</X>
+      <Y>240</Y>
+      <DependencyOrder>5</DependencyOrder>
+      <Impl_Type>0</Impl_Type>
+      <LibraryID>3425c7d5-66ba-4aae-b32c-ea3e5061191e</LibraryID>
+      <ExtraInfo>
+        <DefaultBranch>
+          <ActionId>12</ActionId>
+          <Segments />
+        </DefaultBranch>
+        <Branches />
+        <CaseBranches />
+      </ExtraInfo>
+      <xws>0</xws>
+      <yws>0</yws>
+    </ActionStruct>
+    <ActionStruct>
+      <ActionID>12</ActionID>
+      <Action>SNIPPET</Action>
+      <Caption>Queue Outbound Call</Caption>
+      <Parameters>
+        <string>ASSIGN restProxy = GetRESTProxy(SecurityUser)
+ASSIGN cbUrl = "https://api-b32.nice-incontact.com/incontactapi/services/v32.0/queuecallback?phoneNumber={customerPhone}&amp;callerId=%2B61385610000&amp;skill=25174628"
+ASSIGN callResult = restProxy.MakeRestRequest(cbUrl, "", "", "POST")</string>
+        <string>Limit2K</string>
+      </Parameters>
+      <DefaultNextAction>
+        <Text />
+        <ActionID>-1</ActionID>
+        <Index>0</Index>
+        <LabelDistance xsi:nil="true" />
+        <Segments />
+      </DefaultNextAction>
+      <Branches />
+      <Cases />
+      <X>800</X>
+      <Y>240</Y>
+      <DependencyOrder>6</DependencyOrder>
+      <Impl_Type>0</Impl_Type>
+      <LibraryID>b333da63-33c8-4297-a58a-e9546cf7f0f2</LibraryID>
+      <ExtraInfo>
+        <DefaultBranch>
+          <ActionId>-1</ActionId>
+          <Segments />
+        </DefaultBranch>
+        <Branches />
+        <CaseBranches />
+      </ExtraInfo>
+      <xws>0</xws>
+      <yws>0</yws>
+    </ActionStruct>
+  </Actions>
+  <LibraryItem LibraryID="176649e3-1fd0-4715-9b99-a178c2bee684" ApiClassificationId="0" BusNo="4597359" Name="WorkItemOutboundVoice" Alias="WorkItemOutboundVoice" MediaType="6" RouteOrder="1000" RoutingMode="" VariableRedaction="">
+    <Icon>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</Icon>
+    <ImplPath>TimHuggins\customers\Kent\WorkItem-OutboundVoice</ImplPath>
+    <CreateDate>2025-07-25T06:40:28.083</CreateDate>
+    <ModifyDate>2025-07-31T05:22:02.653</ModifyDate>
+    <ModifyUserID>39647695</ModifyUserID>
+    <ModifiedBy>Tim Huggins</ModifiedBy>
+    <URI>/custom/4597359/InboundWorkItemSalesforce</URI>
+    <DefaultTimeZone>Mountain Standard Time</DefaultTimeZone>
+    <Parameters />
+    <Branches />
+  </LibraryItem>
+  <MediaType>6</MediaType>
+  <ModifyDate>0001-01-01T00:00:00</ModifyDate>
+</ScriptContainer>

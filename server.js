@@ -72,7 +72,7 @@ app.post('/api/work-item', async (req, res) => {
     const apiUrl = `${process.env.CXONE_API_BASE}/interactions/work-items?pointOfContact=${process.env.CXONE_WORKITEM_POC}`;
 
     const payload = {
-      notes: `Name: ${name} | Phone: ${phone} | Email: ${email} | From: ${from} | To: ${to} | Date: ${date} | Size: ${size} | Notes: ${notes} | Type: Quote Consultation Callback`,
+      notes: JSON.stringify({ name, phone, email, from, to, date, size, notes, requestType: 'Quote Consultation Callback' }),
       mediaType: 'WorkItem'
     };
 
