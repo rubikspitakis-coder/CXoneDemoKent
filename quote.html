@@ -312,9 +312,9 @@
                             if (summary.length > 0) {
                                 cxone('chat', 'setCustomerCustomField', 'quote_details', summary.join(' | '));
                             }
-                            if (q.name) cxone('chat', 'setCustomerName', q.name);
-                        }
-            // Submit quote
+                                            if (q.name) cxone('chat', 'setCustomerName', q.name);
+                                            if (q.email) cxone('chat', 'setCustomerEmail', q.email);
+                                        }            // Submit quote
             document.getElementById('submitQuote').addEventListener('click', () => {
                 const q = getQuoteSummary();
                 if (!q.name || !q.phone) {
