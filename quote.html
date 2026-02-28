@@ -319,11 +319,8 @@
                             }
                                             if (q.name) cxone('chat', 'setCustomerName', q.name);
                                             if (q.email) {
-                                                cxone('chat', 'setCustomerEmail', q.email);
-                                                cxone('chat', 'setIdentity', {
-                                                    email: q.email,
-                                                    firstName: q.name ? q.name.split(' ')[0] : '',
-                                                    lastName: q.name ? q.name.split(' ').slice(1).join(' ') : ''
+                                                cxone('guide', 'setCustomFields', {
+                                                    contactCustomFields: [{ident: 'email', value: q.email, hidden: false}]
                                                 });
                                             }
                                         }            // Submit quote
@@ -340,11 +337,8 @@
 
                 // Launch chat within the Guide widget after submission
                 if (window.cxone) {
-                    // Set identity for better DFO mapping
-                    cxone('chat', 'setIdentity', {
-                        email: q.email,
-                        firstName: q.name.split(' ')[0] || '',
-                        lastName: q.name.split(' ').slice(1).join(' ') || ''
+                    cxone('guide', 'setCustomFields', {
+                        contactCustomFields: [{ident: 'email', value: q.email, hidden: false}]
                     });
 
                     cxone('guide', 'openGuideWindow');
