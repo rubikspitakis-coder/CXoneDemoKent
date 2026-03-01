@@ -44,15 +44,15 @@
 ASSIGN rawPayload = workitemData.WorkItemPayload
 DYNAMIC quoteData FROM rawPayload
 
-ASSIGN GLOBAL:customerName = quoteData.name
-ASSIGN GLOBAL:customerPhone = quoteData.phone
-ASSIGN GLOBAL:customerEmail = quoteData.email
-ASSIGN GLOBAL:moveFrom = quoteData.from
-ASSIGN GLOBAL:moveTo = quoteData.to
-ASSIGN GLOBAL:moveDate = quoteData.date
-ASSIGN GLOBAL:homeSize = quoteData.size
-ASSIGN GLOBAL:customerNotes = quoteData.notes
-ASSIGN GLOBAL:moveType = quoteData.moveType</string>
+ASSIGN GLOBAL:customerName = "{quoteData.name}"
+ASSIGN GLOBAL:customerPhone = "{quoteData.phone}"
+ASSIGN GLOBAL:customerEmail = "{quoteData.email}"
+ASSIGN GLOBAL:moveFrom = "{quoteData.from}"
+ASSIGN GLOBAL:moveTo = "{quoteData.to}"
+ASSIGN GLOBAL:moveDate = "{quoteData.date}"
+ASSIGN GLOBAL:homeSize = "{quoteData.size}"
+ASSIGN GLOBAL:customerNotes = "{quoteData.notes}"
+ASSIGN GLOBAL:moveType = "{quoteData.moveType}"</string>
         <string>Limit2K</string>
       </Parameters>
       <DefaultNextAction>
@@ -163,7 +163,7 @@ ASSIGN GLOBAL:moveType = quoteData.moveType</string>
       </Parameters>
       <DefaultNextAction>
         <Text />
-        <ActionID>12</ActionID>
+        <ActionID>13</ActionID>
         <Index>0</Index>
         <LabelDistance xsi:nil="true" />
         <Segments />
@@ -175,6 +175,47 @@ ASSIGN GLOBAL:moveType = quoteData.moveType</string>
       <DependencyOrder>4</DependencyOrder>
       <Impl_Type>0</Impl_Type>
       <LibraryID>4b611ba4-8e81-45a6-9fcc-97c24f43ccbc</LibraryID>
+      <ExtraInfo>
+        <DefaultBranch>
+          <ActionId>13</ActionId>
+          <Segments />
+        </DefaultBranch>
+        <Branches />
+        <CaseBranches />
+      </ExtraInfo>
+      <xws>0</xws>
+      <yws>0</yws>
+    </ActionStruct>
+    <ActionStruct>
+      <ActionID>13</ActionID>
+      <Action>SNIPPET</Action>
+      <Caption>Map for Pop</Caption>
+      <Parameters>
+        <string>ASSIGN popName = "{GLOBAL:customerName}"
+ASSIGN popPhone = "{GLOBAL:customerPhone}"
+ASSIGN popEmail = "{GLOBAL:customerEmail}"
+ASSIGN popFrom = "{GLOBAL:moveFrom}"
+ASSIGN popTo = "{GLOBAL:moveTo}"
+ASSIGN popDate = "{GLOBAL:moveDate}"
+ASSIGN popSize = "{GLOBAL:homeSize}"
+ASSIGN popNotes = "{GLOBAL:customerNotes}"
+ASSIGN popType = "{GLOBAL:moveType}"</string>
+        <string>Limit2K</string>
+      </Parameters>
+      <DefaultNextAction>
+        <Text />
+        <ActionID>12</ActionID>
+        <Index>0</Index>
+        <LabelDistance xsi:nil="true" />
+        <Segments />
+      </DefaultNextAction>
+      <Branches />
+      <Cases />
+      <X>650</X>
+      <Y>240</Y>
+      <DependencyOrder>6</DependencyOrder>
+      <Impl_Type>0</Impl_Type>
+      <LibraryID>b333da63-33c8-4297-a58a-e9546cf7f0f2</LibraryID>
       <ExtraInfo>
         <DefaultBranch>
           <ActionId>12</ActionId>
@@ -191,7 +232,7 @@ ASSIGN GLOBAL:moveType = quoteData.moveType</string>
       <Action>RUNAPP</Action>
       <Caption>Show Move Summary</Caption>
       <Parameters>
-        <string>https://cxonedemo.up.railway.app/agent.html?name={GLOBAL:customerName}&amp;phone={GLOBAL:customerPhone}&amp;email={GLOBAL:customerEmail}&amp;from={GLOBAL:moveFrom}&amp;to={GLOBAL:moveTo}&amp;date={GLOBAL:moveDate}&amp;size={GLOBAL:homeSize}&amp;custNotes={GLOBAL:customerNotes}&amp;type={GLOBAL:moveType}</string>
+        <string>https://cxonedemo.up.railway.app/agent.html?name={popName}&amp;phone={popPhone}&amp;email={popEmail}&amp;from={popFrom}&amp;to={popTo}&amp;date={popDate}&amp;size={popSize}&amp;custNotes={popNotes}&amp;type={popType}</string>
         <string />
         <string />
       </Parameters>
