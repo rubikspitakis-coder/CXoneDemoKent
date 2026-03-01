@@ -82,7 +82,7 @@ app.post('/api/work-item', async (req, res) => {
     });
 
     const payload = {
-      notes: jsonData,
+      payload: jsonData,
       mediaType: 'WorkItem'
     };
 
