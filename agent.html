@@ -12,6 +12,10 @@
     </style>
 </head>
 <body class="kent-light p-6">
+    <!-- Debug Info (Hidden by default, can be toggled if needed) -->
+    <div id="debugInfo" class="hidden fixed top-0 left-0 right-0 bg-yellow-100 p-2 text-[10px] border-b border-yellow-200 font-mono overflow-auto max-h-20 z-[1000]">
+    </div>
+
     <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
         <!-- Header -->
         <div class="kent-navy p-6 flex justify-between items-center text-white">
@@ -77,6 +81,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             
+            // Show debug info if 'debug' is in URL or no params received
+            if (params.has('debug') || params.toString() === '') {
+                const debugDiv = document.getElementById('debugInfo');
+                debugDiv.classList.remove('hidden');
+                debugDiv.innerHTML = `<strong>DEBUG:</strong> URL: ${window.location.href} <br> <strong>PARAMS:</strong> ${params.toString()}`;
+            }
+
             // Map the params to the IDs
             const mapping = {
                 'name': 'customerName',
