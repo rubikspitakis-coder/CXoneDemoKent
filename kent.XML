@@ -191,7 +191,7 @@ ASSIGN GLOBAL:moveType = quoteData.QuoteData.moveType</string>
       <Action>RUNAPP</Action>
       <Caption>Show Move Summary</Caption>
       <Parameters>
-        <string>https://cxonedemo.up.railway.app/agent.html?name={customerName}&amp;phone={customerPhone}&amp;email={customerEmail}&amp;from={moveFrom}&amp;to={moveTo}&amp;date={moveDate}&amp;size={homeSize}&amp;custNotes={customerNotes}&amp;type={moveType}</string>
+        <string>https://cxonedemo.up.railway.app/agent.html?name={GLOBAL:customerName}&amp;phone={GLOBAL:customerPhone}&amp;email={GLOBAL:customerEmail}&amp;from={GLOBAL:moveFrom}&amp;to={GLOBAL:moveTo}&amp;date={GLOBAL:moveDate}&amp;size={GLOBAL:homeSize}&amp;custNotes={GLOBAL:customerNotes}&amp;type={GLOBAL:moveType}</string>
         <string />
         <string />
       </Parameters>
