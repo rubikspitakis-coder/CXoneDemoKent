@@ -44,15 +44,15 @@
 ASSIGN rawPayload = workitemData.notes
 DYNAMIC quoteData FROM rawPayload
 
-ASSIGN GLOBAL:customerName = quoteData.QuoteData.name
-ASSIGN GLOBAL:customerPhone = quoteData.QuoteData.phone
-ASSIGN GLOBAL:customerEmail = quoteData.QuoteData.email
-ASSIGN GLOBAL:moveFrom = quoteData.QuoteData.moveFrom
-ASSIGN GLOBAL:moveTo = quoteData.QuoteData.moveTo
-ASSIGN GLOBAL:moveDate = quoteData.QuoteData.moveDate
-ASSIGN GLOBAL:homeSize = quoteData.QuoteData.homeSize
-ASSIGN GLOBAL:customerNotes = quoteData.QuoteData.notes
-ASSIGN GLOBAL:moveType = quoteData.QuoteData.moveType</string>
+ASSIGN GLOBAL:customerName = "{quoteData.name}"
+ASSIGN GLOBAL:customerPhone = "{quoteData.phone}"
+ASSIGN GLOBAL:customerEmail = "{quoteData.email}"
+ASSIGN GLOBAL:moveFrom = "{quoteData.from}"
+ASSIGN GLOBAL:moveTo = "{quoteData.to}"
+ASSIGN GLOBAL:moveDate = "{quoteData.date}"
+ASSIGN GLOBAL:homeSize = "{quoteData.size}"
+ASSIGN GLOBAL:customerNotes = "{quoteData.notes}"
+ASSIGN GLOBAL:moveType = "{quoteData.moveType}"</string>
         <string>Limit2K</string>
       </Parameters>
       <DefaultNextAction>

@@ -76,10 +76,13 @@ app.post('/api/work-item', async (req, res) => {
     const token = await getToken();
     const apiUrl = `${process.env.CXONE_API_BASE}/interactions/work-items?pointOfContact=${process.env.CXONE_WORKITEM_POC}`;
 
-    const xmlNotes = `<QuoteData><name>${escapeXml(name)}</name><phone>${escapeXml(phone)}</phone><email>${escapeXml(email)}</email><moveFrom>${escapeXml(from)}</moveFrom><moveTo>${escapeXml(to)}</moveTo><moveDate>${escapeXml(date)}</moveDate><homeSize>${escapeXml(size)}</homeSize><notes>${escapeXml(notes)}</notes><moveType>${escapeXml(moveType)}</moveType></QuoteData>`.replace(/>\s+</g, '><');
+    // Switch to JSON string for much more reliable Studio parsing
+    const jsonData = JSON.stringify({
+      name, phone, email, from, to, date, size, notes, moveType
+    });
 
     const payload = {
-      notes: xmlNotes,
+      notes: jsonData,
       mediaType: 'WorkItem'
     };
 
