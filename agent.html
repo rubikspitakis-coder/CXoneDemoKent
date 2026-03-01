@@ -92,177 +92,76 @@
                 'customerNotes': 'I have a baby grand piano and several large pieces of artwork that require special crating.',
                 'moveTypeBadge': 'INTERSTATE'
             };
-            Object.entries(demo).forEach(([id, val]) => {
-                const el = document.getElementById(id);
-                if (el) el.innerText = val;
+            populateUI(demo);
+        }
+
+        function populateUI(data) {
+            const dataMap = {
+                'name': 'customerName',
+                'email': 'customerEmail',
+                'phone': 'customerPhone',
+                'from': 'moveFrom',
+                'to': 'moveTo',
+                'date': 'moveDate',
+                'size': 'homeSize',
+                'notes': 'customerNotes',
+                'moveType': 'moveTypeBadge'
+            };
+            Object.entries(dataMap).forEach(([key, id]) => {
+                if (data[key]) {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        if (id === 'moveTypeBadge') el.innerText = data[key].toUpperCase();
+                        else el.innerText = data[key];
+                    }
+                }
             });
-            document.getElementById('dialBtn').disabled = false;
-            document.getElementById('dialText').innerText = "Call Customer";
+            const phone = data.phone;
+            if (phone) {
+                const dialBtn = document.getElementById('dialBtn');
+                const dialText = document.getElementById('dialText');
+                dialBtn.disabled = false;
+                dialText.innerText = "Call Customer";
+                dialBtn.onclick = async () => {
+                    dialBtn.disabled = true; dialText.innerText = "Initiating Call...";
+                    const resp = await fetch('/api/callback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phoneNumber: phone }) });
+                    if (resp.ok) { dialText.innerText = "Calling..."; dialBtn.classList.replace('bg-green-600', 'bg-blue-600'); }
+                    else { dialBtn.disabled = false; dialText.innerText = "Call Customer"; }
+                };
+            }
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
-            
-            // ALWAYS show debug info for now
             const debugText = document.getElementById('debugText');
             debugText.innerHTML = `<strong>URL:</strong> ${window.location.href} <br> <strong>PARAMS:</strong> ${params.toString() || 'None'}`;
 
-            // Process New Base64 Data Parameter
-            const base64Data = params.get('data');
-            if (base64Data) {
-                // ... Base64 logic (kept as fallback)
-            } else if (!params.get('name')) {
-                // MAGIC BYPASS: If no URL params, fetch the latest from the server
+            // 1. Check for Base64 data param
+            const dataParam = params.get('data');
+            if (dataParam) {
+                try {
+                    const jsonStr = atob(dataParam);
+                    const data = JSON.parse(jsonStr);
+                    populateUI(data);
+                    debugText.innerHTML += `<br><span class="text-green-600 font-bold">✓ DATA FROM URL PARAM</span>`;
+                } catch (e) { console.error("Base64 Error:", e); }
+            } 
+            // 2. Check for individual params (Legacy)
+            else if (params.get('name')) {
+                const data = {};
+                ['name','email','phone','from','to','date','size','notes','type'].forEach(k => data[k] = params.get(k));
+                populateUI(data);
+            }
+            // 3. MAGIC BYPASS: Fetch from server
+            else {
                 try {
                     const response = await fetch('/api/last-quote');
                     if (response.ok) {
                         const data = await response.json();
                         populateUI(data);
-                        debugText.innerHTML += `<br><span class="text-green-600 font-bold">✓ DATA RETRIEVED FROM SERVER (Studio Bypass)</span>`;
+                        debugText.innerHTML += `<br><span class="text-green-600 font-bold">✓ DATA FROM SERVER (Bypass)</span>`;
                     }
                 } catch (e) { console.error("Fetch Error:", e); }
-            }
-
-            function populateUI(data) {
-                const dataMap = {
-                    'name': 'customerName',
-                    'email': 'customerEmail',
-                    'phone': 'customerPhone',
-                    'from': 'moveFrom',
-                    'to': 'moveTo',
-                    'date': 'moveDate',
-                    'size': 'homeSize',
-                    'notes': 'customerNotes',
-                    'moveType': 'moveTypeBadge'
-                };
-                Object.entries(dataMap).forEach(([key, id]) => {
-                    if (data[key]) {
-                        const el = document.getElementById(id);
-                        if (el) {
-                            if (id === 'moveTypeBadge') el.innerText = data[key].toUpperCase();
-                            else el.innerText = data[key];
-                        }
-                    }
-                });
-                const phone = data.phone;
-                if (phone) {
-                    const dialBtn = document.getElementById('dialBtn');
-                    const dialText = document.getElementById('dialText');
-                    dialBtn.disabled = false;
-                    dialText.innerText = "Call Customer";
-                    // Update click listener for this specific phone
-                    dialBtn.onclick = async () => {
-                        dialBtn.disabled = true; dialText.innerText = "Initiating Call...";
-                        const resp = await fetch('/api/callback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phoneNumber: phone }) });
-                        if (resp.ok) { dialText.innerText = "Calling..."; dialBtn.classList.replace('bg-green-600', 'bg-blue-600'); }
-                        else { dialBtn.disabled = false; dialText.innerText = "Call Customer"; }
-                    };
-                }
-            }
-
-            // Map standard params (Legacy fallback)
-            const mapping = {
-                'name': 'customerName',
-                'fullName': 'customerName',
-                'email': 'customerEmail',
-                'customerEmail': 'customerEmail',
-                'phone': 'customerPhone',
-                'customerPhone': 'customerPhone',
-                'from': 'moveFrom',
-                'moveFrom': 'moveFrom',
-                'to': 'moveTo',
-                'moveTo': 'moveTo',
-                'date': 'moveDate',
-                'moveDate': 'moveDate',
-                'size': 'homeSize',
-                'homeSize': 'homeSize',
-                'notes': 'customerNotes',
-                'custNotes': 'customerNotes',
-                'type': 'moveTypeBadge',
-                'moveType': 'moveTypeBadge'
-            };
-
-            // Process New Base64 Data Parameter
-            const base64Data = params.get('data');
-            if (base64Data) {
-                try {
-                    const jsonStr = atob(base64Data);
-                    const data = JSON.parse(jsonStr);
-                    console.log("Decoded Data:", data);
-                    
-                    // Direct map from JSON keys to UI IDs
-                    const dataMap = {
-                        'name': 'customerName',
-                        'email': 'customerEmail',
-                        'phone': 'customerPhone',
-                        'from': 'moveFrom',
-                        'to': 'moveTo',
-                        'date': 'moveDate',
-                        'size': 'homeSize',
-                        'notes': 'customerNotes',
-                        'moveType': 'moveTypeBadge'
-                    };
-
-                    Object.entries(dataMap).forEach(([key, id]) => {
-                        if (data[key]) {
-                            const el = document.getElementById(id);
-                            if (el) {
-                                if (id === 'moveTypeBadge') el.innerText = data[key].toUpperCase();
-                                else el.innerText = data[key];
-                            }
-                        }
-                    });
-                } catch (e) {
-                    console.error("Base64 Decode Error:", e);
-                }
-            }
-
-            // Also process individual params (legacy/fallback)
-            Object.entries(mapping).forEach(([param, elementId]) => {
-                const val = params.get(param);
-                if (val && val !== '{' + param + '}') { // Don't show unparsed {tags}
-                    const el = document.getElementById(elementId);
-                    if (el) {
-                        if (elementId === 'moveTypeBadge') el.innerText = val.toUpperCase();
-                        else el.innerText = val;
-                    }
-                }
-            });
-
-            // Set up Real Callback Trigger
-            const dialBtn = document.getElementById('dialBtn');
-            const dialText = document.getElementById('dialText');
-            const phone = params.get('phone') || params.get('customerPhone');
-
-            if (phone) {
-                dialBtn.addEventListener('click', async () => {
-                    try {
-                        dialBtn.disabled = true;
-                        dialText.innerText = "Initiating Call...";
-                        
-                        const response = await fetch('/api/callback', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ phoneNumber: phone })
-                        });
-
-                        if (response.ok) {
-                            dialText.innerText = "Calling...";
-                            dialBtn.classList.remove('bg-green-600');
-                            dialBtn.classList.add('bg-blue-600');
-                        } else {
-                            throw new Error("API Error");
-                        }
-                    } catch (error) {
-                        console.error("Callback failed:", error);
-                        alert("Failed to initiate call. Please check your CXone configuration.");
-                        dialBtn.disabled = false;
-                        dialText.innerText = "Call Customer";
-                    }
-                });
-            } else {
-                dialBtn.disabled = true;
-                dialText.innerText = "No Number Provided";
             }
         });
     </script>
