@@ -103,6 +103,7 @@
                 'size': 'homeSize',
                 'homeSize': 'homeSize',
                 'notes': 'customerNotes',
+                'custNotes': 'customerNotes',
                 'customerNotes': 'customerNotes',
                 'type': 'moveTypeBadge',
                 'moveType': 'moveTypeBadge'
@@ -122,7 +123,7 @@
             // Set up Real Callback Trigger
             const dialBtn = document.getElementById('dialBtn');
             const dialText = document.getElementById('dialText');
-            const phone = params.get('phone');
+            const phone = params.get('phone') || params.get('customerPhone');
 
             if (phone) {
                 dialBtn.addEventListener('click', async () => {

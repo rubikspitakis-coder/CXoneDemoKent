@@ -41,18 +41,18 @@
       <Caption>Parse Work Item</Caption>
       <Parameters>
         <string>DYNAMIC workitemData FROM __workitem
-ASSIGN rawPayload = "{workitemData.notes}"
+ASSIGN rawPayload = workitemData.notes
 DYNAMIC quoteData FROM rawPayload
 
-ASSIGN customerName = "{quoteData.QuoteData.name}"
-ASSIGN customerPhone = "{quoteData.QuoteData.phone}"
-ASSIGN customerEmail = "{quoteData.QuoteData.email}"
-ASSIGN moveFrom = "{quoteData.QuoteData.moveFrom}"
-ASSIGN moveTo = "{quoteData.QuoteData.moveTo}"
-ASSIGN moveDate = "{quoteData.QuoteData.moveDate}"
-ASSIGN homeSize = "{quoteData.QuoteData.homeSize}"
-ASSIGN customerNotes = "{quoteData.QuoteData.notes}"
-ASSIGN moveType = "{quoteData.QuoteData.moveType}"</string>
+ASSIGN GLOBAL:customerName = quoteData.QuoteData.name
+ASSIGN GLOBAL:customerPhone = quoteData.QuoteData.phone
+ASSIGN GLOBAL:customerEmail = quoteData.QuoteData.email
+ASSIGN GLOBAL:moveFrom = quoteData.QuoteData.moveFrom
+ASSIGN GLOBAL:moveTo = quoteData.QuoteData.moveTo
+ASSIGN GLOBAL:moveDate = quoteData.QuoteData.moveDate
+ASSIGN GLOBAL:homeSize = quoteData.QuoteData.homeSize
+ASSIGN GLOBAL:customerNotes = quoteData.QuoteData.notes
+ASSIGN GLOBAL:moveType = quoteData.QuoteData.moveType</string>
         <string>Limit2K</string>
       </Parameters>
       <DefaultNextAction>
@@ -191,7 +191,7 @@ ASSIGN moveType = "{quoteData.QuoteData.moveType}"</string>
       <Action>RUNAPP</Action>
       <Caption>Show Move Summary</Caption>
       <Parameters>
-        <string>https://cxonedemo.up.railway.app/agent.html?name={customerName}&amp;phone={customerPhone}&amp;email={customerEmail}&amp;from={moveFrom}&amp;to={moveTo}&amp;date={moveDate}&amp;size={homeSize}&amp;notes={customerNotes}&amp;type={moveType}</string>
+        <string>https://cxonedemo.up.railway.app/agent.html?name={customerName}&amp;phone={customerPhone}&amp;email={customerEmail}&amp;from={moveFrom}&amp;to={moveTo}&amp;date={moveDate}&amp;size={homeSize}&amp;custNotes={customerNotes}&amp;type={moveType}</string>
         <string />
         <string />
       </Parameters>
