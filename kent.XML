@@ -187,13 +187,12 @@ ASSIGN customerNotes = "{quoteData.QuoteData.notes}"</string>
     </ActionStruct>
     <ActionStruct>
       <ActionID>12</ActionID>
-      <Action>GETPAGE</Action>
-      <Caption>Queue Outbound Call</Caption>
+      <Action>RUNAPP</Action>
+      <Caption>Show Move Summary</Caption>
       <Parameters>
-        <string>https://cxonedemo.up.railway.app/api/studio-callback?phone={customerPhone}</string>
-        <string>30</string>
-        <string>Limit2K</string>
-        <string>callbackResult</string>
+        <string>https://cxonedemo.up.railway.app/agent.html?name={customerName}&amp;phone={customerPhone}&amp;email={customerEmail}&amp;from={moveFrom}&amp;to={moveTo}&amp;date={moveDate}&amp;size={homeSize}&amp;notes={customerNotes}</string>
+        <string />
+        <string />
       </Parameters>
       <DefaultNextAction>
         <Text />
