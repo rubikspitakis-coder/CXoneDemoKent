@@ -606,7 +606,7 @@
                             cxone('guide', 'openMenu');
                             
                             setTimeout(() => {
-                                cxone('guide', 'sendMessage', `I have a question about ${label.toLowerCase()}.`);
+                                cxone('chat', 'sendMessage', `I have a question about ${label.toLowerCase()}.`);
                             }, 500);
                         }
                     });

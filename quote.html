@@ -343,7 +343,7 @@
 
                     cxone('guide', 'openMenu');
                     setTimeout(() => {
-                        cxone('guide', 'sendMessage', 'I have just submitted a quote request and would like to discuss it.');
+                        cxone('chat', 'sendMessage', 'I have just submitted a quote request and would like to discuss it.');
                     }, 500);
                 }
             });
@@ -385,7 +385,7 @@
                             if (q.homeSize) details.push('Size: ' + q.homeSize);
                             if (q.date) details.push('Date: ' + q.date);
                             if (q.phone) details.push('Phone: ' + q.phone);
-                            cxone('guide', 'sendMessage',
+                            cxone('chat', 'sendMessage',
                                 'I\'ve requested a callback regarding my quote. ' +
                                 (details.length > 0 ? 'Details: ' + details.join(', ') + '.' : '')
                             );

@@ -41,7 +41,7 @@
       <Caption>Parse Work Item</Caption>
       <Parameters>
         <string>DYNAMIC workitemData FROM __workitem
-ASSIGN rawPayload = "{workitemData.WorkItem.WorkItemPayload}"
+ASSIGN rawPayload = "{workitemData.notes}"
 DYNAMIC quoteData FROM rawPayload
 
 ASSIGN customerName = "{quoteData.QuoteData.name}"
