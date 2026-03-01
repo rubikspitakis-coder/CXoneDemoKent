@@ -76,13 +76,14 @@ app.post('/api/work-item', async (req, res) => {
     const token = await getToken();
     const apiUrl = `${process.env.CXONE_API_BASE}/interactions/work-items?pointOfContact=${process.env.CXONE_WORKITEM_POC}`;
 
-    // Switch to JSON string for much more reliable Studio parsing
-    const jsonData = JSON.stringify({
+    // Encode as Base64 for the most reliable passing through Studio and URLs
+    const rawData = JSON.stringify({
       name, phone, email, from, to, date, size, notes, moveType
     });
+    const base64Data = Buffer.from(rawData).toString('base64');
 
     const payload = {
-      payload: jsonData,
+      payload: base64Data,
       mediaType: 'WorkItem'
     };
 

@@ -107,7 +107,7 @@
             const debugText = document.getElementById('debugText');
             debugText.innerHTML = `<strong>URL:</strong> ${window.location.href} <br> <strong>PARAMS:</strong> ${params.toString() || 'None'}`;
 
-            // Map the params to the IDs (including fallbacks)
+            // Map standard params
             const mapping = {
                 'name': 'customerName',
                 'fullName': 'customerName',
@@ -125,11 +125,46 @@
                 'homeSize': 'homeSize',
                 'notes': 'customerNotes',
                 'custNotes': 'customerNotes',
-                'customerNotes': 'customerNotes',
                 'type': 'moveTypeBadge',
                 'moveType': 'moveTypeBadge'
             };
 
+            // Process New Base64 Data Parameter
+            const base64Data = params.get('data');
+            if (base64Data) {
+                try {
+                    const jsonStr = atob(base64Data);
+                    const data = JSON.parse(jsonStr);
+                    console.log("Decoded Data:", data);
+                    
+                    // Direct map from JSON keys to UI IDs
+                    const dataMap = {
+                        'name': 'customerName',
+                        'email': 'customerEmail',
+                        'phone': 'customerPhone',
+                        'from': 'moveFrom',
+                        'to': 'moveTo',
+                        'date': 'moveDate',
+                        'size': 'homeSize',
+                        'notes': 'customerNotes',
+                        'moveType': 'moveTypeBadge'
+                    };
+
+                    Object.entries(dataMap).forEach(([key, id]) => {
+                        if (data[key]) {
+                            const el = document.getElementById(id);
+                            if (el) {
+                                if (id === 'moveTypeBadge') el.innerText = data[key].toUpperCase();
+                                else el.innerText = data[key];
+                            }
+                        }
+                    });
+                } catch (e) {
+                    console.error("Base64 Decode Error:", e);
+                }
+            }
+
+            // Also process individual params (legacy/fallback)
             Object.entries(mapping).forEach(([param, elementId]) => {
                 const val = params.get(param);
                 if (val && val !== '{' + param + '}') { // Don't show unparsed {tags}
