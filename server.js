@@ -62,14 +62,15 @@ app.post('/api/callback', async (req, res) => {
   }
 });
 
-// Create a Work Item (quote consultation callback)
-function escapeXml(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+let lastQuote = null;
 
+// Create a Work Item (quote consultation callback)
 app.post('/api/work-item', async (req, res) => {
   const { name, phone, email, from, to, date, size, notes, moveType } = req.body;
+  
+  // Save to memory for the 'Magic' Agent Dashboard bypass
+  lastQuote = { name, phone, email, from, to, date, size, notes, moveType };
+
   if (!phone) return res.status(400).json({ error: 'phone is required' });
 
   try {
@@ -134,6 +135,11 @@ app.get('/api/studio-callback', async (req, res) => {
     console.error('Studio callback error:', error);
     res.status(500).send('Error');
   }
+});
+
+app.get('/api/last-quote', (req, res) => {
+  if (lastQuote) res.json(lastQuote);
+  else res.status(404).send('No quotes found');
 });
 
 // Video call work item
