@@ -44,15 +44,25 @@
 ASSIGN rawPayload = workitemData.WorkItemPayload
 DYNAMIC quoteData FROM rawPayload
 
-ASSIGN GLOBAL:customerName = "{quoteData.name}"
-ASSIGN GLOBAL:customerPhone = "{quoteData.phone}"
-ASSIGN GLOBAL:customerEmail = "{quoteData.email}"
-ASSIGN GLOBAL:moveFrom = "{quoteData.from}"
-ASSIGN GLOBAL:moveTo = "{quoteData.to}"
-ASSIGN GLOBAL:moveDate = "{quoteData.date}"
-ASSIGN GLOBAL:homeSize = "{quoteData.size}"
-ASSIGN GLOBAL:customerNotes = "{quoteData.notes}"
-ASSIGN GLOBAL:moveType = "{quoteData.moveType}"</string>
+ASSIGN customerName = "{quoteData.name}"
+ASSIGN customerPhone = "{quoteData.phone}"
+ASSIGN customerEmail = "{quoteData.email}"
+ASSIGN moveFrom = "{quoteData.from}"
+ASSIGN moveTo = "{quoteData.to}"
+ASSIGN moveDate = "{quoteData.date}"
+ASSIGN homeSize = "{quoteData.size}"
+ASSIGN customerNotes = "{quoteData.notes}"
+ASSIGN moveType = "{quoteData.moveType}"
+
+ASSIGN GLOBAL:customerName = customerName
+ASSIGN GLOBAL:customerPhone = customerPhone
+ASSIGN GLOBAL:customerEmail = customerEmail
+ASSIGN GLOBAL:moveFrom = moveFrom
+ASSIGN GLOBAL:moveTo = moveTo
+ASSIGN GLOBAL:moveDate = moveDate
+ASSIGN GLOBAL:homeSize = homeSize
+ASSIGN GLOBAL:customerNotes = customerNotes
+ASSIGN GLOBAL:moveType = moveType</string>
         <string>Limit2K</string>
       </Parameters>
       <DefaultNextAction>
@@ -191,15 +201,15 @@ ASSIGN GLOBAL:moveType = "{quoteData.moveType}"</string>
       <Action>SNIPPET</Action>
       <Caption>Map for Pop</Caption>
       <Parameters>
-        <string>ASSIGN popName = "{GLOBAL:customerName}"
-ASSIGN popPhone = "{GLOBAL:customerPhone}"
-ASSIGN popEmail = "{GLOBAL:customerEmail}"
-ASSIGN popFrom = "{GLOBAL:moveFrom}"
-ASSIGN popTo = "{GLOBAL:moveTo}"
-ASSIGN popDate = "{GLOBAL:moveDate}"
-ASSIGN popSize = "{GLOBAL:homeSize}"
-ASSIGN popNotes = "{GLOBAL:customerNotes}"
-ASSIGN popType = "{GLOBAL:moveType}"</string>
+        <string>ASSIGN popName = GLOBAL:customerName
+ASSIGN popPhone = GLOBAL:customerPhone
+ASSIGN popEmail = GLOBAL:customerEmail
+ASSIGN popFrom = GLOBAL:moveFrom
+ASSIGN popTo = GLOBAL:moveTo
+ASSIGN popDate = GLOBAL:moveDate
+ASSIGN popSize = GLOBAL:homeSize
+ASSIGN popNotes = GLOBAL:customerNotes
+ASSIGN popType = GLOBAL:moveType</string>
         <string>Limit2K</string>
       </Parameters>
       <DefaultNextAction>
