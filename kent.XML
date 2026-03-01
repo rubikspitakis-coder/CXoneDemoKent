@@ -51,7 +51,8 @@ ASSIGN moveFrom = "{quoteData.QuoteData.moveFrom}"
 ASSIGN moveTo = "{quoteData.QuoteData.moveTo}"
 ASSIGN moveDate = "{quoteData.QuoteData.moveDate}"
 ASSIGN homeSize = "{quoteData.QuoteData.homeSize}"
-ASSIGN customerNotes = "{quoteData.QuoteData.notes}"</string>
+ASSIGN customerNotes = "{quoteData.QuoteData.notes}"
+ASSIGN moveType = "{quoteData.QuoteData.moveType}"</string>
         <string>Limit2K</string>
       </Parameters>
       <DefaultNextAction>
@@ -190,7 +191,7 @@ ASSIGN customerNotes = "{quoteData.QuoteData.notes}"</string>
       <Action>RUNAPP</Action>
       <Caption>Show Move Summary</Caption>
       <Parameters>
-        <string>https://cxonedemo.up.railway.app/agent.html?name={customerName}&amp;phone={customerPhone}&amp;email={customerEmail}&amp;from={moveFrom}&amp;to={moveTo}&amp;date={moveDate}&amp;size={homeSize}&amp;notes={customerNotes}</string>
+        <string>https://cxonedemo.up.railway.app/agent.html?name={customerName}&amp;phone={customerPhone}&amp;email={customerEmail}&amp;from={moveFrom}&amp;to={moveTo}&amp;date={moveDate}&amp;size={homeSize}&amp;notes={customerNotes}&amp;type={moveType}</string>
         <string />
         <string />
       </Parameters>
