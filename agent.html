@@ -12,8 +12,8 @@
     </style>
 </head>
 <body class="kent-light p-6">
-    <!-- Debug Info (Show current URL for troubleshooting) -->
-    <div id="debugInfo" class="bg-yellow-100 p-2 text-[10px] border-b border-yellow-200 font-mono overflow-auto max-h-24 z-[1000] break-all flex justify-between items-center">
+    <!-- Debug Info (Hidden by default) -->
+    <div id="debugInfo" class="hidden fixed top-0 left-0 right-0 bg-yellow-100 p-2 text-[10px] border-b border-yellow-200 font-mono overflow-auto max-h-24 z-[1000] break-all flex justify-between items-center">
         <div id="debugText">Checking parameters...</div>
         <button onclick="loadDemoData()" class="bg-yellow-600 text-white px-2 py-1 rounded text-[10px] hover:bg-yellow-700">LOAD DEMO DATA</button>
     </div>
@@ -133,8 +133,14 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
-            const debugText = document.getElementById('debugText');
-            debugText.innerHTML = `<strong>URL:</strong> ${window.location.href} <br> <strong>PARAMS:</strong> ${params.toString() || 'None'}`;
+            
+            // Only show debug info if 'debug' parameter is present
+            if (params.has('debug')) {
+                const debugInfo = document.getElementById('debugInfo');
+                const debugText = document.getElementById('debugText');
+                debugInfo.classList.remove('hidden');
+                debugText.innerHTML = `<strong>URL:</strong> ${window.location.href} <br> <strong>PARAMS:</strong> ${params.toString() || 'None'}`;
+            }
 
             // 1. Check for Base64 data param
             const dataParam = params.get('data');
