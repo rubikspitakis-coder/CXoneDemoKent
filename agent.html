@@ -12,11 +12,12 @@
     </style>
 </head>
 <body class="kent-light p-6">
-    <!-- Debug Info (Hidden by default, can be toggled if needed) -->
-    <div id="debugInfo" class="hidden fixed top-0 left-0 right-0 bg-yellow-100 p-2 text-[10px] border-b border-yellow-200 font-mono overflow-auto max-h-20 z-[1000]">
+    <!-- Debug Info (Show current URL for troubleshooting) -->
+    <div id="debugInfo" class="bg-yellow-100 p-2 text-[10px] border-b border-yellow-200 font-mono overflow-auto max-h-24 z-[1000] break-all">
+        Checking parameters...
     </div>
 
-    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden mt-4">
         <!-- Header -->
         <div class="kent-navy p-6 flex justify-between items-center text-white">
             <div class="flex items-center gap-4">
@@ -81,32 +82,40 @@
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             
-            // Show debug info if 'debug' is in URL or no params received
-            if (params.has('debug') || params.toString() === '') {
-                const debugDiv = document.getElementById('debugInfo');
-                debugDiv.classList.remove('hidden');
-                debugDiv.innerHTML = `<strong>DEBUG:</strong> URL: ${window.location.href} <br> <strong>PARAMS:</strong> ${params.toString()}`;
-            }
+            // ALWAYS show debug info for now
+            const debugDiv = document.getElementById('debugInfo');
+            debugDiv.innerHTML = `<strong>URL:</strong> ${window.location.href} <br> <strong>PARAMS:</strong> ${params.toString() || 'None'}`;
 
-            // Map the params to the IDs
+            // Map the params to the IDs (including fallbacks)
             const mapping = {
                 'name': 'customerName',
+                'fullName': 'customerName',
                 'email': 'customerEmail',
+                'customerEmail': 'customerEmail',
                 'phone': 'customerPhone',
+                'customerPhone': 'customerPhone',
                 'from': 'moveFrom',
+                'moveFrom': 'moveFrom',
                 'to': 'moveTo',
+                'moveTo': 'moveTo',
                 'date': 'moveDate',
+                'moveDate': 'moveDate',
                 'size': 'homeSize',
+                'homeSize': 'homeSize',
                 'notes': 'customerNotes',
-                'type': 'moveTypeBadge'
+                'customerNotes': 'customerNotes',
+                'type': 'moveTypeBadge',
+                'moveType': 'moveTypeBadge'
             };
 
             Object.entries(mapping).forEach(([param, elementId]) => {
                 const val = params.get(param);
-                if (val) {
+                if (val && val !== '{' + param + '}') { // Don't show unparsed {tags}
                     const el = document.getElementById(elementId);
-                    if (elementId === 'moveTypeBadge') el.innerText = val.toUpperCase();
-                    else el.innerText = val;
+                    if (el) {
+                        if (elementId === 'moveTypeBadge') el.innerText = val.toUpperCase();
+                        else el.innerText = val;
+                    }
                 }
             });
 
