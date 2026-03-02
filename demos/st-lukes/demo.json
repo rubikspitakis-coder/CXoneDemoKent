@@ -1,0 +1,21 @@
+{
+  "name": "St Lukes Health Insurance",
+  "slug": "st-lukes",
+  "description": "Proudly Tasmanian health insurance.",
+  "cxone": {
+    "brandId": "1092",
+    "guideId": "bb179a83-f2c6-4fb8-a020-1af5eb9d759f",
+    "loaderUrl": "https://web-modules-de-na1.niceincontact.com/loader/1/loader.js"
+  },
+  "branding": {
+    "primaryColor": "#52315f",
+    "accentColor": "#e91e63",
+    "lightBg": "#fdfaff",
+    "contentBg": "#FFFFFF",
+    "logoUrl": "",
+    "logoSize": "150px",
+    "logoBgColor": "transparent",
+    "borderRadius": "4px"
+  },
+  "callbackSuccessMessage": "Your callback request has been submitted. A St Lukes expert will call you shortly."
+}

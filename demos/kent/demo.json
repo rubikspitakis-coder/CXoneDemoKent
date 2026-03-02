@@ -1,0 +1,22 @@
+{
+  "name": "Kent Removals & Storage",
+  "slug": "kent",
+  "description": "Australia's trusted family-owned relocation experts since 1946.",
+  "thumbnail": "logo.png",
+  "cxone": {
+    "brandId": "1092",
+    "guideId": "bb179a83-f2c6-4fb8-a020-1af5eb9d759f",
+    "loaderUrl": "https://web-modules-de-na1.niceincontact.com/loader/1/loader.js"
+  },
+  "branding": {
+    "primaryColor": "#1B2A4A",
+    "accentColor": "#E8612D",
+    "lightBg": "#F7F5F2",
+    "contentBg": "#FFFFFF",
+    "logoUrl": "logo.png",
+    "logoSize": "150px",
+    "logoBgColor": "#3A231C",
+    "borderRadius": "9999px"
+  },
+  "callbackSuccessMessage": "Your callback request has been submitted. A Kent expert will call you shortly."
+}

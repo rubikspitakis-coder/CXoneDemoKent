@@ -1,12 +1,52 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.static(__dirname));
+
+// Landing page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'landing.html'));
+});
+
+// Shared assets
+app.use('/shared', express.static(path.join(__dirname, 'shared')));
+
+// Demo static files
+app.use('/demos', express.static(path.join(__dirname, 'demos')));
+
+// List available demos
+app.get('/api/demos', (req, res) => {
+  const demosDir = path.join(__dirname, 'demos');
+  if (!fs.existsSync(demosDir)) return res.json([]);
+
+  const entries = fs.readdirSync(demosDir, { withFileTypes: true });
+  const demos = [];
+
+  for (const entry of entries) {
+    if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
+    const configPath = path.join(demosDir, entry.name, 'demo.json');
+    if (!fs.existsSync(configPath)) continue;
+    try {
+      const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+      demos.push({
+        name: config.name,
+        slug: entry.name,
+        description: config.description,
+        branding: config.branding || {}
+      });
+    } catch (e) {
+      console.error(`Error reading demo.json for ${entry.name}:`, e.message);
+    }
+  }
+
+  res.json(demos);
+});
 
 // Centralized token fetching — credentials stay server-side
 async function getToken() {

@@ -417,34 +417,6 @@
         </div>
     </footer>
 
-    <!-- Callback Modal -->
-    <div id="callbackModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-[#1B2A4A]/60 backdrop-blur-md"></div>
-        <div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform transition-all">
-            <div class="kent-navy p-10 text-white text-center relative">
-                <button id="closeModal" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-                <h2 class="text-3xl font-bold mb-4">Talk to an Expert</h2>
-                <p class="text-gray-300 text-lg">Leave your number and we'll call you back as soon as possible.</p>
-            </div>
-            
-            <div class="p-10">
-                <div class="mb-8">
-                    <label for="phoneInput" class="block text-sm font-bold kent-navy-text uppercase tracking-wider mb-3">Phone Number</label>
-                    <input type="tel" id="phoneInput" placeholder="e.g. 0412 345 678" 
-                           class="w-full px-5 py-4 rounded-xl border-2 border-gray-100 focus:border-[#1B2A4A] focus:ring-0 outline-none transition-all text-xl">
-                    <p id="errorText" class="text-red-600 text-sm mt-3 hidden font-medium">Please enter a valid phone number.</p>
-                </div>
-                
-                <button id="submitCallback" class="w-full kent-orange text-white py-5 rounded-xl font-bold text-xl kent-orange-hover transition-all shadow-lg flex items-center justify-center gap-3">
-                    <span id="btnText">Request Callback</span>
-                    <svg id="loadingSpinner" class="animate-spin h-6 w-6 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Callback & Tab Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -453,84 +425,11 @@
                 sessionStorage.removeItem('kentServices');
             }
 
-            // --- Callback Modal ---
-            const modal = document.getElementById('callbackModal');
-            const phoneInput = document.getElementById('phoneInput');
-            const submitBtn = document.getElementById('submitCallback');
-            const closeBtn = document.getElementById('closeModal');
-            const errorText = document.getElementById('errorText');
-            const btnText = document.getElementById('btnText');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-
-            const callbackBtns = [
-                document.getElementById('callbackBtnHero'),
-                document.getElementById('callbackBtnCTA')
-            ];
-
-            const openModal = () => {
-                modal.classList.remove('hidden');
-                phoneInput.focus();
-                document.body.style.overflow = 'hidden';
-            };
-
-            const closeModalFn = () => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-                errorText.classList.add('hidden');
-                phoneInput.value = '';
-            };
-
-            callbackBtns.forEach(btn => {
-                if (btn) btn.addEventListener('click', openModal);
+            // Callback buttons → shared modal
+            ['callbackBtnHero', 'callbackBtnCTA'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.addEventListener('click', () => CXoneDemo.openCallbackModal());
             });
-
-            closeBtn.addEventListener('click', closeModalFn);
-            modal.addEventListener('click', (e) => {
-                if (e.target.id === 'callbackModal') closeModalFn();
-            });
-
-            submitBtn.addEventListener('click', () => {
-                const phone = phoneInput.value.trim();
-                if (phone && /^\+?\d{8,15}$/.test(phone.replace(/\s/g, ''))) {
-                    errorText.classList.add('hidden');
-                    sendCallbackRequest(phone);
-                } else {
-                    errorText.classList.remove('hidden');
-                }
-            });
-
-            async function sendCallbackRequest(phoneNumber) {
-                try {
-                    submitBtn.disabled = true;
-                    btnText.innerText = "Submitting...";
-                    loadingSpinner.classList.remove('hidden');
-
-                    const response = await fetch('/api/callback', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ phoneNumber })
-                    });
-
-                    if (response.ok) {
-                        btnText.innerText = "Success!";
-                        loadingSpinner.classList.add('hidden');
-                        setTimeout(() => {
-                            closeModalFn();
-                            alert("Your callback request has been submitted. A Kent expert will call you shortly.");
-                            btnText.innerText = "Request Callback";
-                            submitBtn.disabled = false;
-                        }, 1000);
-                    } else {
-                        throw new Error("API Response Error");
-                    }
-                } catch (error) {
-                    console.error("Callback error:", error);
-                    alert("There was an error sending your callback request. Please try again later.");
-                    submitBtn.disabled = false;
-                    btnText.innerText = "Request Callback";
-                    loadingSpinner.classList.add('hidden');
-                }
-            }
 
             // --- Tabs ---
             const tabData = {
@@ -615,140 +514,40 @@
         });
     </script>
 
-    <!-- CXone Chat Widget -->
+    <!-- CXone Widget (shared) -->
     <script>
-        (function(n,u){
-        window.CXoneDfo=n,
-        window[n]=window[n]||function(){(window[n].q=window[n].q||[]).push(arguments)},window[n].u=u,
-        e=document.createElement("script"),e.type="module",e.src=u+"?"+Math.round(Date.now()/1e3/3600),
-        document.head.appendChild(e)
-        })('cxone','https://web-modules-de-na1.niceincontact.com/loader/1/loader.js');
+        window.DEMO_CONFIG = {
+            name: "Kent Removals & Storage",
+            pageName: "Kent Removals Homepage",
+            cxone: {
+                brandId: "1092",
+                guideId: "bb179a83-f2c6-4fb8-a020-1af5eb9d759f",
+                loaderUrl: "https://web-modules-de-na1.niceincontact.com/loader/1/loader.js"
+            },
+            branding: {
+                primaryColor: "#1B2A4A",
+                accentColor: "#E8612D",
+                lightBg: "#F7F5F2",
+                contentBg: "#FFFFFF",
+                logoUrl: "logo.png",
+                logoSize: "150px",
+                logoBgColor: "#3A231C",
+                borderRadius: "9999px"
+            },
+            callbackSuccessMessage: "Your callback request has been submitted. A Kent expert will call you shortly."
+        };
 
-        cxone('init', '1092');
-        cxone('guide', 'init', 'bb179a83-f2c6-4fb8-a020-1af5eb9d759f');
-
-        // Kent Removals - pass visitor context to agents
+        // Restore service_interest from session
         const initialServices = JSON.parse(sessionStorage.getItem('kentServices') || '[]');
-        cxone('chat', 'setCustomerCustomField', 'page_viewed', 'Kent Removals Homepage');
-        cxone('chat', 'setCustomerCustomField', 'service_interest', initialServices.join(', ') || 'Not yet selected');
-
-        // Kent Removals - widget size
-        cxone('guide', 'setDesiredGuideWidth', '400px');
-        cxone('guide', 'setDesiredGuideHeight', '40em');
-        cxone('chat', 'setWindowWidth', '400px');
-        cxone('chat', 'setWindowHeight', '700px');
-
-        // Kent Removals branding - Guide widget (buttons, menu, portal)
-        cxone('guide', 'setCustomCss', `
-            [data-selector="GUIDE_CHANNEL_BUTTON"] {
-                background: #1B2A4A !important;
-            }
-            [data-selector="PORTAL_HEADER_ICON"] {
-                display: none !important;
-            }
-            [data-selector="PORTAL_HEADER"] {
-                background: #FFFFFF url('logo.png') no-repeat center 12px !important;
-                background-size: 150px auto !important;
-                color: #1B2A4A !important;
-                border-bottom: 1px solid #e5e7eb !important;
-                padding-top: 70px !important;
-                padding-bottom: 8px !important;
-                overflow: visible !important;
-            }
-            [data-selector="PORTAL_TITLE"] {
-                display: none !important;
-            }
-            [data-selector="PORTAL_SUBTITLE"] {
-                display: none !important;
-            }
-            [data-selector="PORTAL_BODY"] {
-                background: #F7F5F2 !important;
-            }
-            [data-selector="CHANNELS_WIDGET"] {
-                background: #F7F5F2 !important;
-            }
-            [data-selector="KB_WIDGET"] {
-                background: #F7F5F2 !important;
-            }
-            [data-selector="KB_WIDGET_TITLE"] {
-                color: #1B2A4A !important;
-            }
-            [data-selector="KB_WIDGET_SEARCHBAR"] {
-                border-color: #1B2A4A !important;
-            }
-            [data-selector="KB_SEE_MORE_BUTTON"] {
-                color: #E8612D !important;
-            }
-            [data-selector="GUIDE_CHANNEL_BUTTON_1"],
-            [data-selector="GUIDE_CHANNEL_BUTTON_2"],
-            [data-selector="GUIDE_CHANNEL_BUTTON_3"],
-            [data-selector="GUIDE_CHANNEL_BUTTON_4"] {
-                color: #1B2A4A !important;
-            }
-            [data-selector="BEGIN_CHAT"] {
-                background: #E8612D !important;
-                color: #FFFFFF !important;
-            }
-            [data-selector="SEND_EMAIL"] {
-                background: #E8612D !important;
-                color: #FFFFFF !important;
-            }
-            [data-selector="OFFER_BUTTON_1"] {
-                background: #E8612D !important;
-                color: #FFFFFF !important;
-            }
-            [data-selector="GUIDE_FRAME_CONTENT"] {
-                border-radius: 12px !important;
-                overflow: hidden !important;
-            }
-        `);
-
-        // Kent Removals branding - Chat window
-        cxone('chat', 'setCustomCss', `
-            [data-selector="HEADER"] {
-                background: #1B2A4A !important;
-                color: #FFFFFF !important;
-            }
-            [data-selector="HEADER_MINIMIZE_WINDOW"] {
-                color: #FFFFFF !important;
-            }
-            [data-selector="HEADER_ACTION_MENU_BUTTON"] {
-                color: #FFFFFF !important;
-            }
-            [data-selector="CUSTOMER_MESSAGE_BUBBLE"] {
-                background: #1B2A4A !important;
-                color: #FFFFFF !important;
-            }
-            [data-selector="AGENT_MESSAGE_BUBBLE"] {
-                background: #F7F5F2 !important;
-                color: #1B2A4A !important;
-            }
-            [data-selector="SEND_BUTTON"] {
-                background: #E8612D !important;
-                color: #FFFFFF !important;
-            }
-            [data-selector="PRIMARY_BUTTON"] {
-                background: #E8612D !important;
-                color: #FFFFFF !important;
-                border-radius: 9999px !important;
-            }
-            [data-selector="SECONDARY_BUTTON"] {
-                border-color: #1B2A4A !important;
-                color: #1B2A4A !important;
-                border-radius: 9999px !important;
-            }
-            [data-selector="CONTENT"] {
-                background: #FFFFFF !important;
-            }
-            [data-selector="TEXTAREA"] {
-                border-color: #1B2A4A !important;
-            }
-            [data-selector="START_NEW_CHAT"] {
-                background: #E8612D !important;
-                color: #FFFFFF !important;
-                border-radius: 9999px !important;
-            }
-        `);
+    </script>
+    <script src="/shared/cxone-widget.js"></script>
+    <script>
+        // Set Kent-specific custom fields after widget loads
+        if (initialServices.length > 0) {
+            CXoneDemo.setCustomField('service_interest', initialServices.join(', '));
+        } else {
+            CXoneDemo.setCustomField('service_interest', 'Not yet selected');
+        }
     </script>
 </body>
 </html>
