@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CXone Demo Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,47 +15,119 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
+<body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+
+    <!-- Environment Banner -->
+    <div id="envBanner" class="hidden bg-amber-500 text-amber-950 text-center text-xs font-medium py-1"></div>
 
     <!-- Header -->
-    <header class="border-b border-gray-800">
-        <div class="max-w-5xl mx-auto px-6 py-10 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold tracking-tight">CXone Demo Hub</h1>
-            <p class="mt-3 text-gray-400 text-lg">Pick a demo to launch</p>
+    <header class="border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold tracking-tight">CXone Demo Hub</h1>
+                <p class="mt-1 text-gray-500 dark:text-gray-400">Pick a demo to launch</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <div id="statusDot" class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                    <span class="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-500"></span>
+                    <span>Checking…</span>
+                </div>
+                <button id="themeToggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition">
+                    <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+                <a href="/logout" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition" title="Logout">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </a>
+            </div>
         </div>
     </header>
 
     <!-- Demo Grid -->
     <main class="flex-1">
         <div class="max-w-5xl mx-auto px-6 py-12">
+            <!-- Search -->
+            <div class="mb-6">
+                <input id="searchInput" type="text" placeholder="Search demos…"
+                    class="w-full max-w-sm px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+
             <div id="demoGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Cards injected by JS -->
             </div>
 
-            <div id="loading" class="text-center text-gray-500 py-20">
-                <svg class="animate-spin h-8 w-8 mx-auto mb-4 text-gray-600" fill="none" viewBox="0 0 24 24">
+            <div id="loading" class="text-center text-gray-400 dark:text-gray-500 py-20">
+                <svg class="animate-spin h-8 w-8 mx-auto mb-4 text-gray-400 dark:text-gray-600" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                 </svg>
                 Loading demos…
             </div>
 
-            <div id="error" class="hidden text-center text-red-400 py-20">
+            <div id="error" class="hidden text-center text-red-500 dark:text-red-400 py-20">
                 Failed to load demos. Make sure the server is running.
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-800 py-8">
+    <footer class="border-t border-gray-200 dark:border-gray-800 py-8">
         <div class="max-w-5xl mx-auto px-6 text-center">
             <p class="text-gray-500 text-sm">
-                To add a new demo, copy the <code class="bg-gray-800 px-2 py-0.5 rounded text-gray-300">_template</code> folder into <code class="bg-gray-800 px-2 py-0.5 rounded text-gray-300">demos/</code> and customize.
+                To add a new demo, copy the <code class="bg-gray-200 dark:bg-gray-800 px-2 py-0.5 rounded text-gray-700 dark:text-gray-300">_template</code> folder into <code class="bg-gray-200 dark:bg-gray-800 px-2 py-0.5 rounded text-gray-700 dark:text-gray-300">demos/</code> and customize.
             </p>
         </div>
     </footer>
 
     <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            sunIcon.classList.remove('hidden');
+            moonIcon.classList.add('hidden');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            sunIcon.classList.toggle('hidden', isDark);
+            moonIcon.classList.toggle('hidden', !isDark);
+        });
+
+        // Search filtering
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('#demoGrid > a').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+
+        // Environment banner
+        fetch('/api/env').then(r => r.json()).then(d => {
+            if (d.env !== 'production') {
+                const banner = document.getElementById('envBanner');
+                banner.textContent = d.env.toUpperCase() + ' ENVIRONMENT';
+                banner.classList.remove('hidden');
+            }
+        }).catch(() => {});
+
+        // Health / status dot
+        fetch('/api/health').then(r => r.json()).then(d => {
+            const dot = document.getElementById('statusDot');
+            if (d.cxone === 'connected') {
+                dot.innerHTML = '<span class="w-2 h-2 rounded-full bg-green-500"></span><span>CXone Connected</span>';
+            } else {
+                dot.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500"></span><span>CXone Disconnected</span>';
+            }
+        }).catch(() => {});
+
+        // Load demos
         async function loadDemos() {
             const grid = document.getElementById('demoGrid');
             const loading = document.getElementById('loading');
@@ -84,18 +159,14 @@
                 grid.innerHTML = visible.map(demo => {
                     if (demo.slug === '__cx1__') {
                         const b = demo.branding;
+                        const thumbnail = b.thumbnail ? `<img src="${b.thumbnail}" alt="${demo.name}" class="w-full h-32 object-cover rounded-lg mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${b.primaryColor};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${b.accentColor};"></span></div></div>`;
                         return `
                             <a href="/cx1/"
-                               class="group block bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 hover:bg-gray-800/60 transition">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <div class="flex gap-1.5">
-                                        <span class="w-4 h-4 rounded-full border border-gray-700" style="background:${b.primaryColor};"></span>
-                                        <span class="w-4 h-4 rounded-full border border-gray-700" style="background:${b.accentColor};"></span>
-                                    </div>
-                                </div>
-                                <h2 class="text-lg font-semibold mb-1 group-hover:text-white transition">${demo.name}</h2>
-                                <p class="text-gray-400 text-sm mb-5 line-clamp-2">${demo.description}</p>
-                                <span class="text-sm font-medium text-blue-400 group-hover:text-blue-300 transition">
+                               class="group block bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 hover:border-gray-400 dark:hover:border-gray-600 hover:bg-gray-200/60 dark:hover:bg-gray-800/60 transition">
+                                ${thumbnail}
+                                <h2 class="text-lg font-semibold mb-1 group-hover:text-gray-900 dark:group-hover:text-white transition">${demo.name}</h2>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm mb-5 line-clamp-2">${demo.description}</p>
+                                <span class="text-sm font-medium text-blue-600 dark:text-blue-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition">
                                     Launch Demo &rarr;
                                 </span>
                             </a>
@@ -104,19 +175,15 @@
                     const b = demo.branding || {};
                     const primary = b.primaryColor || '#1a1a2e';
                     const accent = b.accentColor || '#e94560';
+                    const thumbnail = b.thumbnail ? `<img src="${b.thumbnail}" alt="${demo.name}" class="w-full h-32 object-cover rounded-lg mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${primary};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${accent};"></span></div></div>`;
 
                     return `
                         <a href="/demos/${demo.slug}/"
-                           class="group block bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 hover:bg-gray-800/60 transition">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="flex gap-1.5">
-                                    <span class="w-4 h-4 rounded-full border border-gray-700" style="background:${primary};"></span>
-                                    <span class="w-4 h-4 rounded-full border border-gray-700" style="background:${accent};"></span>
-                                </div>
-                            </div>
-                            <h2 class="text-lg font-semibold mb-1 group-hover:text-white transition">${demo.name}</h2>
-                            <p class="text-gray-400 text-sm mb-5 line-clamp-2">${demo.description || ''}</p>
-                            <span class="text-sm font-medium text-blue-400 group-hover:text-blue-300 transition">
+                           class="group block bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 hover:border-gray-400 dark:hover:border-gray-600 hover:bg-gray-200/60 dark:hover:bg-gray-800/60 transition">
+                            ${thumbnail}
+                            <h2 class="text-lg font-semibold mb-1 group-hover:text-gray-900 dark:group-hover:text-white transition">${demo.name}</h2>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mb-5 line-clamp-2">${demo.description || ''}</p>
+                            <span class="text-sm font-medium text-blue-600 dark:text-blue-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition">
                                 Launch Demo &rarr;
                             </span>
                         </a>

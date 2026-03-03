@@ -50,11 +50,18 @@ app.post('/auth', authLimiter, (req, res) => {
   res.status(401).json({ error: 'Invalid password' });
 });
 
+// Logout endpoint — must be before the auth middleware
+app.get('/logout', (req, res) => {
+  res.clearCookie(AUTH_COOKIE);
+  res.redirect('/');
+});
+
 // Protect everything except the auth endpoint and login page assets
 app.use((req, res, next) => {
   const password = process.env.CX1_PASSWORD;
   if (!password) return res.status(503).send('Site not configured');
   if (req.path === '/auth') return next();
+  if (req.path === '/logout') return next();
 
   const cookies = parseCookies(req.headers.cookie);
   if (cookies[AUTH_COOKIE] === authToken(password)) return next();
@@ -284,6 +291,19 @@ app.post('/api/video-callback', async (req, res) => {
     console.error('Video callback error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+});
+
+app.get('/api/health', async (req, res) => {
+  try {
+    const token = await getToken();
+    res.json({ status: 'ok', cxone: 'connected', env: process.env.NODE_ENV || 'development' });
+  } catch (error) {
+    res.json({ status: 'degraded', cxone: 'disconnected', env: process.env.NODE_ENV || 'development', error: 'CXone authentication failed' });
+  }
+});
+
+app.get('/api/env', (req, res) => {
+  res.json({ env: process.env.DEMO_ENV || process.env.NODE_ENV || 'development' });
 });
 
 app.listen(port, () => {
