@@ -107,8 +107,13 @@ app.get('/api/demos', (req, res) => {
   res.json(demos);
 });
 
-// Centralized token fetching — credentials stay server-side
+// Centralized token fetching — with caching
+let cachedToken = null;
+let tokenExpiresAt = 0;
+
 async function getToken() {
+  if (cachedToken && Date.now() < tokenExpiresAt) return cachedToken;
+
   const { CXONE_TOKEN_URL, CXONE_CLIENT_ID, CXONE_CLIENT_SECRET, CXONE_ACCESS_KEY, CXONE_SECRET_KEY } = process.env;
   const authString = Buffer.from(`${CXONE_CLIENT_ID}:${CXONE_CLIENT_SECRET}`).toString('base64');
 
@@ -128,11 +133,15 @@ async function getToken() {
 
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`Token fetch failed: ${response.status} - ${err}`);
+    console.error(`Token fetch failed: ${response.status} - ${err}`);
+    throw new Error('Failed to authenticate with CXone');
   }
 
   const data = await response.json();
-  return data.access_token;
+  cachedToken = data.access_token;
+  // Cache for 90% of expiry time (default 3600s), or 50 minutes as fallback
+  tokenExpiresAt = Date.now() + ((data.expires_in || 3600) * 0.9 * 1000);
+  return cachedToken;
 }
 
 // Queue a callback
@@ -152,8 +161,8 @@ app.post('/api/callback', async (req, res) => {
     if (response.ok) {
       res.status(200).json({ message: 'Callback request submitted successfully.' });
     } else {
-      const err = await response.text();
-      res.status(response.status).json({ error: `API error: ${err}` });
+      console.error('Callback API error:', response.status, await response.text());
+      res.status(502).json({ error: 'Callback request failed. Please try again.' });
     }
   } catch (error) {
     console.error('Callback error:', error);
@@ -161,14 +170,15 @@ app.post('/api/callback', async (req, res) => {
   }
 });
 
-let lastQuote = null;
+const lastQuotes = new Map(); // session-scoped: token -> quote
 
 // Create a Work Item (quote consultation callback)
 app.post('/api/work-item', async (req, res) => {
   const { name, phone, email, from, to, date, size, notes, moveType } = req.body;
   
-  // Save to memory for the 'Magic' Agent Dashboard bypass
-  lastQuote = { name, phone, email, from, to, date, size, notes, moveType };
+  // Save to memory scoped to session for the 'Magic' Agent Dashboard bypass
+  const sessionToken = parseCookies(req.headers.cookie)[AUTH_COOKIE];
+  if (sessionToken) lastQuotes.set(sessionToken, { name, phone, email, from, to, date, size, notes, moveType });
 
   if (!phone) return res.status(400).json({ error: 'phone is required' });
 
@@ -201,8 +211,8 @@ app.post('/api/work-item', async (req, res) => {
       const data = await response.json();
       res.status(200).json(data);
     } else {
-      const err = await response.text();
-      res.status(response.status).json({ error: `API error: ${err}` });
+      console.error('Work Item API error:', response.status, await response.text());
+      res.status(502).json({ error: 'Work item creation failed. Please try again.' });
     }
   } catch (error) {
     console.error('Work Item error:', error);
@@ -227,8 +237,8 @@ app.get('/api/studio-callback', async (req, res) => {
     if (response.ok) {
       res.status(200).send('OK');
     } else {
-      const err = await response.text();
-      res.status(response.status).send(err);
+      console.error('Studio callback API error:', response.status, await response.text());
+      res.status(502).send('Callback failed');
     }
   } catch (error) {
     console.error('Studio callback error:', error);
@@ -237,7 +247,9 @@ app.get('/api/studio-callback', async (req, res) => {
 });
 
 app.get('/api/last-quote', (req, res) => {
-  if (lastQuote) res.json(lastQuote);
+  const sessionToken = parseCookies(req.headers.cookie)[AUTH_COOKIE];
+  const quote = sessionToken && lastQuotes.get(sessionToken);
+  if (quote) res.json(quote);
   else res.status(404).send('No quotes found');
 });
 
@@ -265,8 +277,8 @@ app.post('/api/video-callback', async (req, res) => {
     if (response.ok) {
       res.status(200).json({ message: 'Video callback request submitted successfully.' });
     } else {
-      const err = await response.text();
-      res.status(response.status).json({ error: `API error: ${err}` });
+      console.error('Video callback API error:', response.status, await response.text());
+      res.status(502).json({ error: 'Video callback request failed. Please try again.' });
     }
   } catch (error) {
     console.error('Video callback error:', error);
