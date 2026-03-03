@@ -159,7 +159,7 @@
                 grid.innerHTML = visible.map(demo => {
                     if (demo.slug === '__cx1__') {
                         const b = demo.branding;
-                        const thumbnail = b.thumbnail ? `<img src="${b.thumbnail}" alt="${demo.name}" class="w-full h-32 object-cover rounded-lg mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${b.primaryColor};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${b.accentColor};"></span></div></div>`;
+                        const thumbnail = b.thumbnail ? `<img src="${b.thumbnail}" alt="${demo.name}" class="h-12 object-contain rounded mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${b.primaryColor};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${b.accentColor};"></span></div></div>`;
                         return `
                             <a href="/cx1/"
                                class="group block bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 hover:border-gray-400 dark:hover:border-gray-600 hover:bg-gray-200/60 dark:hover:bg-gray-800/60 transition">
@@ -175,7 +175,7 @@
                     const b = demo.branding || {};
                     const primary = b.primaryColor || '#1a1a2e';
                     const accent = b.accentColor || '#e94560';
-                    const thumbnail = demo.thumbnail ? `<img src="${demo.thumbnail}" alt="${demo.name}" class="w-full h-32 object-cover rounded-lg mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${primary};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${accent};"></span></div></div>`;
+                    const thumbnail = demo.thumbnail ? `<img src="${demo.thumbnail}" alt="${demo.name}" class="h-12 object-contain rounded mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${primary};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${accent};"></span></div></div>`;
 
                     return `
                         <a href="/demos/${demo.slug}/"

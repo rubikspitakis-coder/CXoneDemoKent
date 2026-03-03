@@ -86,6 +86,27 @@ app.get('/cx1/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'cx1-static', 'index.html'));
 });
 
+// Auto-detect thumbnail from demo folder
+const THUMB_NAMES = ['thumbnail.png', 'thumbnail.jpg', 'screenshot.png', 'screenshot.jpg', 'logo.png', 'logo.jpg', 'logo.svg'];
+const IMG_EXTS = new Set(['.png', '.jpg', '.jpeg', '.svg', '.webp', '.gif']);
+
+function findThumbnail(slug, config) {
+  if (config.thumbnail) return `/demos/${slug}/${config.thumbnail}`;
+  if (config.branding?.logoUrl) return `/demos/${slug}/${config.branding.logoUrl}`;
+
+  const demoDir = path.join(__dirname, 'demos', slug);
+  // Check common names first
+  for (const name of THUMB_NAMES) {
+    if (fs.existsSync(path.join(demoDir, name))) return `/demos/${slug}/${name}`;
+  }
+  // Fall back to first image file found
+  try {
+    const file = fs.readdirSync(demoDir).find(f => IMG_EXTS.has(path.extname(f).toLowerCase()));
+    if (file) return `/demos/${slug}/${file}`;
+  } catch {}
+  return null;
+}
+
 // List available demos
 app.get('/api/demos', (req, res) => {
   const demosDir = path.join(__dirname, 'demos');
@@ -104,7 +125,7 @@ app.get('/api/demos', (req, res) => {
         name: config.name,
         slug: entry.name,
         description: config.description,
-        thumbnail: config.thumbnail ? `/demos/${entry.name}/${config.thumbnail}` : null,
+        thumbnail: findThumbnail(entry.name, config),
         branding: config.branding || {}
       });
     } catch (e) {
