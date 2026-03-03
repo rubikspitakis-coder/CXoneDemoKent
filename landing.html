@@ -175,7 +175,7 @@
                     const b = demo.branding || {};
                     const primary = b.primaryColor || '#1a1a2e';
                     const accent = b.accentColor || '#e94560';
-                    const thumbnail = b.thumbnail ? `<img src="${b.thumbnail}" alt="${demo.name}" class="w-full h-32 object-cover rounded-lg mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${primary};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${accent};"></span></div></div>`;
+                    const thumbnail = demo.thumbnail ? `<img src="${demo.thumbnail}" alt="${demo.name}" class="w-full h-32 object-cover rounded-lg mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${primary};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${accent};"></span></div></div>`;
 
                     return `
                         <a href="/demos/${demo.slug}/"

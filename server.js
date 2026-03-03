@@ -104,6 +104,7 @@ app.get('/api/demos', (req, res) => {
         name: config.name,
         slug: entry.name,
         description: config.description,
+        thumbnail: config.thumbnail ? `/demos/${entry.name}/${config.thumbnail}` : null,
         branding: config.branding || {}
       });
     } catch (e) {
