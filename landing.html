@@ -73,7 +73,34 @@
                     return;
                 }
 
+                // Add CX1 Showcase as a standalone card
+                visible.push({
+                    name: 'CX1 Showcase',
+                    slug: '__cx1__',
+                    description: 'Interactive CXone feature showcase — explore capabilities in a single-page app.',
+                    branding: { primaryColor: '#6366f1', accentColor: '#22d3ee' }
+                });
+
                 grid.innerHTML = visible.map(demo => {
+                    if (demo.slug === '__cx1__') {
+                        const b = demo.branding;
+                        return `
+                            <a href="/cx1/"
+                               class="group block bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-600 hover:bg-gray-800/60 transition">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="flex gap-1.5">
+                                        <span class="w-4 h-4 rounded-full border border-gray-700" style="background:${b.primaryColor};"></span>
+                                        <span class="w-4 h-4 rounded-full border border-gray-700" style="background:${b.accentColor};"></span>
+                                    </div>
+                                </div>
+                                <h2 class="text-lg font-semibold mb-1 group-hover:text-white transition">${demo.name}</h2>
+                                <p class="text-gray-400 text-sm mb-5 line-clamp-2">${demo.description}</p>
+                                <span class="text-sm font-medium text-blue-400 group-hover:text-blue-300 transition">
+                                    Launch Demo &rarr;
+                                </span>
+                            </a>
+                        `;
+                    }
                     const b = demo.branding || {};
                     const primary = b.primaryColor || '#1a1a2e';
                     const accent = b.accentColor || '#e94560';

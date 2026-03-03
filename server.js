@@ -20,6 +20,12 @@ app.use('/shared', express.static(path.join(__dirname, 'shared')));
 // Demo static files
 app.use('/demos', express.static(path.join(__dirname, 'demos')));
 
+// CX1 Showcase SPA
+app.use('/cx1', express.static(path.join(__dirname, 'cx1-static')));
+app.get('/cx1/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'cx1-static', 'index.html'));
+});
+
 // List available demos
 app.get('/api/demos', (req, res) => {
   const demosDir = path.join(__dirname, 'demos');
