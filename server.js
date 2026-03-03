@@ -9,23 +9,12 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Landing page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'landing.html'));
-});
-
-// Shared assets
-app.use('/shared', express.static(path.join(__dirname, 'shared')));
-
-// Demo static files
-app.use('/demos', express.static(path.join(__dirname, 'demos')));
-
-// CX1 Showcase SPA — cookie-based password protection
+// Site-wide cookie-based password protection
 const crypto = require('crypto');
-const CX1_COOKIE = 'cx1_token';
+const AUTH_COOKIE = 'site_token';
 
-function cx1Token(password) {
-  return crypto.createHmac('sha256', password).update('cx1-auth').digest('hex').slice(0, 32);
+function authToken(password) {
+  return crypto.createHmac('sha256', password).update('site-auth').digest('hex').slice(0, 32);
 }
 
 function parseCookies(header) {
@@ -38,27 +27,42 @@ function parseCookies(header) {
   return cookies;
 }
 
-function cx1Auth(req, res, next) {
-  const password = process.env.CX1_PASSWORD;
-  if (!password) return next();
-
-  const cookies = parseCookies(req.headers.cookie);
-  if (cookies[CX1_COOKIE] === cx1Token(password)) return next();
-
-  res.sendFile(path.join(__dirname, 'cx1-login.html'));
-}
-
-app.post('/cx1/auth', (req, res) => {
+// Auth endpoint — must be before the middleware
+app.post('/auth', (req, res) => {
   const password = process.env.CX1_PASSWORD;
   if (!password || req.body.password === password) {
-    res.cookie(CX1_COOKIE, cx1Token(password), { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
+    res.cookie(AUTH_COOKIE, authToken(password), { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
     return res.json({ ok: true });
   }
   res.status(401).json({ error: 'Invalid password' });
 });
 
-app.use('/cx1', cx1Auth, express.static(path.join(__dirname, 'cx1-static')));
-app.get('/cx1/*', cx1Auth, (req, res) => {
+// Protect everything except the auth endpoint and login page assets
+app.use((req, res, next) => {
+  const password = process.env.CX1_PASSWORD;
+  if (!password) return next();
+  if (req.path === '/auth') return next();
+
+  const cookies = parseCookies(req.headers.cookie);
+  if (cookies[AUTH_COOKIE] === authToken(password)) return next();
+
+  res.sendFile(path.join(__dirname, 'cx1-login.html'));
+});
+
+// Landing page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'landing.html'));
+});
+
+// Shared assets
+app.use('/shared', express.static(path.join(__dirname, 'shared')));
+
+// Demo static files
+app.use('/demos', express.static(path.join(__dirname, 'demos')));
+
+// CX1 Showcase SPA
+app.use('/cx1', express.static(path.join(__dirname, 'cx1-static')));
+app.get('/cx1/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'cx1-static', 'index.html'));
 });
 
