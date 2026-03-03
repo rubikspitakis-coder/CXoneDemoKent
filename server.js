@@ -384,76 +384,157 @@ app.post('/api/diagnostics', async (req, res) => {
     });
   }
   
-  // 3. API endpoint checks (only if we have a token)
+  // 3. Token info
+  results.tokenInfo = null;
   if (token) {
-    // Check callback skill
-    const cbStart = Date.now();
+    results.tokenInfo = {
+      expiresIn: Math.max(0, Math.round((tokenExpiresAt - Date.now()) / 1000)),
+      cachedUntil: new Date(tokenExpiresAt).toISOString()
+    };
+  }
+
+  // 4. API endpoint checks (only if we have a token)
+  // Helper to check an endpoint with response time benchmarking
+  async function checkEndpoint(name, url, warnMs) {
+    const start = Date.now();
     try {
-      const skill = process.env.CXONE_CALLBACK_SKILL;
-      const callerId = process.env.CXONE_CALLER_ID;
-      if (!skill || !callerId) {
-        results.api.push({ name: 'Callback API', status: 'warn', detail: 'Skill ID or Caller ID not configured', ms: 0 });
-      } else {
-        // Try a GET to the skills endpoint or just verify the base URL is reachable
-        const testUrl = `${process.env.CXONE_API_BASE}/skills/${skill}`;
-        const resp = await fetch(testUrl, {
-          headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
-        });
-        if (resp.ok) {
-          results.api.push({ name: 'Callback API', status: 'pass', detail: `Skill ${skill} validated`, ms: Date.now() - cbStart });
-        } else {
-          results.api.push({ name: 'Callback API', status: 'warn', detail: `Skill endpoint returned ${resp.status}`, ms: Date.now() - cbStart });
-        }
+      const resp = await fetch(url, {
+        headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+      });
+      const ms = Date.now() - start;
+      if (resp.ok) {
+        const status = (warnMs && ms > warnMs) ? 'warn' : 'pass';
+        const detail = (warnMs && ms > warnMs) ? `OK but slow (${ms}ms > ${warnMs}ms threshold)` : `Validated`;
+        return { name, status, detail, ms };
       }
+      return { name, status: 'warn', detail: `Returned ${resp.status}`, ms };
     } catch (e) {
-      results.api.push({ name: 'Callback API', status: 'fail', detail: 'Could not reach callback API', ms: Date.now() - cbStart });
+      return { name, status: 'fail', detail: 'Could not reach endpoint', ms: Date.now() - start };
+    }
+  }
+
+  if (token) {
+    const apiBase = process.env.CXONE_API_BASE;
+    const SLOW_THRESHOLD = 2000;
+
+    // Callback skill check
+    const skill = process.env.CXONE_CALLBACK_SKILL;
+    if (!skill) {
+      results.api.push({ name: 'Callback Skill', status: 'warn', detail: 'Skill ID not configured', ms: 0 });
+    } else {
+      results.api.push(await checkEndpoint('Callback Skill', `${apiBase}/skills/${skill}`, SLOW_THRESHOLD));
     }
 
-    // Check work item POC
-    const wiStart = Date.now();
-    try {
-      const poc = process.env.CXONE_WORKITEM_POC;
-      if (!poc) {
-        results.api.push({ name: 'Work Item API', status: 'warn', detail: 'POC not configured', ms: 0 });
-      } else {
-        const testUrl = `${process.env.CXONE_API_BASE}/points-of-contact/${poc}`;
-        const resp = await fetch(testUrl, {
+    // Skill status & activity check
+    if (skill) {
+      const actStart = Date.now();
+      try {
+        const resp = await fetch(`${apiBase}/skills/activity`, {
           headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
         });
+        const ms = Date.now() - actStart;
         if (resp.ok) {
-          results.api.push({ name: 'Work Item API', status: 'pass', detail: `POC ${poc} validated`, ms: Date.now() - wiStart });
+          const data = await resp.json();
+          const skills = data.skillActivity || [];
+          const target = skills.find(s => String(s.skillId) === String(skill));
+          if (target) {
+            const isActive = target.isActive !== false && target.isActive !== 'False';
+            results.api.push({
+              name: 'Skill Status',
+              status: isActive ? 'pass' : 'warn',
+              detail: isActive ? `"${target.skillName}" is active` : `"${target.skillName}" is inactive`,
+              ms
+            });
+          } else {
+            results.api.push({ name: 'Skill Status', status: 'warn', detail: `Skill ${skill} not found in activity list`, ms });
+          }
         } else {
-          results.api.push({ name: 'Work Item API', status: 'warn', detail: `POC endpoint returned ${resp.status}`, ms: Date.now() - wiStart });
+          results.api.push({ name: 'Skill Status', status: 'warn', detail: `Activity endpoint returned ${resp.status}`, ms });
         }
+      } catch (e) {
+        results.api.push({ name: 'Skill Status', status: 'fail', detail: 'Could not check skill activity', ms: Date.now() - actStart });
       }
-    } catch (e) {
-      results.api.push({ name: 'Work Item API', status: 'fail', detail: 'Could not reach work item API', ms: Date.now() - wiStart });
     }
 
-    // Check video POC
-    const vidStart = Date.now();
-    try {
-      const poc = process.env.CXONE_VIDEO_POC;
-      if (!poc) {
-        results.api.push({ name: 'Video Work Item API', status: 'warn', detail: 'Video POC not configured', ms: 0 });
-      } else {
-        const testUrl = `${process.env.CXONE_API_BASE}/points-of-contact/${poc}`;
-        const resp = await fetch(testUrl, {
+    // Agent availability on callback skill
+    if (skill) {
+      const agStart = Date.now();
+      try {
+        const resp = await fetch(`${apiBase}/skills/${skill}/activity`, {
           headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
         });
+        const ms = Date.now() - agStart;
         if (resp.ok) {
-          results.api.push({ name: 'Video Work Item API', status: 'pass', detail: `POC ${poc} validated`, ms: Date.now() - vidStart });
+          const data = await resp.json();
+          const activity = data.skillActivity || data;
+          const available = activity.agentsAvailable || activity.AgentsAvailable || 0;
+          const loggedIn = activity.agentsLoggedIn || activity.AgentsLoggedIn || 0;
+          if (available > 0) {
+            results.api.push({ name: 'Agent Availability', status: 'pass', detail: `${available} agent(s) available, ${loggedIn} logged in`, ms });
+          } else if (loggedIn > 0) {
+            results.api.push({ name: 'Agent Availability', status: 'warn', detail: `${loggedIn} agent(s) logged in but none available`, ms });
+          } else {
+            results.api.push({ name: 'Agent Availability', status: 'fail', detail: 'No agents logged in on this skill', ms });
+          }
         } else {
-          results.api.push({ name: 'Video Work Item API', status: 'warn', detail: `POC endpoint returned ${resp.status}`, ms: Date.now() - vidStart });
+          results.api.push({ name: 'Agent Availability', status: 'warn', detail: `Agent check returned ${resp.status}`, ms });
         }
+      } catch (e) {
+        results.api.push({ name: 'Agent Availability', status: 'fail', detail: 'Could not check agent availability', ms: Date.now() - agStart });
       }
-    } catch (e) {
-      results.api.push({ name: 'Video Work Item API', status: 'fail', detail: 'Could not reach video API', ms: Date.now() - vidStart });
+    }
+
+    // Work item POC
+    const poc = process.env.CXONE_WORKITEM_POC;
+    if (!poc) {
+      results.api.push({ name: 'Work Item POC', status: 'warn', detail: 'POC not configured', ms: 0 });
+    } else {
+      results.api.push(await checkEndpoint('Work Item POC', `${apiBase}/points-of-contact/${poc}`, SLOW_THRESHOLD));
+    }
+
+    // Video POC
+    const vidPoc = process.env.CXONE_VIDEO_POC;
+    if (!vidPoc) {
+      results.api.push({ name: 'Video POC', status: 'warn', detail: 'Video POC not configured', ms: 0 });
+    } else {
+      results.api.push(await checkEndpoint('Video POC', `${apiBase}/points-of-contact/${vidPoc}`, SLOW_THRESHOLD));
     }
   } else {
-    results.api.push({ name: 'Callback API', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
-    results.api.push({ name: 'Work Item API', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
-    results.api.push({ name: 'Video Work Item API', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+    results.api.push({ name: 'Callback Skill', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+    results.api.push({ name: 'Skill Status', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+    results.api.push({ name: 'Agent Availability', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+    results.api.push({ name: 'Work Item POC', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+    results.api.push({ name: 'Video POC', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+  }
+
+  // 5. CXone widget reachability
+  results.widgets = [];
+  const demosDir2 = path.join(__dirname, 'demos');
+  if (fs.existsSync(demosDir2)) {
+    const entries2 = fs.readdirSync(demosDir2, { withFileTypes: true });
+    for (const entry of entries2) {
+      if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
+      const configPath = path.join(demosDir2, entry.name, 'demo.json');
+      if (!fs.existsSync(configPath)) continue;
+      try {
+        const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        if (config.cxone?.loaderUrl) {
+          const wStart = Date.now();
+          try {
+            const resp = await fetch(config.cxone.loaderUrl, { method: 'HEAD' });
+            const ms = Date.now() - wStart;
+            results.widgets.push({
+              name: config.name || entry.name,
+              status: resp.ok ? 'pass' : 'warn',
+              detail: resp.ok ? `Widget loader reachable (${resp.status})` : `Widget loader returned ${resp.status}`,
+              ms
+            });
+          } catch (e) {
+            results.widgets.push({ name: config.name || entry.name, status: 'fail', detail: 'Widget loader unreachable', ms: Date.now() - wStart });
+          }
+        }
+      } catch {}
+    }
   }
 
   // 4. Demo page checks

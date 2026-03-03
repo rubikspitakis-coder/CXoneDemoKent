@@ -145,7 +145,7 @@
                 </div>
             </section>
 
-            <!-- Authentication -->
+            <!-- Authentication & Token -->
             <section class="mb-8">
                 <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Authentication</h2>
                 <div class="space-y-2">
@@ -158,36 +158,38 @@
                         <span class="check-time text-xs text-gray-400"></span>
                     </div>
                 </div>
+                <!-- Token info card -->
+                <div id="tokenInfo" class="hidden mt-3 p-4 rounded-lg bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span class="text-sm font-medium text-indigo-700 dark:text-indigo-300">Token Info</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <span class="text-gray-500 dark:text-gray-400">Expires in</span>
+                            <div id="tokenExpiry" class="font-mono text-gray-900 dark:text-gray-100 mt-0.5">—</div>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 dark:text-gray-400">Cached until</span>
+                            <div id="tokenCachedUntil" class="font-mono text-gray-900 dark:text-gray-100 mt-0.5">—</div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <!-- API Endpoints -->
+            <!-- API Endpoints & Agent Checks -->
             <section class="mb-8">
-                <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">API Endpoints</h2>
-                <div class="space-y-2">
-                    <div class="check-item flex items-center gap-3 py-3 px-4 rounded-lg bg-gray-100 dark:bg-gray-800/50" data-check="callbackApi">
-                        <span class="status-icon w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-400"></span>
-                        <div class="flex-1">
-                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Callback API</div>
-                            <div class="check-detail text-xs text-gray-500 dark:text-gray-400">Skill validation</div>
-                        </div>
-                        <span class="check-time text-xs text-gray-400"></span>
-                    </div>
-                    <div class="check-item flex items-center gap-3 py-3 px-4 rounded-lg bg-gray-100 dark:bg-gray-800/50" data-check="workItemApi">
-                        <span class="status-icon w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-400"></span>
-                        <div class="flex-1">
-                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Work Item API</div>
-                            <div class="check-detail text-xs text-gray-500 dark:text-gray-400">POC validation</div>
-                        </div>
-                        <span class="check-time text-xs text-gray-400"></span>
-                    </div>
-                    <div class="check-item flex items-center gap-3 py-3 px-4 rounded-lg bg-gray-100 dark:bg-gray-800/50" data-check="videoApi">
-                        <span class="status-icon w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-400"></span>
-                        <div class="flex-1">
-                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Video Work Item API</div>
-                            <div class="check-detail text-xs text-gray-500 dark:text-gray-400">POC validation</div>
-                        </div>
-                        <span class="check-time text-xs text-gray-400"></span>
-                    </div>
+                <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">API Endpoints & Agents</h2>
+                <div id="apiChecks" class="space-y-2">
+                    <div class="text-sm text-gray-400 dark:text-gray-500 py-3 px-4">Waiting for check results…</div>
+                </div>
+            </section>
+
+            <!-- CXone Widget Reachability -->
+            <section class="mb-8">
+                <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">CXone Widget Reachability</h2>
+                <div id="widgetChecks" class="space-y-2">
+                    <div class="text-sm text-gray-400 dark:text-gray-500 py-3 px-4">Waiting for check results…</div>
                 </div>
             </section>
 
@@ -298,6 +300,11 @@
                 total++;
                 if (item.status === 'pass') passed++;
             }
+            // Count widget checks
+            for (const item of (data.widgets || [])) {
+                total++;
+                if (item.status === 'pass') passed++;
+            }
             // Count demo checks
             for (const d of (data.demos || [])) {
                 total++;
@@ -328,23 +335,58 @@
             }
         }
 
+        function renderDynamicChecks(containerId, items) {
+            const container = document.getElementById(containerId);
+            if (!items || items.length === 0) {
+                container.innerHTML = '<div class="text-sm text-gray-400 dark:text-gray-500 py-3 px-4">No checks available</div>';
+                return;
+            }
+            container.innerHTML = items.map(d => `
+                <div class="check-item flex items-center gap-3 py-3 px-4 rounded-lg bg-gray-100 dark:bg-gray-800/50">
+                    <span class="status-icon w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-400">
+                        ${d.status === 'pass' ? passSvg : d.status === 'fail' ? failSvg : d.status === 'warn' ? warnSvg : pendingSvg}
+                    </span>
+                    <div class="flex-1">
+                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">${d.name}</div>
+                        <div class="check-detail text-xs text-gray-500 dark:text-gray-400">${d.detail}</div>
+                    </div>
+                    <span class="check-time text-xs text-gray-400">${d.ms ? d.ms + ' ms' : ''}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderTokenInfo(tokenInfo) {
+            const el = document.getElementById('tokenInfo');
+            if (!tokenInfo) { el.classList.add('hidden'); return; }
+            el.classList.remove('hidden');
+
+            const mins = Math.floor(tokenInfo.expiresIn / 60);
+            const secs = tokenInfo.expiresIn % 60;
+            document.getElementById('tokenExpiry').textContent = `${mins}m ${secs}s`;
+
+            const cached = new Date(tokenInfo.cachedUntil);
+            document.getElementById('tokenCachedUntil').textContent = cached.toLocaleTimeString();
+        }
+
         function renderResults(data) {
-            // Environment vars (array with .key property)
+            // Environment vars
             for (const item of (data.env || [])) {
                 updateCheckItem(item.key, item.status, item.detail);
             }
 
-            // Auth (array)
+            // Auth
             for (const item of (data.auth || [])) {
                 updateCheckItem('tokenFetch', item.status, item.detail, item.ms);
             }
 
-            // APIs (array with .name property)
-            const apiNameMap = { 'Callback API': 'callbackApi', 'Work Item API': 'workItemApi', 'Video Work Item API': 'videoApi' };
-            for (const item of (data.api || [])) {
-                const key = apiNameMap[item.name];
-                if (key) updateCheckItem(key, item.status, item.detail, item.ms);
-            }
+            // Token info
+            renderTokenInfo(data.tokenInfo);
+
+            // API & agent checks (dynamic)
+            renderDynamicChecks('apiChecks', data.api || []);
+
+            // Widget reachability (dynamic)
+            renderDynamicChecks('widgetChecks', data.widgets || []);
 
             // Demo pages
             renderDemoChecks(data.demos || []);
@@ -368,8 +410,11 @@
                 el.querySelector('.check-time').textContent = '';
             });
 
-            // Reset demo section
+            // Reset dynamic sections
+            document.getElementById('apiChecks').innerHTML = '<div class="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 py-3 px-4">' + spinnerSvg + ' Checking APIs…</div>';
+            document.getElementById('widgetChecks').innerHTML = '<div class="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 py-3 px-4">' + spinnerSvg + ' Checking widgets…</div>';
             document.getElementById('demoChecks').innerHTML = '<div class="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 py-3 px-4">' + spinnerSvg + ' Checking demos…</div>';
+            document.getElementById('tokenInfo').classList.add('hidden');
 
             try {
                 const res = await fetch('/api/diagnostics', { method: 'POST' });
