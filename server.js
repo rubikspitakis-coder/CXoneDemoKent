@@ -20,21 +20,42 @@ app.use('/shared', express.static(path.join(__dirname, 'shared')));
 // Demo static files
 app.use('/demos', express.static(path.join(__dirname, 'demos')));
 
-// CX1 Showcase SPA — password protected
+// CX1 Showcase SPA — cookie-based password protection
+const crypto = require('crypto');
+const CX1_COOKIE = 'cx1_token';
+
+function cx1Token(password) {
+  return crypto.createHmac('sha256', password).update('cx1-auth').digest('hex').slice(0, 32);
+}
+
+function parseCookies(header) {
+  const cookies = {};
+  if (!header) return cookies;
+  header.split(';').forEach(c => {
+    const [k, ...v] = c.trim().split('=');
+    cookies[k] = v.join('=');
+  });
+  return cookies;
+}
+
 function cx1Auth(req, res, next) {
   const password = process.env.CX1_PASSWORD;
   if (!password) return next();
 
-  const auth = req.headers.authorization;
-  if (auth) {
-    const encoded = auth.split(' ')[1];
-    const [, pass] = Buffer.from(encoded, 'base64').toString().split(':');
-    if (pass === password) return next();
-  }
+  const cookies = parseCookies(req.headers.cookie);
+  if (cookies[CX1_COOKIE] === cx1Token(password)) return next();
 
-  res.set('WWW-Authenticate', 'Basic realm="CX1 Showcase"');
-  res.status(401).send('Authentication required');
+  res.sendFile(path.join(__dirname, 'cx1-login.html'));
 }
+
+app.post('/cx1/auth', (req, res) => {
+  const password = process.env.CX1_PASSWORD;
+  if (!password || req.body.password === password) {
+    res.cookie(CX1_COOKIE, cx1Token(password), { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
+    return res.json({ ok: true });
+  }
+  res.status(401).json({ error: 'Invalid password' });
+});
 
 app.use('/cx1', cx1Auth, express.static(path.join(__dirname, 'cx1-static')));
 app.get('/cx1/*', cx1Auth, (req, res) => {
