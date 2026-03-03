@@ -7,7 +7,8 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
+app.set('trust proxy', 1);
+app.use(express.json({ limit: '20kb' }));
 
 // Site-wide cookie-based password protection
 const crypto = require('crypto');
@@ -27,11 +28,23 @@ function parseCookies(header) {
   return cookies;
 }
 
+// Rate limit login attempts — 5 attempts per 15 minutes per IP
+const rateLimit = require('express-rate-limit');
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { error: 'Too many login attempts. Please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Auth endpoint — must be before the middleware
-app.post('/auth', (req, res) => {
+app.post('/auth', authLimiter, (req, res) => {
   const password = process.env.CX1_PASSWORD;
-  if (!password || req.body.password === password) {
-    res.cookie(AUTH_COOKIE, authToken(password), { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
+  if (!password) return res.status(500).json({ error: 'Auth not configured' });
+
+  if (req.body.password === password) {
+    res.cookie(AUTH_COOKIE, authToken(password), { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
     return res.json({ ok: true });
   }
   res.status(401).json({ error: 'Invalid password' });
@@ -40,7 +53,7 @@ app.post('/auth', (req, res) => {
 // Protect everything except the auth endpoint and login page assets
 app.use((req, res, next) => {
   const password = process.env.CX1_PASSWORD;
-  if (!password) return next();
+  if (!password) return res.status(503).send('Site not configured');
   if (req.path === '/auth') return next();
 
   const cookies = parseCookies(req.headers.cookie);
