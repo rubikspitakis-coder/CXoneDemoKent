@@ -74,6 +74,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'landing.html'));
 });
 
+// Diagnostics page
+app.get('/diagnostics', (req, res) => {
+  res.sendFile(path.join(__dirname, 'diagnostics.html'));
+});
+
 // Shared assets
 app.use('/shared', express.static(path.join(__dirname, 'shared')));
 
@@ -326,6 +331,161 @@ app.get('/api/health', async (req, res) => {
 
 app.get('/api/env', (req, res) => {
   res.json({ env: process.env.DEMO_ENV || process.env.NODE_ENV || 'development' });
+});
+
+app.post('/api/diagnostics', async (req, res) => {
+  const results = { env: [], auth: [], api: [], demos: [] };
+  
+  // 1. Environment variable checks
+  const requiredVars = [
+    { key: 'CXONE_TOKEN_URL', label: 'Token URL' },
+    { key: 'CXONE_CLIENT_ID', label: 'Client ID' },
+    { key: 'CXONE_CLIENT_SECRET', label: 'Client Secret' },
+    { key: 'CXONE_ACCESS_KEY', label: 'Access Key' },
+    { key: 'CXONE_SECRET_KEY', label: 'Secret Key' },
+    { key: 'CXONE_API_BASE', label: 'API Base URL' },
+    { key: 'CXONE_CALLER_ID', label: 'Caller ID' },
+    { key: 'CXONE_CALLBACK_SKILL', label: 'Callback Skill ID' },
+    { key: 'CXONE_WORKITEM_POC', label: 'Work Item POC' },
+    { key: 'CXONE_VIDEO_POC', label: 'Video POC' },
+  ];
+  
+  for (const v of requiredVars) {
+    const val = process.env[v.key];
+    results.env.push({
+      name: v.label,
+      key: v.key,
+      status: val ? 'pass' : 'fail',
+      detail: val ? 'Configured' : 'Not set',
+      ms: 0
+    });
+  }
+  
+  // 2. Authentication check
+  const authStart = Date.now();
+  let token = null;
+  try {
+    // Force fresh token for diagnostics
+    cachedToken = null;
+    tokenExpiresAt = 0;
+    token = await getToken();
+    results.auth.push({
+      name: 'Token Fetch',
+      status: 'pass',
+      detail: 'Successfully authenticated with CXone',
+      ms: Date.now() - authStart
+    });
+  } catch (e) {
+    results.auth.push({
+      name: 'Token Fetch',
+      status: 'fail',
+      detail: 'Authentication failed — check credentials',
+      ms: Date.now() - authStart
+    });
+  }
+  
+  // 3. API endpoint checks (only if we have a token)
+  if (token) {
+    // Check callback skill
+    const cbStart = Date.now();
+    try {
+      const skill = process.env.CXONE_CALLBACK_SKILL;
+      const callerId = process.env.CXONE_CALLER_ID;
+      if (!skill || !callerId) {
+        results.api.push({ name: 'Callback API', status: 'warn', detail: 'Skill ID or Caller ID not configured', ms: 0 });
+      } else {
+        // Try a GET to the skills endpoint or just verify the base URL is reachable
+        const testUrl = `${process.env.CXONE_API_BASE}/skills/${skill}`;
+        const resp = await fetch(testUrl, {
+          headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+        });
+        if (resp.ok) {
+          results.api.push({ name: 'Callback API', status: 'pass', detail: `Skill ${skill} validated`, ms: Date.now() - cbStart });
+        } else {
+          results.api.push({ name: 'Callback API', status: 'warn', detail: `Skill endpoint returned ${resp.status}`, ms: Date.now() - cbStart });
+        }
+      }
+    } catch (e) {
+      results.api.push({ name: 'Callback API', status: 'fail', detail: 'Could not reach callback API', ms: Date.now() - cbStart });
+    }
+
+    // Check work item POC
+    const wiStart = Date.now();
+    try {
+      const poc = process.env.CXONE_WORKITEM_POC;
+      if (!poc) {
+        results.api.push({ name: 'Work Item API', status: 'warn', detail: 'POC not configured', ms: 0 });
+      } else {
+        const testUrl = `${process.env.CXONE_API_BASE}/points-of-contact/${poc}`;
+        const resp = await fetch(testUrl, {
+          headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+        });
+        if (resp.ok) {
+          results.api.push({ name: 'Work Item API', status: 'pass', detail: `POC ${poc} validated`, ms: Date.now() - wiStart });
+        } else {
+          results.api.push({ name: 'Work Item API', status: 'warn', detail: `POC endpoint returned ${resp.status}`, ms: Date.now() - wiStart });
+        }
+      }
+    } catch (e) {
+      results.api.push({ name: 'Work Item API', status: 'fail', detail: 'Could not reach work item API', ms: Date.now() - wiStart });
+    }
+
+    // Check video POC
+    const vidStart = Date.now();
+    try {
+      const poc = process.env.CXONE_VIDEO_POC;
+      if (!poc) {
+        results.api.push({ name: 'Video Work Item API', status: 'warn', detail: 'Video POC not configured', ms: 0 });
+      } else {
+        const testUrl = `${process.env.CXONE_API_BASE}/points-of-contact/${poc}`;
+        const resp = await fetch(testUrl, {
+          headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+        });
+        if (resp.ok) {
+          results.api.push({ name: 'Video Work Item API', status: 'pass', detail: `POC ${poc} validated`, ms: Date.now() - vidStart });
+        } else {
+          results.api.push({ name: 'Video Work Item API', status: 'warn', detail: `POC endpoint returned ${resp.status}`, ms: Date.now() - vidStart });
+        }
+      }
+    } catch (e) {
+      results.api.push({ name: 'Video Work Item API', status: 'fail', detail: 'Could not reach video API', ms: Date.now() - vidStart });
+    }
+  } else {
+    results.api.push({ name: 'Callback API', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+    results.api.push({ name: 'Work Item API', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+    results.api.push({ name: 'Video Work Item API', status: 'fail', detail: 'Skipped — no auth token', ms: 0 });
+  }
+
+  // 4. Demo page checks
+  const demosDir = path.join(__dirname, 'demos');
+  if (fs.existsSync(demosDir)) {
+    const entries = fs.readdirSync(demosDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
+      const configPath = path.join(demosDir, entry.name, 'demo.json');
+      if (!fs.existsSync(configPath)) {
+        results.demos.push({ name: entry.name, slug: entry.name, status: 'fail', detail: 'Missing demo.json', ms: 0 });
+        continue;
+      }
+      try {
+        const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        const issues = [];
+        if (!config.name) issues.push('missing name');
+        if (!config.cxone?.brandId) issues.push('missing brandId');
+        if (!config.cxone?.guideId) issues.push('missing guideId');
+        
+        if (issues.length > 0) {
+          results.demos.push({ name: config.name || entry.name, slug: entry.name, status: 'warn', detail: issues.join(', '), ms: 0 });
+        } else {
+          results.demos.push({ name: config.name, slug: entry.name, status: 'pass', detail: 'Configuration valid', ms: 0 });
+        }
+      } catch (e) {
+        results.demos.push({ name: entry.name, slug: entry.name, status: 'fail', detail: 'Invalid demo.json: ' + e.message, ms: 0 });
+      }
+    }
+  }
+
+  res.json(results);
 });
 
 app.listen(port, () => {
