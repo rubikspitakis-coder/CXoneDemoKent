@@ -20,9 +20,24 @@ app.use('/shared', express.static(path.join(__dirname, 'shared')));
 // Demo static files
 app.use('/demos', express.static(path.join(__dirname, 'demos')));
 
-// CX1 Showcase SPA
-app.use('/cx1', express.static(path.join(__dirname, 'cx1-static')));
-app.get('/cx1/*', (req, res) => {
+// CX1 Showcase SPA — password protected
+function cx1Auth(req, res, next) {
+  const password = process.env.CX1_PASSWORD;
+  if (!password) return next();
+
+  const auth = req.headers.authorization;
+  if (auth) {
+    const encoded = auth.split(' ')[1];
+    const [, pass] = Buffer.from(encoded, 'base64').toString().split(':');
+    if (pass === password) return next();
+  }
+
+  res.set('WWW-Authenticate', 'Basic realm="CX1 Showcase"');
+  res.status(401).send('Authentication required');
+}
+
+app.use('/cx1', cx1Auth, express.static(path.join(__dirname, 'cx1-static')));
+app.get('/cx1/*', cx1Auth, (req, res) => {
   res.sendFile(path.join(__dirname, 'cx1-static', 'index.html'));
 });
 
