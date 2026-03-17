@@ -3,84 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Woollahra Municipal Council | Digital Portal</title>
+    <title>Woollahra Municipal Council | Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: "Inter", sans-serif; }
+        body { font-family: "Open Sans", sans-serif; }
+        .navy-bg { background-color: #002B49; }
+        .teal-text { color: #00838F; }
+        .top-task-card { 
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        .top-task-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            border-color: #00838F;
+        }
+        .top-task-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            margin-bottom: 1rem;
+            color: #00838F;
+        }
     </style>
 </head>
-<body class="bg-white text-slate-900 flex flex-col min-h-screen">
+<body class="bg-white text-slate-800 flex flex-col min-h-screen">
 
-    <div class="bg-[#002B49] text-white py-2 px-6 text-center text-[10px] md:text-xs font-medium tracking-wide uppercase">
-        Acknowledgement of Country: Gadigal and Birrabirragal people
+    <!-- Top Links Bar -->
+    <div class="bg-slate-100 py-1.5 px-6 md:px-12 flex justify-end gap-6 text-[11px] font-semibold text-slate-600 border-b border-slate-200">
+        <a href="#" class="hover:underline">Contact us</a>
+        <a href="#" class="hover:underline">News</a>
+        <a href="#" class="hover:underline">Events</a>
+        <a href="#" class="hover:underline">Careers</a>
     </div>
 
-    <section class="relative h-[300px] md:h-[400px] overflow-hidden">
+    <!-- Main Navbar -->
+    <nav class="bg-white py-6 px-6 md:px-12 flex justify-between items-center border-b border-slate-100 sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center gap-4 cursor-pointer">
+            <div class="flex flex-col leading-none">
+                <span class="text-2xl font-bold tracking-tight text-[#002B49]">Woollahra</span>
+                <span class="text-xs font-semibold uppercase tracking-widest text-slate-500 mt-0.5">Municipal Council</span>
+            </div>
+        </div>
+        <div class="hidden lg:flex gap-8 font-bold text-[#002B49] text-sm uppercase tracking-wider">
+            <a href="#" class="hover:text-[#00838F]">Council</a>
+            <a href="#" class="hover:text-[#00838F]">Services</a>
+            <a href="#" class="hover:text-[#00838F]">Building & Development</a>
+            <a href="#" class="hover:text-[#00838F]">Library</a>
+            <a href="#" class="hover:text-[#00838F]">Community</a>
+        </div>
+        <div class="flex items-center gap-3">
+             <button class="p-2 text-[#002B49] hover:bg-slate-100 rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-[450px] overflow-hidden">
         <img 
           src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1920&q=80" 
           alt="Woollahra Waterfront" 
           class="absolute inset-0 w-full h-full object-cover"
         />
-        <div class="absolute inset-0 bg-gradient-to-r from-[#002B49]/80 to-transparent"></div>
-        <div class="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 max-w-4xl">
-          <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            How can we help you <br/><span class="text-cyan-400">today?</span>
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center text-white">
+          <h1 class="text-4xl md:text-6xl font-bold mb-8 drop-shadow-lg">
+            What would you like to do today?
           </h1>
-          <div class="flex flex-wrap gap-4 mt-4">
-            <button 
-              onclick="CXoneDemo.openChat()"
-              class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold px-6 md:px-8 py-3 md:py-4 text-sm md:text-lg rounded-md flex items-center shadow-lg transition"
-            >
-              Chat with Lara
-            </button>
-            <button 
-              onclick="CXoneDemo.openCallbackModal()"
-              class="bg-white/10 hover:bg-white/20 text-white border border-white/40 backdrop-blur-md font-bold px-6 md:px-8 py-3 md:py-4 text-sm md:text-lg rounded-md flex items-center transition"
-            >
-              Request Callback
-            </button>
+          <div class="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+             <button onclick="CXoneDemo.openChat()" class="flex-1 bg-white text-[#002B49] font-bold py-4 px-8 rounded-md text-lg hover:bg-slate-100 transition shadow-xl">
+                Chat with Lara
+             </button>
+             <button onclick="CXoneDemo.openCallbackModal()" class="flex-1 bg-[#00838F] text-white font-bold py-4 px-8 rounded-md text-lg hover:bg-[#00606a] transition shadow-xl border-b-4 border-[#004D40]">
+                Request a Callback
+             </button>
           </div>
         </div>
     </section>
 
-    <section class="py-12 md:py-16 px-6 md:px-12 max-w-7xl mx-auto w-full">
-        <div class="flex items-center justify-between mb-8 md:mb-10">
-          <h2 class="text-2xl md:text-3xl font-bold text-[#002B49]">Top Tasks</h2>
-        </div>
-        
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            <div class="bg-white border border-slate-100 rounded-xl p-6 md:p-8 flex flex-col items-center text-center gap-4 hover:shadow-xl transition-all duration-300 group cursor-pointer">
-                <div class="bg-green-500 w-12 md:w-16 h-12 md:h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                    <svg class="h-6 md:h-8 w-6 md:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                </div>
-                <span class="font-bold text-slate-800 text-sm md:text-lg leading-tight">Waste & Recycling</span>
+    <!-- Acknowledgement of Country -->
+    <div class="bg-[#002B49] text-white py-3 px-6 text-center text-xs font-medium italic">
+        Woollahra Municipal Council acknowledges the Gadigal and Birrabirragal people who are the traditional custodians of this land.
+    </div>
+
+    <!-- Top Tasks Grid -->
+    <section class="py-16 px-6 md:px-12 max-w-7xl mx-auto w-full">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 border-l border-t border-slate-100">
+            <!-- Rates -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                <span class="font-bold text-[#002B49]">Rates</span>
             </div>
-            <div class="bg-white border border-slate-100 rounded-xl p-6 md:p-8 flex flex-col items-center text-center gap-4 hover:shadow-xl transition-all duration-300 group cursor-pointer">
-                <div class="bg-blue-500 w-12 md:w-16 h-12 md:h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                    <svg class="h-6 md:h-8 w-6 md:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-                </div>
-                <span class="font-bold text-slate-800 text-sm md:text-lg leading-tight">Pay Rates</span>
+            <!-- Waste -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                <span class="font-bold text-[#002B49]">Waste & recycling</span>
             </div>
-            <div class="bg-white border border-slate-100 rounded-xl p-6 md:p-8 flex flex-col items-center text-center gap-4 hover:shadow-xl transition-all duration-300 group cursor-pointer">
-                <div class="bg-orange-500 w-12 md:w-16 h-12 md:h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                    <svg class="h-6 md:h-8 w-6 md:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                </div>
-                <span class="font-bold text-slate-800 text-sm md:text-lg leading-tight">Report an Issue</span>
+            <!-- Report -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <span class="font-bold text-[#002B49]">Report an issue</span>
             </div>
-            <div class="bg-white border border-slate-100 rounded-xl p-6 md:p-8 flex flex-col items-center text-center gap-4 hover:shadow-xl transition-all duration-300 group cursor-pointer">
-                <div class="bg-purple-500 w-12 md:w-16 h-12 md:h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                    <svg class="h-6 md:h-8 w-6 md:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                </div>
-                <span class="font-bold text-slate-800 text-sm md:text-lg leading-tight">DA Tracking</span>
+            <!-- DAs -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span class="font-bold text-[#002B49]">DAs - Track & submit</span>
+            </div>
+            <!-- Parking -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                <span class="font-bold text-[#002B49]">Parking permits</span>
+            </div>
+            <!-- Trees -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                <span class="font-bold text-[#002B49]">Trees</span>
+            </div>
+            <!-- Payments -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <span class="font-bold text-[#002B49]">Online payments</span>
+            </div>
+            <!-- Library -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                <span class="font-bold text-[#002B49]">Library</span>
+            </div>
+            <!-- Venue Hire -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                <span class="font-bold text-[#002B49]">Venue hire</span>
+            </div>
+            <!-- Forms -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span class="font-bold text-[#002B49]">Forms</span>
+            </div>
+            <!-- Positions Vacant -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span class="font-bold text-[#002B49]">Positions vacant</span>
+            </div>
+            <!-- Map -->
+            <div class="top-task-card border-r border-b">
+                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                <span class="font-bold text-[#002B49]">What’s near me?</span>
             </div>
         </div>
     </section>
 
-    <footer class="mt-auto py-12 px-6 border-t border-slate-100 bg-slate-50 text-center text-slate-400 text-sm">
-        <p>© 2026 Woollahra Municipal Council. Digital Portal Demo.</p>
+    <!-- Footer -->
+    <footer class="bg-[#002B49] py-16 px-6 md:px-12 text-white/70 text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+            <div class="flex flex-col leading-none text-white">
+                <span class="text-2xl font-bold tracking-tight text-white">Woollahra</span>
+                <span class="text-xs font-semibold uppercase tracking-widest mt-0.5">Municipal Council</span>
+            </div>
+            <div class="flex gap-8">
+                <a href="#" class="hover:text-white transition">Privacy</a>
+                <a href="#" class="hover:text-white transition">Accessibility</a>
+                <a href="#" class="hover:text-white transition">Site map</a>
+            </div>
+            <p>© 2026 Woollahra Municipal Council. Proudly Harbourside.</p>
+        </div>
     </footer>
 
+    <!-- CXone Widget Config -->
     <script>
         window.DEMO_CONFIG = {
             name: "Woollahra Council",
@@ -98,7 +195,7 @@
                 logoUrl: "",
                 logoSize: "150px",
                 logoBgColor: "transparent",
-                borderRadius: "8px"
+                borderRadius: "4px"
             },
             callbackSuccessMessage: "Your callback request has been submitted. A Woollahra Council expert will call you shortly."
         };
