@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woollahra Municipal Council | Digital Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: "Inter", sans-serif; }
+    </style>
+</head>
+<body class="bg-white text-slate-900 flex flex-col min-h-screen">
+
+    <div class="bg-[#002B49] text-white py-2 px-6 text-center text-[10px] md:text-xs font-medium tracking-wide uppercase">
+        Acknowledgement of Country: Gadigal and Birrabirragal people
+    </div>
+
+    <section class="relative h-[300px] md:h-[400px] overflow-hidden">
+        <img 
+          src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1920&q=80" 
+          alt="Woollahra Waterfront" 
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-[#002B49]/80 to-transparent"></div>
+        <div class="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 max-w-4xl">
+          <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            How can we help you <br/><span class="text-cyan-400">today?</span>
+          </h1>
+          <div class="flex flex-wrap gap-4 mt-4">
+            <button 
+              onclick="CXoneDemo.openChat()"
+              class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold px-6 md:px-8 py-3 md:py-4 text-sm md:text-lg rounded-md flex items-center shadow-lg transition"
+            >
+              Chat with Lara
+            </button>
+            <button 
+              onclick="CXoneDemo.openCallbackModal()"
+              class="bg-white/10 hover:bg-white/20 text-white border border-white/40 backdrop-blur-md font-bold px-6 md:px-8 py-3 md:py-4 text-sm md:text-lg rounded-md flex items-center transition"
+            >
+              Request Callback
+            </button>
+          </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 px-6 md:px-12 max-w-7xl mx-auto w-full">
+        <div class="flex items-center justify-between mb-8 md:mb-10">
+          <h2 class="text-2xl md:text-3xl font-bold text-[#002B49]">Top Tasks</h2>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div class="bg-white border border-slate-100 rounded-xl p-6 md:p-8 flex flex-col items-center text-center gap-4 hover:shadow-xl transition-all duration-300 group cursor-pointer">
+                <div class="bg-green-500 w-12 md:w-16 h-12 md:h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <svg class="h-6 md:h-8 w-6 md:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </div>
+                <span class="font-bold text-slate-800 text-sm md:text-lg leading-tight">Waste & Recycling</span>
+            </div>
+            <div class="bg-white border border-slate-100 rounded-xl p-6 md:p-8 flex flex-col items-center text-center gap-4 hover:shadow-xl transition-all duration-300 group cursor-pointer">
+                <div class="bg-blue-500 w-12 md:w-16 h-12 md:h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <svg class="h-6 md:h-8 w-6 md:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                </div>
+                <span class="font-bold text-slate-800 text-sm md:text-lg leading-tight">Pay Rates</span>
+            </div>
+            <div class="bg-white border border-slate-100 rounded-xl p-6 md:p-8 flex flex-col items-center text-center gap-4 hover:shadow-xl transition-all duration-300 group cursor-pointer">
+                <div class="bg-orange-500 w-12 md:w-16 h-12 md:h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <svg class="h-6 md:h-8 w-6 md:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <span class="font-bold text-slate-800 text-sm md:text-lg leading-tight">Report an Issue</span>
+            </div>
+            <div class="bg-white border border-slate-100 rounded-xl p-6 md:p-8 flex flex-col items-center text-center gap-4 hover:shadow-xl transition-all duration-300 group cursor-pointer">
+                <div class="bg-purple-500 w-12 md:w-16 h-12 md:h-16 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                    <svg class="h-6 md:h-8 w-6 md:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="font-bold text-slate-800 text-sm md:text-lg leading-tight">DA Tracking</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="mt-auto py-12 px-6 border-t border-slate-100 bg-slate-50 text-center text-slate-400 text-sm">
+        <p>© 2026 Woollahra Municipal Council. Digital Portal Demo.</p>
+    </footer>
+
+    <script>
+        window.DEMO_CONFIG = {
+            name: "Woollahra Council",
+            pageName: "Woollahra Homepage",
+            cxone: {
+                brandId: "1092",
+                guideId: "bb179a83-f2c6-4fb8-a020-1af5eb9d759f",
+                loaderUrl: "https://web-modules-de-na1.niceincontact.com/loader/1/loader.js"
+            },
+            branding: {
+                primaryColor: "#002B49",
+                accentColor: "#00838F",
+                lightBg: "#F4F7F9",
+                contentBg: "#FFFFFF",
+                logoUrl: "",
+                logoSize: "150px",
+                logoBgColor: "transparent",
+                borderRadius: "8px"
+            },
+            callbackSuccessMessage: "Your callback request has been submitted. A Woollahra Council expert will call you shortly."
+        };
+    </script>
+    <script src="/shared/cxone-widget.js"></script>
+</body>
+</html>
