@@ -12,6 +12,7 @@
     "accentColor": "#00838F",
     "lightBg": "#F4F7F9",
     "contentBg": "#FFFFFF",
-    "borderRadius": "8px"
+    "borderRadius": "4px",
+    "logoUrl": "https://www.woollahra.nsw.gov.au/__data/assets/image/0011/215003/Woollahra-Council-Logo.png"
   }
 }
