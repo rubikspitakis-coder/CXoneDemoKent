@@ -1,4 +1,4 @@
-﻿@ {
+﻿{
   "name": "Woollahra Council",
   "slug": "woollahra",
   "description": "Digital portal for Woollahra Municipal Council featuring Lara (AI Chat) and Callback.",
@@ -15,4 +15,3 @@
     "borderRadius": "8px"
   }
 }
-@
