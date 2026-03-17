@@ -3,55 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Woollahra Municipal Council | Home</title>
+    <title>Woollahra Municipal Council</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: "Open Sans", sans-serif; }
-        .navy-text { color: #002B49; }
+        body { font-family: 'Open Sans', sans-serif; }
         .navy-bg { background-color: #002B49; }
-        .teal-text { color: #00838F; }
-        .top-task-card { 
-            border: 1px solid #e5e7eb;
-            transition: all 0.2s ease;
+        .navy-text { color: #002B49; }
+        .search-btn { background-color: #003B6F; }
+        .nav-link:hover { color: #00838F; }
+        .icon-card {
+            transition: all 0.2s;
             cursor: pointer;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2.5rem 1rem;
-            text-align: center;
         }
-        .top-task-card:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-            border-color: #002B49;
+        .icon-card:hover {
+            transform: translateY(-5px);
+            color: #00838F;
         }
-        .top-task-icon {
-            width: 3.5rem;
-            height: 3.5rem;
-            margin-bottom: 1.25rem;
-            color: #002B49;
+        .icon-card:hover .icon-circle {
+            background-color: #00838F;
+            color: white;
         }
-        .lara-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .lara-avatar:hover {
-            transform: scale(1.1);
+        .icon-circle {
+            background-color: #002B49;
+            color: white;
+            transition: all 0.2s;
         }
     </style>
 </head>
-<body class="bg-white text-slate-800 flex flex-col min-h-screen">
+<body class="bg-white text-slate-800">
 
-    <!-- Utility Bar -->
-    <div class="navy-bg py-2 px-6 md:px-12 flex justify-end gap-6 text-[11px] font-bold text-white uppercase tracking-wider">
+    <div class="navy-bg text-white py-2 px-4 md:px-12 text-sm font-semibold flex justify-end gap-6">
         <a href="#" class="hover:underline">Contact Us</a>
         <a href="#" class="hover:underline">Forms</a>
         <a href="#" class="hover:underline">Public Notices</a>
@@ -59,169 +42,125 @@
         <a href="#" class="hover:underline">Newsletters</a>
     </div>
 
-    <!-- Main Header -->
-    <header class="bg-white py-8 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto w-full">
-        <div class="flex items-center gap-6 mb-6 md:mb-0">
-            <img src="https://www.woollahra.nsw.gov.au/__data/assets/image/0011/215003/Woollahra-Council-Logo.png" alt="Woollahra Council" class="h-24 object-contain">
-            <div class="flex flex-col leading-tight">
-                <span class="text-3xl font-light tracking-tight navy-text">Woollahra</span>
-                <span class="text-3xl font-light tracking-tight navy-text">Municipal</span>
-                <span class="text-3xl font-light tracking-tight navy-text">Council</span>
+    <header class="py-8 px-4 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex items-center gap-4">
+            <img src="https://upload.wikimedia.org/wikipedia/en/d/d1/Woollahra_Municipal_Council_logo.svg" 
+                 onerror="this.src='https://placehold.co/100x100/002B49/FFF?text=WMC'; this.style.borderRadius='50%'"
+                 alt="Woollahra Municipal Council" 
+                 class="h-24 w-24 object-contain">
+            <div class="flex flex-col justify-center">
+                <span class="text-3xl text-[#002B49] leading-tight font-normal">Woollahra</span>
+                <span class="text-3xl text-[#002B49] leading-tight font-normal">Municipal</span>
+                <span class="text-3xl text-[#002B49] leading-tight font-normal">Council</span>
             </div>
         </div>
-        
-        <div class="flex items-center w-full md:w-auto max-w-md">
-            <div class="relative w-full flex">
-                <input type="text" placeholder="Looking for something?" class="flex-1 px-4 py-3 border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#002B49]/20 text-sm">
-                <button class="navy-bg text-white px-8 py-3 font-bold text-sm hover:opacity-90 transition uppercase tracking-widest">Search</button>
-            </div>
+
+        <div class="w-full max-w-lg flex">
+            <input type="text" placeholder="Looking for something?" 
+                   class="flex-1 border border-gray-300 px-4 py-3 text-lg focus:outline-none focus:border-[#002B49]">
+            <button class="search-btn text-white px-8 py-3 text-lg font-bold uppercase">Search</button>
         </div>
     </header>
 
-    <!-- Navigation -->
-    <nav class="border-y border-slate-100 bg-white py-4 px-6 md:px-12 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto flex flex-wrap justify-center md:justify-start items-center gap-x-10 gap-y-4">
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-sm flex items-center">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></path></svg>
-            </a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">Council</a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">Services</a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">Building & Development</a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">Library</a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">Community</a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">Environment</a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">Recreation</a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">News</a>
-            <a href="#" class="text-[#002B49] hover:text-[#00838F] font-bold text-[13px] uppercase tracking-wider transition-colors">Events</a>
+    <nav class="border-t border-b border-gray-200 py-4 px-4 md:px-12 mb-0">
+        <div class="flex flex-wrap items-center gap-8 font-bold text-[#002B49] text-[15px]">
+            <a href="#" class="nav-link"><i class="fas fa-home text-lg"></i></a>
+            <a href="#" class="nav-link">Council</a>
+            <a href="#" class="nav-link">Services</a>
+            <a href="#" class="nav-link">Building & Development</a>
+            <a href="#" class="nav-link">Library</a>
+            <a href="#" class="nav-link">Community</a>
+            <a href="#" class="nav-link">Environment</a>
+            <a href="#" class="nav-link">Recreation</a>
+            <a href="#" class="nav-link">News</a>
+            <a href="#" class="nav-link">Events</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative h-[400px] overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1920&q=80" 
-          alt="Woollahra Waterfront" 
-          class="absolute inset-0 w-full h-full object-cover"
-        />
-        <!-- Center Overlay Gradient -->
-        <div class="absolute inset-0 bg-black/10"></div>
-    </section>
-
-    <!-- Main Content Area -->
-    <main class="flex-1 max-w-7xl mx-auto w-full py-16 px-6 md:px-12">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold navy-text tracking-tight">What would you like to do today?</h1>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-0 border-l border-t border-slate-100">
-            <!-- Rates -->
-            <div class="top-task-card border-r border-b">
-                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-                <span class="font-bold navy-text text-sm">Rates</span>
-            </div>
-            <!-- Waste -->
-            <div class="top-task-card border-r border-b">
-                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                <span class="font-bold navy-text text-sm">Waste & recycling</span>
-            </div>
-            <!-- Report -->
-            <div class="top-task-card border-r border-b">
-                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                <span class="font-bold navy-text text-sm">Report an issue</span>
-            </div>
-            <!-- DAs -->
-            <div class="top-task-card border-r border-b">
-                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                <span class="font-bold navy-text text-sm">DAs - Track & submit</span>
-            </div>
-            <!-- Parking -->
-            <div class="top-task-card border-r border-b">
-                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                <span class="font-bold navy-text text-sm">Parking permits</span>
-            </div>
-            <!-- Library -->
-            <div class="top-task-card border-r border-b">
-                <svg class="top-task-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                <span class="font-bold navy-text text-sm">Library</span>
-            </div>
-        </div>
-
-        <div class="flex justify-center gap-6 mt-16">
-             <button onclick="CXoneDemo.openChat()" class="bg-white border-2 border-[#002B49] text-[#002B49] font-bold py-4 px-10 rounded-md text-lg hover:bg-slate-50 transition shadow-lg flex items-center">
-                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-                Chat with Lara
-             </button>
-             <button onclick="CXoneDemo.openCallbackModal()" class="bg-[#002B49] text-white font-bold py-4 px-10 rounded-md text-lg hover:bg-[#001a2d] transition shadow-lg flex items-center">
-                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                Request Callback
-             </button>
-        </div>
-    </main>
-
-    <!-- Acknowledgement Section -->
-    <section class="bg-slate-100 py-16 px-6 md:px-12 text-center">
-        <div class="max-w-4xl mx-auto">
-            <p class="italic text-slate-600 leading-relaxed">Woollahra Municipal Council acknowledges the Gadigal and Birrabirragal people who are the traditional custodians of this land and pay our respects to Elders past, present and emerging.</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="navy-bg py-16 px-6 md:px-12 text-white/70 text-sm">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-            <div class="flex flex-col gap-4">
-                <div class="flex flex-col leading-tight text-white mb-4">
-                    <span class="text-2xl font-light tracking-tight">Woollahra</span>
-                    <span class="text-2xl font-light tracking-tight">Municipal</span>
-                    <span class="text-2xl font-light tracking-tight">Council</span>
-                </div>
-                <div class="flex gap-4">
-                    <a href="#" class="hover:text-white transition">Privacy</a>
-                    <a href="#" class="hover:text-white transition">Accessibility</a>
-                    <a href="#" class="hover:text-white transition">Site map</a>
-                </div>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-xs">Contact Us</h4>
-                <p>536 New South Head Road</p>
-                <p>Double Bay NSW 2028</p>
-                <p class="mt-4 font-bold">02 9391 7000</p>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 text-center">
-            <p>© 2026 Woollahra Municipal Council.</p>
-        </div>
-    </footer>
-
-    <!-- Lara Floating Widget -->
-    <div class="fixed bottom-8 right-8 z-[100]">
-        <img src="https://www.woollahra.nsw.gov.au/__data/assets/image/0004/218992/Lara-Avatar.png" 
-             alt="Chat with Lara" 
-             class="lara-avatar"
-             onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Lara'"
-             onclick="CXoneDemo.openChat()">
+    <div class="w-full h-[400px] md:h-[500px] bg-gray-200 overflow-hidden relative group">
+        <img src="https://images.unsplash.com/photo-1598516885375-7b587640db71?auto=format&fit=crop&w=2000&q=80" 
+             alt="Sydney Harbour" 
+             class="w-full h-full object-cover">
     </div>
 
-    <!-- CXone Widget Config -->
+    <div class="max-w-7xl mx-auto py-16 px-4 text-center">
+        <h2 class="text-4xl font-bold text-[#002B49] mb-16">What would you like to do today?</h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 justify-items-center">
+            
+            <div class="icon-card flex flex-col items-center gap-4" onclick="CXoneDemo.openChat('I need help with waste collection')">
+                <div class="icon-circle w-20 h-20 flex items-center justify-center rounded-lg text-3xl">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <span class="font-bold text-[#002B49] text-lg">Waste &<br>recycling</span>
+            </div>
+
+            <div class="icon-card flex flex-col items-center gap-4" onclick="CXoneDemo.openChat('I want to pay my rates')">
+                <div class="icon-circle w-20 h-20 flex items-center justify-center rounded-lg text-3xl">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <span class="font-bold text-[#002B49] text-lg">Rates</span>
+            </div>
+
+            <div class="icon-card flex flex-col items-center gap-4" onclick="CXoneDemo.openCallbackModal()">
+                <div class="icon-circle w-20 h-20 flex items-center justify-center rounded-lg text-3xl">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <span class="font-bold text-[#002B49] text-lg">Report<br>an issue</span>
+            </div>
+
+            <div class="icon-card flex flex-col items-center gap-4">
+                <div class="icon-circle w-20 h-20 flex items-center justify-center rounded-lg text-3xl">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <span class="font-bold text-[#002B49] text-lg">Trees</span>
+            </div>
+
+            <div class="icon-card flex flex-col items-center gap-4">
+                <div class="icon-circle w-20 h-20 flex items-center justify-center rounded-lg text-3xl">
+                    <i class="fas fa-car"></i>
+                </div>
+                <span class="font-bold text-[#002B49] text-lg">Parking<br>permits</span>
+            </div>
+
+            <div class="icon-card flex flex-col items-center gap-4">
+                <div class="icon-circle w-20 h-20 flex items-center justify-center rounded-lg text-3xl">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <span class="font-bold text-[#002B49] text-lg">Clean Up<br>Dates</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-50">
+        <div class="relative group cursor-pointer" onclick="CXoneDemo.openChat()">
+            <div class="absolute -top-12 right-0 bg-white shadow-lg px-4 py-2 rounded-lg text-sm font-bold text-[#002B49] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                Chat with Lara
+            </div>
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Lara&backgroundColor=b6e3f4" 
+                 alt="Lara" 
+                 class="w-16 h-16 rounded-full border-4 border-white shadow-xl hover:scale-110 transition-transform">
+        </div>
+    </div>
+
     <script>
         window.DEMO_CONFIG = {
-            name: "Woollahra Council",
-            pageName: "Woollahra Homepage",
+            name: 'Woollahra Council',
+            pageName: 'Woollahra Homepage',
             cxone: {
-                brandId: "1092",
-                guideId: "bb179a83-f2c6-4fb8-a020-1af5eb9d759f",
-                loaderUrl: "https://web-modules-de-na1.niceincontact.com/loader/1/loader.js"
+                brandId: '1092',
+                guideId: 'bb179a83-f2c6-4fb8-a020-1af5eb9d759f',
+                loaderUrl: 'https://web-modules-de-na1.niceincontact.com/loader/1/loader.js'
             },
             branding: {
-                primaryColor: "#002B49",
-                accentColor: "#00838F",
-                lightBg: "#F4F7F9",
-                contentBg: "#FFFFFF",
-                logoUrl: "https://www.woollahra.nsw.gov.au/__data/assets/image/0011/215003/Woollahra-Council-Logo.png",
-                logoSize: "150px",
-                logoBgColor: "transparent",
-                borderRadius: "4px"
+                primaryColor: '#002B49',
+                accentColor: '#00838F',
+                lightBg: '#F4F7F9',
+                contentBg: '#FFFFFF',
+                borderRadius: '4px'
             },
-            callbackSuccessMessage: "Your callback request has been submitted. A Woollahra Council expert will call you shortly."
+            callbackSuccessMessage: 'Your callback request has been submitted. A Woollahra Council expert will call you shortly.'
         };
     </script>
     <script src="/shared/cxone-widget.js"></script>
