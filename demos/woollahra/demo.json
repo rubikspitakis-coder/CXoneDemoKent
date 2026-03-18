@@ -1,18 +1,20 @@
-﻿{
-  "name": "Woollahra Council",
+{
+  "name": "Woollahra Municipal Council",
   "slug": "woollahra",
-  "description": "Digital portal for Woollahra Municipal Council featuring Lara (AI Chat) and Callback.",
+  "description": "Local government digital portal for Woollahra Municipal Council, Sydney.",
+  "thumbnail": "logo.png",
   "cxone": {
     "brandId": "1092",
     "guideId": "bb179a83-f2c6-4fb8-a020-1af5eb9d759f",
     "loaderUrl": "https://web-modules-de-na1.niceincontact.com/loader/1/loader.js"
   },
   "branding": {
-    "primaryColor": "#002B49",
+    "primaryColor": "#1a2b4a",
     "accentColor": "#00838F",
     "lightBg": "#F4F7F9",
     "contentBg": "#FFFFFF",
     "borderRadius": "4px",
-    "logoUrl": "https://www.woollahra.nsw.gov.au/__data/assets/image/0011/215003/Woollahra-Council-Logo.png"
-  }
+    "logoUrl": "logo.png"
+  },
+  "callbackSuccessMessage": "Your callback request has been submitted. A Woollahra Council expert will call you shortly."
 }
