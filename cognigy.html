@@ -665,9 +665,9 @@
               </div>
               <div class="field-edit">
                 <select id="edit-membershipType">
-                  <option value="Associate">Associate</option>
-                  <option value="Member">Member</option>
-                  <option value="Fellow">Fellow</option>
+                  <option value="ASA">ASA — Associate</option>
+                  <option value="CPA">CPA — Certified Practising Accountant</option>
+                  <option value="FCPA">FCPA — Fellow CPA</option>
                   <option value="Student">Student</option>
                   <option value="Affiliate">Affiliate</option>
                   <option value="Life Member">Life Member</option>
@@ -781,7 +781,7 @@
       <!-- Side Panel — Cognigy Activity only -->
       <div class="side-panel">
         <div class="side-panel-header">
-          <span>Cognigy Activity</span>
+          <span>AI Activity</span>
           <div class="live-indicator">
             <div class="live-dot"></div>
             Live
@@ -790,7 +790,7 @@
         <div class="side-panel-body">
           <div class="activity-log" id="activityLog">
             <div class="activity-entry" style="color: var(--text-secondary); font-style: italic; font-size:12px;">
-              Waiting for Cognigy interaction…
+              Waiting for AI interaction…
             </div>
           </div>
         </div>
@@ -989,7 +989,7 @@
       if (data.phone !== DEMO_PHONE) return;
       flashFields(data.fields, 'read');
       const fieldList = data.fields.map(f => `<strong>${fieldLabel(f)}</strong>`).join(', ');
-      addActivity('👁', 'read', `Cognigy read ${fieldList}`);
+      addActivity('👁', 'read', `AI read ${fieldList}`);
     });
 
     es.addEventListener('member-updated', e => {
@@ -999,7 +999,7 @@
       const changedFields = Object.keys(data.changes);
       flashFields(changedFields, 'write');
       const fieldList = changedFields.map(f => `<strong>${fieldLabel(f)}</strong>`).join(', ');
-      addActivity('✏️', 'write', `Cognigy updated ${fieldList}`);
+      addActivity('✏️', 'write', `AI updated ${fieldList}`);
     });
 
     es.addEventListener('reset', e => {
