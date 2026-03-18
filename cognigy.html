@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPA Australia — Member Management Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            enterprise: {
+              50:  '#e6eef7',
+              100: '#ccddef',
+              200: '#99bbe0',
+              300: '#6699d0',
+              400: '#3377c1',
+              500: '#004a99',
+              600: '#003d80',
+              700: '#003066',
+              800: '#00234d',
+              900: '#001633',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    * { font-family: 'Inter', sans-serif; }
+
+    /* Flash animation for real-time updates */
+    @keyframes flash-green {
+      0%   { background-color: #dcfce7; }
+      30%  { background-color: #86efac; }
+      100% { background-color: transparent; }
+    }
+    .flash-update {
+      animation: flash-green 1.8s ease-out forwards;
+    }
+
+    /* Status badge colours */
+    .badge-active   { background: #dcfce7; color: #166534; }
+    .badge-pending  { background: #fef9c3; color: #854d0e; }
+    .badge-overdue  { background: #fee2e2; color: #991b1b; }
+
+    /* Membership type badge */
+    .badge-fcpa { background: #ede9fe; color: #5b21b6; }
+    .badge-cpa  { background: #dbeafe; color: #1e40af; }
+    .badge-asa  { background: #e0f2fe; color: #0369a1; }
+
+    /* Table hover */
+    tbody tr { transition: background 0.15s; }
+    tbody tr:hover { background: #f0f6ff; }
+
+    /* Sidebar active */
+    .nav-item { transition: all 0.15s; }
+    .nav-item:hover { background: rgba(255,255,255,0.12); }
+    .nav-item.active { background: rgba(255,255,255,0.18); border-left: 3px solid #fff; }
+
+    /* Card shadow */
+    .stat-card { box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,74,153,0.06); }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────────────────── -->
+  <aside class="w-64 min-h-screen flex flex-col" style="background: #004a99;">
+    <!-- Logo -->
+    <div class="px-6 py-6 border-b border-white/10">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
+          <svg viewBox="0 0 40 40" class="w-7 h-7" fill="none">
+            <rect width="40" height="40" rx="8" fill="#004a99"/>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="14" font-weight="700" font-family="Inter,sans-serif">CPA</text>
+          </svg>
+        </div>
+        <div>
+          <div class="text-white font-bold text-sm leading-tight">CPA Australia</div>
+          <div class="text-white/60 text-xs">Member Portal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 px-3 py-4 space-y-1">
+      <div class="text-white/40 text-xs font-semibold uppercase tracking-widest px-3 mb-3">Main Menu</div>
+
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 text-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Overview
+      </a>
+
+      <a href="#" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-lg text-white text-sm font-medium">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Member Management
+        <span class="ml-auto bg-white/20 text-white text-xs px-2 py-0.5 rounded-full" id="sidebar-count">3</span>
+      </a>
+
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 text-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        CPD Reporting
+      </a>
+
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 text-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Renewals
+      </a>
+
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 text-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Settings
+      </a>
+
+      <div class="text-white/40 text-xs font-semibold uppercase tracking-widest px-3 mt-5 mb-3">Cognigy Integration</div>
+
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 text-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Cognigy Demo
+        <span class="ml-auto flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+          <span class="text-white/50 text-xs">Live</span>
+        </span>
+      </a>
+    </nav>
+
+    <!-- Back to Hub -->
+    <div class="px-3 py-4 border-t border-white/10">
+      <a href="/" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/60 text-sm hover:text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Demo Hub
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────────────────────────── -->
+  <main class="flex-1 flex flex-col min-h-screen">
+
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-bold text-gray-900">Member Management Dashboard</h1>
+        <p class="text-sm text-gray-500 mt-0.5">Real-time CRM synchronised with Cognigy voice interactions</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Live indicator -->
+        <div class="flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-3 py-1.5">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          <span class="text-green-700 text-xs font-medium">Live Updates Active</span>
+        </div>
+        <!-- Reset button -->
+        <button id="btn-reset"
+          class="flex items-center gap-2 bg-enterprise-500 hover:bg-enterprise-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-sm"
+          onclick="resetDemo()">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          Reset Demo Data
+        </button>
+      </div>
+    </header>
+
+    <!-- Stats Row -->
+    <div class="px-8 py-6 grid grid-cols-4 gap-5">
+      <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Members</span>
+          <div class="w-8 h-8 rounded-lg bg-enterprise-50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-enterprise-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+        </div>
+        <div class="text-3xl font-bold text-gray-900" id="stat-total">—</div>
+        <div class="text-xs text-gray-400 mt-1">Registered members</div>
+      </div>
+
+      <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Active</span>
+          <div class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+        </div>
+        <div class="text-3xl font-bold text-gray-900" id="stat-active">—</div>
+        <div class="text-xs text-gray-400 mt-1">Current memberships</div>
+      </div>
+
+      <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Overdue</span>
+          <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+        </div>
+        <div class="text-3xl font-bold text-gray-900" id="stat-overdue">—</div>
+        <div class="text-xs text-gray-400 mt-1">Require attention</div>
+      </div>
+
+      <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Avg CPD Hours</span>
+          <div class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+        </div>
+        <div class="text-3xl font-bold text-gray-900" id="stat-cpd">—</div>
+        <div class="text-xs text-gray-400 mt-1">Across all members</div>
+      </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="px-8 pb-8 flex-1">
+      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+        <!-- Table Header -->
+        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-semibold text-gray-900">Member Register</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Rows flash green when updated by a Cognigy voice interaction</p>
+          </div>
+          <!-- Search -->
+          <div class="relative">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input id="search-input" type="text" placeholder="Search members…"
+              class="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-enterprise-300 focus:border-enterprise-400 w-56"
+              oninput="filterTable(this.value)" />
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-100">
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Member</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Phone</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Type</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">CPD Hours</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Notes</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Last Updated</th>
+              </tr>
+            </thead>
+            <tbody id="members-tbody">
+              <tr>
+                <td colspan="7" class="px-6 py-12 text-center text-gray-400">
+                  <div class="flex flex-col items-center gap-2">
+                    <svg class="w-8 h-8 text-gray-300 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                    Loading members…
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- API Reference Card -->
+      <div class="mt-6 bg-enterprise-900 rounded-xl p-6 text-white">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-lg bg-enterprise-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg class="w-5 h-5 text-enterprise-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-white mb-1">Cognigy API Endpoints</h3>
+            <p class="text-enterprise-300 text-sm mb-4">Configure these endpoints in your Cognigy flow to synchronise voice interactions with this dashboard in real time.</p>
+            <div class="grid grid-cols-3 gap-3">
+              <div class="bg-enterprise-800 rounded-lg p-3">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-xs font-bold text-green-400 bg-green-400/10 px-1.5 py-0.5 rounded">GET</span>
+                  <span class="text-xs text-enterprise-300 font-mono">/api/member/:phone</span>
+                </div>
+                <p class="text-xs text-enterprise-400">Look up a member by caller ID. Returns full member record as JSON.</p>
+              </div>
+              <div class="bg-enterprise-800 rounded-lg p-3">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-1.5 py-0.5 rounded">PATCH</span>
+                  <span class="text-xs text-enterprise-300 font-mono">/api/member/:phone</span>
+                </div>
+                <p class="text-xs text-enterprise-400">Update status, CPD hours, or notes. Triggers a real-time dashboard flash.</p>
+              </div>
+              <div class="bg-enterprise-800 rounded-lg p-3">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-xs font-bold text-blue-400 bg-blue-400/10 px-1.5 py-0.5 rounded">POST</span>
+                  <span class="text-xs text-enterprise-300 font-mono">/api/reset</span>
+                </div>
+                <p class="text-xs text-enterprise-400">Resets all member data to the initial seed state for demo purposes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Toast notification ──────────────────────────────────────────────── -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden">
+    <div class="bg-gray-900 text-white text-sm px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 max-w-xs">
+      <span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>
+      <span id="toast-msg"></span>
+    </div>
+  </div>
+
+  <script>
+    // ── State ─────────────────────────────────────────────────────────────────
+    let allMembers = [];
+    let searchTerm = '';
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function statusBadge(status) {
+      const cls = status === 'Active' ? 'badge-active' : status === 'Pending' ? 'badge-pending' : 'badge-overdue';
+      return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${cls}">${status}</span>`;
+    }
+
+    function typeBadge(type) {
+      const cls = type === 'FCPA' ? 'badge-fcpa' : type === 'CPA' ? 'badge-cpa' : 'badge-asa';
+      return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${cls}">${type}</span>`;
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '—';
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function cpdBar(hours) {
+      const max = 120;
+      const pct = Math.min(100, Math.round((hours / max) * 100));
+      const colour = pct >= 80 ? '#16a34a' : pct >= 50 ? '#2563eb' : '#d97706';
+      return `
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-gray-800 w-8 text-right">${hours}</span>
+          <div class="flex-1 bg-gray-100 rounded-full h-1.5 w-16">
+            <div class="h-1.5 rounded-full" style="width:${pct}%;background:${colour};"></div>
+          </div>
+        </div>`;
+    }
+
+    function rowHtml(m) {
+      return `
+        <tr id="row-${m.id}" data-phone="${m.phone}" class="border-b border-gray-50">
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
+                   style="background:#004a99;">
+                ${m.firstName[0]}${m.lastName[0]}
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">${m.firstName} ${m.lastName}</div>
+                <div class="text-xs text-gray-400">${m.id.slice(0,8)}…</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-gray-600 font-mono text-xs">${m.phone}</td>
+          <td class="px-6 py-4">${typeBadge(m.membershipType)}</td>
+          <td class="px-6 py-4" id="status-${m.id}">${statusBadge(m.status)}</td>
+          <td class="px-6 py-4" id="cpd-${m.id}">${cpdBar(m.cpdHours)}</td>
+          <td class="px-6 py-4 text-gray-500 text-xs max-w-xs truncate" id="notes-${m.id}" title="${m.notes}">${m.notes || '—'}</td>
+          <td class="px-6 py-4 text-gray-400 text-xs whitespace-nowrap" id="updated-${m.id}">${formatDate(m.lastUpdated)}</td>
+        </tr>`;
+    }
+
+    // ── Render table ──────────────────────────────────────────────────────────
+    function renderTable(members) {
+      const tbody = document.getElementById('members-tbody');
+      const filtered = searchTerm
+        ? members.filter(m =>
+            `${m.firstName} ${m.lastName} ${m.phone} ${m.membershipType} ${m.status}`.toLowerCase().includes(searchTerm))
+        : members;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="px-6 py-10 text-center text-gray-400 text-sm">No members found.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = filtered.map(rowHtml).join('');
+    }
+
+    // ── Update stats ──────────────────────────────────────────────────────────
+    function updateStats(members) {
+      document.getElementById('stat-total').textContent = members.length;
+      document.getElementById('stat-active').textContent = members.filter(m => m.status === 'Active').length;
+      document.getElementById('stat-overdue').textContent = members.filter(m => m.status === 'Overdue').length;
+      const avg = members.length ? Math.round(members.reduce((s, m) => s + m.cpdHours, 0) / members.length) : 0;
+      document.getElementById('stat-cpd').textContent = avg;
+      document.getElementById('sidebar-count').textContent = members.length;
+    }
+
+    // ── Filter ────────────────────────────────────────────────────────────────
+    function filterTable(val) {
+      searchTerm = val.toLowerCase().trim();
+      renderTable(allMembers);
+    }
+
+    // ── Load members ──────────────────────────────────────────────────────────
+    async function loadMembers() {
+      try {
+        const r = await fetch('/api/members');
+        if (!r.ok) throw new Error('API error');
+        allMembers = await r.json();
+        renderTable(allMembers);
+        updateStats(allMembers);
+      } catch (e) {
+        document.getElementById('members-tbody').innerHTML =
+          `<tr><td colspan="7" class="px-6 py-10 text-center text-red-400 text-sm">Failed to load members. Please check the database connection.</td></tr>`;
+      }
+    }
+
+    // ── Reset demo ────────────────────────────────────────────────────────────
+    async function resetDemo() {
+      const btn = document.getElementById('btn-reset');
+      btn.disabled = true;
+      btn.textContent = 'Resetting…';
+      try {
+        const r = await fetch('/api/reset', { method: 'POST' });
+        const data = await r.json();
+        if (data.members) {
+          allMembers = data.members;
+          renderTable(allMembers);
+          updateStats(allMembers);
+          showToast('Demo data has been reset to initial state.');
+        }
+      } catch (e) {
+        showToast('Reset failed — please try again.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Reset Demo Data`;
+      }
+    }
+
+    // ── Toast ─────────────────────────────────────────────────────────────────
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      t.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.add('hidden'), 3500);
+    }
+
+    // ── SSE: real-time updates ─────────────────────────────────────────────────
+    function connectSSE() {
+      const es = new EventSource('/api/member-events');
+
+      // Single member update
+      es.onmessage = (e) => {
+        try {
+          const updated = JSON.parse(e.data);
+          // Update in allMembers array
+          const idx = allMembers.findIndex(m => m.id === updated.id);
+          if (idx !== -1) {
+            allMembers[idx] = updated;
+          } else {
+            allMembers.push(updated);
+          }
+          updateStats(allMembers);
+
+          // If row exists in DOM, update it in-place and flash
+          const row = document.getElementById(`row-${updated.id}`);
+          if (row) {
+            document.getElementById(`status-${updated.id}`).innerHTML = statusBadge(updated.status);
+            document.getElementById(`cpd-${updated.id}`).innerHTML = cpdBar(updated.cpdHours);
+            document.getElementById(`notes-${updated.id}`).textContent = updated.notes || '—';
+            document.getElementById(`notes-${updated.id}`).title = updated.notes || '';
+            document.getElementById(`updated-${updated.id}`).textContent = formatDate(updated.lastUpdated);
+            // Flash the row green
+            row.classList.remove('flash-update');
+            void row.offsetWidth; // force reflow
+            row.classList.add('flash-update');
+            showToast(`${updated.firstName} ${updated.lastName}'s record has been updated.`);
+          } else {
+            // New member — re-render
+            renderTable(allMembers);
+          }
+        } catch (_) {}
+      };
+
+      // Full reset event
+      es.addEventListener('reset', (e) => {
+        try {
+          allMembers = JSON.parse(e.data);
+          renderTable(allMembers);
+          updateStats(allMembers);
+        } catch (_) {}
+      });
+
+      es.onerror = () => {
+        // Reconnect after 5s
+        es.close();
+        setTimeout(connectSSE, 5000);
+      };
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    loadMembers();
+    connectSSE();
+  </script>
+</body>
+</html>

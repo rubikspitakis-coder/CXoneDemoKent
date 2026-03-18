@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MembershipType {
+  ASA
+  CPA
+  FCPA
+}
+
+model Member {
+  id             String         @id @default(uuid())
+  phone          String         @unique
+  firstName      String
+  lastName       String
+  membershipType MembershipType
+  status         String         @default("Active")
+  cpdHours       Int            @default(0)
+  lastUpdated    DateTime       @updatedAt
+  notes          String         @default("")
+}

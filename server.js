@@ -4,6 +4,60 @@ const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
 
+// ─── Prisma Client ───────────────────────────────────────────────────────────
+let prisma = null;
+try {
+  const { PrismaClient } = require('@prisma/client');
+  prisma = new PrismaClient();
+  console.log('[Prisma] Client initialised');
+} catch (e) {
+  console.warn('[Prisma] Client not available — Cognigy Demo API will be disabled:', e.message);
+}
+
+// ─── SSE: Member Events ──────────────────────────────────────────────────────
+// Stores active SSE response objects keyed by a unique connection ID
+const sseClients = new Set();
+
+function broadcastMemberUpdate(member) {
+  const data = JSON.stringify(member);
+  for (const res of sseClients) {
+    try { res.write(`data: ${data}\n\n`); } catch (_) {}
+  }
+}
+
+// Seed data factory — always returns the canonical initial state
+function seedMembers() {
+  return [
+    {
+      phone: '+61416012160',
+      firstName: 'Rubik',
+      lastName: 'Pitakis',
+      membershipType: 'FCPA',
+      status: 'Overdue',
+      cpdHours: 112,
+      notes: 'Awaiting 2026 renewal.'
+    },
+    {
+      phone: '+61400000002',
+      firstName: 'Sarah',
+      lastName: 'Thompson',
+      membershipType: 'CPA',
+      status: 'Active',
+      cpdHours: 45,
+      notes: 'Enrolled in Ethics webinar.'
+    },
+    {
+      phone: '+61400000003',
+      firstName: 'Michael',
+      lastName: 'Chen',
+      membershipType: 'ASA',
+      status: 'Pending',
+      cpdHours: 12,
+      notes: 'Foundation exams in progress.'
+    }
+  ];
+}
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -567,6 +621,103 @@ app.post('/api/diagnostics', async (req, res) => {
   }
 
   res.json(results);
+});
+
+// ─── Cognigy Demo: SSE endpoint ─────────────────────────────────────────────
+app.get('/api/member-events', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
+  res.flushHeaders();
+
+  // Send a heartbeat comment every 25s to keep the connection alive
+  const heartbeat = setInterval(() => {
+    try { res.write(': heartbeat\n\n'); } catch (_) {}
+  }, 25000);
+
+  sseClients.add(res);
+
+  req.on('close', () => {
+    clearInterval(heartbeat);
+    sseClients.delete(res);
+  });
+});
+
+// ─── Cognigy Demo: GET member by phone ──────────────────────────────────────
+app.get('/api/member/:phone', async (req, res) => {
+  if (!prisma) return res.status(503).json({ error: 'Database not available' });
+  try {
+    const member = await prisma.member.findUnique({
+      where: { phone: decodeURIComponent(req.params.phone) }
+    });
+    if (!member) return res.status(404).json({ error: 'Member not found' });
+    res.json(member);
+  } catch (e) {
+    console.error('[GET /api/member]', e);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// ─── Cognigy Demo: PATCH member by phone ────────────────────────────────────
+app.patch('/api/member/:phone', async (req, res) => {
+  if (!prisma) return res.status(503).json({ error: 'Database not available' });
+  const { status, cpdHours, notes } = req.body;
+  const updateData = {};
+  if (status !== undefined) updateData.status = status;
+  if (cpdHours !== undefined) updateData.cpdHours = parseInt(cpdHours, 10);
+  if (notes !== undefined) updateData.notes = notes;
+
+  try {
+    const member = await prisma.member.update({
+      where: { phone: decodeURIComponent(req.params.phone) },
+      data: updateData
+    });
+    broadcastMemberUpdate(member);
+    res.json(member);
+  } catch (e) {
+    if (e.code === 'P2025') return res.status(404).json({ error: 'Member not found' });
+    console.error('[PATCH /api/member]', e);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// ─── Cognigy Demo: GET all members ──────────────────────────────────────────
+app.get('/api/members', async (req, res) => {
+  if (!prisma) return res.status(503).json({ error: 'Database not available' });
+  try {
+    const members = await prisma.member.findMany({ orderBy: { lastName: 'asc' } });
+    res.json(members);
+  } catch (e) {
+    console.error('[GET /api/members]', e);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// ─── Cognigy Demo: POST reset ────────────────────────────────────────────────
+app.post('/api/reset', async (req, res) => {
+  if (!prisma) return res.status(503).json({ error: 'Database not available' });
+  try {
+    await prisma.member.deleteMany();
+    const seeds = seedMembers();
+    for (const s of seeds) {
+      await prisma.member.create({ data: s });
+    }
+    const members = await prisma.member.findMany({ orderBy: { lastName: 'asc' } });
+    // Broadcast a full reset event
+    for (const res2 of sseClients) {
+      try { res2.write(`event: reset\ndata: ${JSON.stringify(members)}\n\n`); } catch (_) {}
+    }
+    res.json({ ok: true, members });
+  } catch (e) {
+    console.error('[POST /api/reset]', e);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// ─── Cognigy Demo: Serve dashboard page ─────────────────────────────────────
+app.get('/cognigy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'cognigy.html'));
 });
 
 app.listen(port, () => {

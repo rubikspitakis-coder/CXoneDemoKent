@@ -159,7 +159,31 @@
                     branding: { primaryColor: '#6366f1', accentColor: '#22d3ee' }
                 });
 
+                // Add Cognigy Demo as a standalone card
+                visible.push({
+                    name: 'Cognigy Demo',
+                    slug: '__cognigy__',
+                    description: 'CPA Australia Member Management Dashboard — real-time CRM synchronised with Cognigy voice interactions.',
+                    branding: { primaryColor: '#004a99', accentColor: '#0077cc' }
+                });
+
                 grid.innerHTML = visible.map(demo => {
+                    if (demo.slug === '__cognigy__') {
+                        const b = demo.branding;
+                        return `
+                            <a href="/cognigy"
+                               class="group block bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 hover:border-gray-400 dark:hover:border-gray-600 hover:bg-gray-200/60 dark:hover:bg-gray-800/60 transition">
+                                <div class="flex items-center gap-3 mb-4">
+                                  <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style="background:#004a99;">CPA</div>
+                                </div>
+                                <h2 class="text-lg font-semibold mb-1 group-hover:text-gray-900 dark:group-hover:text-white transition">${demo.name}</h2>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm mb-5 line-clamp-2">${demo.description}</p>
+                                <span class="text-sm font-medium text-blue-600 dark:text-blue-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition">
+                                    Launch Demo &rarr;
+                                </span>
+                            </a>
+                        `;
+                    }
                     if (demo.slug === '__cx1__') {
                         const b = demo.branding;
                         const thumbnail = b.thumbnail ? `<img src="${b.thumbnail}" alt="${demo.name}" class="h-12 object-contain rounded mb-4">` : `<div class="flex items-center gap-3 mb-4"><div class="flex gap-1.5"><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${b.primaryColor};"></span><span class="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" style="background:${b.accentColor};"></span></div></div>`;

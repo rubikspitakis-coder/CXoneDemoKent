@@ -2,12 +2,15 @@
   "name": "cxone-demo-kent",
   "version": "1.0.0",
   "scripts": {
+    "build": "npx prisma generate && npx prisma db push --accept-data-loss",
     "start": "node server.js"
   },
   "dependencies": {
+    "@prisma/client": "^6.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "express-rate-limit": "^8.2.1",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "prisma": "^6.0.0"
   }
 }
