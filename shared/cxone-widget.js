@@ -27,11 +27,18 @@
   cxone('init', cx.brandId);
   cxone('guide', 'init', cx.guideId);
 
-  // ─── 2. Widget sizing ────────────────────────────────────────────────────────
+  // ─── 2. Widget sizing & launcher position ──────────────────────────────────
   cxone('guide', 'setDesiredGuideWidth', '400px');
   cxone('guide', 'setDesiredGuideHeight', '40em');
   cxone('chat', 'setWindowWidth', '400px');
   cxone('chat', 'setWindowHeight', '700px');
+
+  // Push the floating channel buttons away from the screen edges
+  cxone('guide', 'setOffsetX', '24px');  // horizontal gap from right edge
+  cxone('guide', 'setOffsetY', '24px');  // vertical gap from bottom edge
+
+  // Set a comfortable button size
+  cxone('guide', 'setButtonSize', '56px');
 
   // ─── 3. Page context ─────────────────────────────────────────────────────────
   if (config.pageName) {
