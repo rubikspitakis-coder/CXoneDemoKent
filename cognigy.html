@@ -961,23 +961,64 @@
     });
   }
 
-  // ── Activity log ──────────────────────────────────────────────────────────
+  // ── Activity log (localStorage-persisted) ───────────────────────────────
+  const ACTIVITY_KEY = 'crm_activity_log';
+  const MAX_ENTRIES  = 20;
+
+  function loadStoredActivities() {
+    try { return JSON.parse(localStorage.getItem(ACTIVITY_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  function saveStoredActivities(entries) {
+    try { localStorage.setItem(ACTIVITY_KEY, JSON.stringify(entries.slice(0, MAX_ENTRIES))); }
+    catch { /* storage full — ignore */ }
+  }
+
+  function renderActivityEntry(entry) {
+    const el = document.createElement('div');
+    el.className = 'activity-entry';
+    el.innerHTML = `
+      <div class="activity-icon ${entry.iconClass}">${entry.icon}</div>
+      <div class="activity-text">
+        ${entry.html}
+        <div class="activity-time">${entry.time}</div>
+      </div>`;
+    return el;
+  }
+
+  function restoreActivityLog() {
+    const log = document.getElementById('activityLog');
+    const entries = loadStoredActivities();
+    if (entries.length === 0) return; // keep placeholder
+    // Remove placeholder
+    const placeholder = log.querySelector('[style*="italic"]');
+    if (placeholder) placeholder.remove();
+    entries.forEach(e => log.appendChild(renderActivityEntry(e)));
+  }
+
   function addActivity(icon, iconClass, html) {
     const log = document.getElementById('activityLog');
     const placeholder = log.querySelector('[style*="italic"]');
     if (placeholder) placeholder.remove();
 
     const now = new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const entry = document.createElement('div');
-    entry.className = 'activity-entry';
-    entry.innerHTML = `
-      <div class="activity-icon ${iconClass}">${icon}</div>
-      <div class="activity-text">
-        ${html}
-        <div class="activity-time">${now}</div>
-      </div>`;
-    log.prepend(entry);
-    while (log.children.length > 10) log.removeChild(log.lastChild);
+    const entry = { icon, iconClass, html, time: now };
+
+    // Prepend to DOM
+    log.prepend(renderActivityEntry(entry));
+    while (log.children.length > MAX_ENTRIES) log.removeChild(log.lastChild);
+
+    // Persist
+    const stored = loadStoredActivities();
+    stored.unshift(entry);
+    saveStoredActivities(stored);
+  }
+
+  function clearActivityLog() {
+    localStorage.removeItem(ACTIVITY_KEY);
+    const log = document.getElementById('activityLog');
+    log.innerHTML = `<div class="activity-entry" style="color: var(--text-secondary); font-style: italic; font-size:12px;">Waiting for AI interaction…</div>`;
   }
 
   // ── SSE ───────────────────────────────────────────────────────────────────
@@ -1030,6 +1071,7 @@
     try {
       const r = await fetch('/api/reset', { method: 'POST' });
       if (!r.ok) throw new Error('Reset failed');
+      clearActivityLog();
       showToast('Demo data reset');
       addActivity('↺', 'reset', 'Demo data reset to initial state');
     } catch (e) {
@@ -1047,6 +1089,7 @@
 
   // ── Init ──────────────────────────────────────────────────────────────────
   async function init() {
+    restoreActivityLog();
     try {
       const r = await fetch(`/api/member/${encodeURIComponent(DEMO_PHONE)}`);
       if (r.status === 404) {
