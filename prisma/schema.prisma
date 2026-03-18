@@ -14,13 +14,21 @@ enum MembershipType {
 }
 
 model Member {
-  id             String         @id @default(uuid())
-  phone          String         @unique
-  firstName      String
-  lastName       String
-  membershipType MembershipType
-  status         String         @default("Active")
-  cpdHours       Int            @default(0)
-  lastUpdated    DateTime       @updatedAt
-  notes          String         @default("")
+  id                   String         @id @default(uuid())
+  phone                String         @unique
+  firstName            String
+  lastName             String
+  email                String         @default("")
+  company              String         @default("")
+  jobTitle             String         @default("")
+  membershipType       MembershipType
+  status               String         @default("Active")
+  cpdHours             Int            @default(0)
+  cpdTarget            Int            @default(120)
+  renewalDate          String         @default("")
+  lastContactDate      String         @default("")
+  preferredChannel     String         @default("Phone")
+  outstandingBalance   Float          @default(0)
+  notes                String         @default("")
+  lastUpdated          DateTime       @updatedAt
 }

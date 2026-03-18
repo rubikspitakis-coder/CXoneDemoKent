@@ -18,10 +18,10 @@ try {
 // Stores active SSE response objects keyed by a unique connection ID
 const sseClients = new Set();
 
-function broadcastMemberUpdate(member) {
-  const data = JSON.stringify(member);
+function broadcastEvent(eventName, payload) {
+  const data = JSON.stringify(payload);
   for (const res of sseClients) {
-    try { res.write(`data: ${data}\n\n`); } catch (_) {}
+    try { res.write(`event: ${eventName}\ndata: ${data}\n\n`); } catch (_) {}
   }
 }
 
@@ -35,7 +35,14 @@ function seedMembers() {
       membershipType: 'FCPA',
       status: 'Overdue',
       cpdHours: 112,
-      notes: 'Awaiting 2026 renewal.'
+      notes: 'Awaiting 2026 renewal.',
+      email: 'rubik.pitakis@example.com.au',
+      jobTitle: 'Chief Financial Officer',
+      company: 'Pitakis Group Pty Ltd',
+      renewalDate: '31 Mar 2026',
+      outstandingBalance: 450.00,
+      preferredChannel: 'Phone',
+      lastContactDate: '12 Feb 2026'
     },
     {
       phone: '+61400000002',
@@ -44,7 +51,14 @@ function seedMembers() {
       membershipType: 'CPA',
       status: 'Active',
       cpdHours: 45,
-      notes: 'Enrolled in Ethics webinar.'
+      notes: 'Enrolled in Ethics webinar.',
+      email: 'sarah.thompson@example.com.au',
+      jobTitle: 'Senior Accountant',
+      company: 'Thompson & Associates',
+      renewalDate: '30 Jun 2026',
+      outstandingBalance: 0.00,
+      preferredChannel: 'Email',
+      lastContactDate: '28 Jan 2026'
     },
     {
       phone: '+61400000003',
@@ -53,7 +67,14 @@ function seedMembers() {
       membershipType: 'ASA',
       status: 'Pending',
       cpdHours: 12,
-      notes: 'Foundation exams in progress.'
+      notes: 'Foundation exams in progress.',
+      email: 'michael.chen@example.com.au',
+      jobTitle: 'Graduate Accountant',
+      company: 'Chen Advisory',
+      renewalDate: '30 Sep 2026',
+      outstandingBalance: 220.00,
+      preferredChannel: 'SMS',
+      lastContactDate: '05 Mar 2026'
     }
   ];
 }
@@ -648,10 +669,16 @@ app.get('/api/member-events', (req, res) => {
 app.get('/api/member/:phone', async (req, res) => {
   if (!prisma) return res.status(503).json({ error: 'Database not available' });
   try {
-    const member = await prisma.member.findUnique({
-      where: { phone: decodeURIComponent(req.params.phone) }
-    });
+    const phone = decodeURIComponent(req.params.phone);
+    const member = await prisma.member.findUnique({ where: { phone } });
     if (!member) return res.status(404).json({ error: 'Member not found' });
+
+    // Broadcast a read event so the dashboard can highlight fields
+    const readFields = req.query.fields
+      ? req.query.fields.split(',')
+      : ['status', 'cpdHours', 'membershipType', 'renewalDate', 'outstandingBalance'];
+    broadcastEvent('member-read', { phone, fields: readFields });
+
     res.json(member);
   } catch (e) {
     console.error('[GET /api/member]', e);
@@ -662,18 +689,34 @@ app.get('/api/member/:phone', async (req, res) => {
 // ─── Cognigy Demo: PATCH member by phone ────────────────────────────────────
 app.patch('/api/member/:phone', async (req, res) => {
   if (!prisma) return res.status(503).json({ error: 'Database not available' });
-  const { status, cpdHours, notes } = req.body;
+
+  // Accept any updatable field from the request body
+  const ALLOWED = ['status', 'cpdHours', 'notes', 'email', 'jobTitle', 'company',
+    'renewalDate', 'outstandingBalance', 'preferredChannel', 'lastContactDate'];
   const updateData = {};
-  if (status !== undefined) updateData.status = status;
-  if (cpdHours !== undefined) updateData.cpdHours = parseInt(cpdHours, 10);
-  if (notes !== undefined) updateData.notes = notes;
+  const changes = {};
+  for (const field of ALLOWED) {
+    if (req.body[field] !== undefined) {
+      const val = field === 'cpdHours' ? parseInt(req.body[field], 10)
+        : field === 'outstandingBalance' ? parseFloat(req.body[field])
+        : req.body[field];
+      updateData[field] = val;
+      changes[field] = val;
+    }
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    return res.status(400).json({ error: 'No valid fields to update' });
+  }
 
   try {
+    const phone = decodeURIComponent(req.params.phone);
     const member = await prisma.member.update({
-      where: { phone: decodeURIComponent(req.params.phone) },
+      where: { phone },
       data: updateData
     });
-    broadcastMemberUpdate(member);
+    // Broadcast named event with changed fields for targeted highlighting
+    broadcastEvent('member-updated', { phone, member, changes });
     res.json(member);
   } catch (e) {
     if (e.code === 'P2025') return res.status(404).json({ error: 'Member not found' });
@@ -705,9 +748,7 @@ app.post('/api/reset', async (req, res) => {
     }
     const members = await prisma.member.findMany({ orderBy: { lastName: 'asc' } });
     // Broadcast a full reset event
-    for (const res2 of sseClients) {
-      try { res2.write(`event: reset\ndata: ${JSON.stringify(members)}\n\n`); } catch (_) {}
-    }
+    broadcastEvent('reset', members);
     res.json({ ok: true, members });
   } catch (e) {
     console.error('[POST /api/reset]', e);
