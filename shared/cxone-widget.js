@@ -51,23 +51,18 @@
     : 'background: #FFFFFF !important;';
 
   cxone('guide', 'setCustomCss', [
-    // ── Floating launcher bubble ──────────────────────────────────────────────
-    '[data-selector="GUIDE_CHANNEL_BUTTON"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; box-shadow: 0 4px 16px rgba(0,0,0,0.25) !important; border-radius: 50% !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON"]:hover { background: ' + br.accentColor + ' !important; }',
-    // Icon inside the launcher bubble
-    '[data-selector="GUIDE_CHANNEL_ICON"] { color: #FFFFFF !important; fill: #FFFFFF !important; }',
-    '[data-selector="GUIDE_CHANNEL_MENU_ICON"] { color: #FFFFFF !important; fill: #FFFFFF !important; }',
-    // The main menu toggle button (if separate from GUIDE_CHANNEL_BUTTON)
-    '[data-selector="GUIDE_MENU_BUTTON"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; box-shadow: 0 4px 16px rgba(0,0,0,0.25) !important; }',
-    '[data-selector="GUIDE_MENU_BUTTON"] svg { color: #FFFFFF !important; fill: #FFFFFF !important; }',
-    // ── Individual channel buttons in the expanded menu ───────────────────────
-    '[data-selector="GUIDE_CHANNEL_BUTTON_1"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON_2"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON_3"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON_4"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON_1"]:hover, [data-selector="GUIDE_CHANNEL_BUTTON_2"]:hover, [data-selector="GUIDE_CHANNEL_BUTTON_3"]:hover, [data-selector="GUIDE_CHANNEL_BUTTON_4"]:hover { background: ' + br.accentColor + ' !important; }',
-    // Force all SVG icons inside channel buttons to white
-    '[data-selector="GUIDE_CHANNEL_BUTTON_1"] svg, [data-selector="GUIDE_CHANNEL_BUTTON_2"] svg, [data-selector="GUIDE_CHANNEL_BUTTON_3"] svg, [data-selector="GUIDE_CHANNEL_BUTTON_4"] svg { color: #FFFFFF !important; fill: #FFFFFF !important; }',
+    // ── Floating launcher bubble — white bg so default green icon shows cleanly ─
+    '[data-selector="GUIDE_CHANNEL_BUTTON"] { background: #FFFFFF !important; color: ' + br.primaryColor + ' !important; box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important; border-radius: 50% !important; border: 2px solid #e5e7eb !important; }',
+    // Icon inside the launcher bubble — keep default colours (don\'t override)
+    '[data-selector="GUIDE_CHANNEL_ICON"] { }',
+    '[data-selector="GUIDE_CHANNEL_MENU_ICON"] { }',
+    // The main menu toggle button
+    '[data-selector="GUIDE_MENU_BUTTON"] { background: #FFFFFF !important; color: ' + br.primaryColor + ' !important; box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important; border: 2px solid #e5e7eb !important; }',
+    // ── Individual channel buttons in the expanded menu — white bg ────────────
+    '[data-selector="GUIDE_CHANNEL_BUTTON_1"] { background: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; border: 2px solid #e5e7eb !important; }',
+    '[data-selector="GUIDE_CHANNEL_BUTTON_2"] { background: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; border: 2px solid #e5e7eb !important; }',
+    '[data-selector="GUIDE_CHANNEL_BUTTON_3"] { background: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; border: 2px solid #e5e7eb !important; }',
+    '[data-selector="GUIDE_CHANNEL_BUTTON_4"] { background: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; border: 2px solid #e5e7eb !important; }',
     // ── Portal / widget panel ─────────────────────────────────────────────────
     '[data-selector="PORTAL_HEADER_ICON"] { display: none !important; }',
     '[data-selector="PORTAL_HEADER"] { ' + logoRule + ' color: ' + br.primaryColor + ' !important; border-bottom: 1px solid #e5e7eb !important; }',
