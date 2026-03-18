@@ -31,7 +31,7 @@
   cxone('guide', 'setDesiredGuideWidth', '400px');
   cxone('guide', 'setDesiredGuideHeight', '40em');
   cxone('chat', 'setWindowWidth', '400px');
-  cxone('chat', 'setWindowHeight', '700px');
+  cxone('chat', 'setWindowHeight', '85vh');
 
   // Push the floating channel buttons away from the screen edges
   cxone('guide', 'setOffsetX', '24px');  // horizontal gap from right edge
