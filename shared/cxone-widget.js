@@ -51,18 +51,6 @@
     : 'background: #FFFFFF !important;';
 
   cxone('guide', 'setCustomCss', [
-    // ── Floating launcher bubble — white bg so default green icon shows cleanly ─
-    '[data-selector="GUIDE_CHANNEL_BUTTON"] { background: #FFFFFF !important; color: ' + br.primaryColor + ' !important; box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important; border-radius: 50% !important; border: 2px solid #e5e7eb !important; }',
-    // Icon inside the launcher bubble — keep default colours (don\'t override)
-    '[data-selector="GUIDE_CHANNEL_ICON"] { }',
-    '[data-selector="GUIDE_CHANNEL_MENU_ICON"] { }',
-    // The main menu toggle button
-    '[data-selector="GUIDE_MENU_BUTTON"] { background: #FFFFFF !important; color: ' + br.primaryColor + ' !important; box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important; border: 2px solid #e5e7eb !important; }',
-    // ── Individual channel buttons in the expanded menu — white bg ────────────
-    '[data-selector="GUIDE_CHANNEL_BUTTON_1"] { background: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; border: 2px solid #e5e7eb !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON_2"] { background: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; border: 2px solid #e5e7eb !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON_3"] { background: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; border: 2px solid #e5e7eb !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON_4"] { background: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; border: 2px solid #e5e7eb !important; }',
     // ── Portal / widget panel ─────────────────────────────────────────────────
     '[data-selector="PORTAL_HEADER_ICON"] { display: none !important; }',
     '[data-selector="PORTAL_HEADER"] { ' + logoRule + ' color: ' + br.primaryColor + ' !important; border-bottom: 1px solid #e5e7eb !important; }',
