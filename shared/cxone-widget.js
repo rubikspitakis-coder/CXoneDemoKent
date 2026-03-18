@@ -51,7 +51,24 @@
     : 'background: #FFFFFF !important;';
 
   cxone('guide', 'setCustomCss', [
-    '[data-selector="GUIDE_CHANNEL_BUTTON"] { background: ' + br.primaryColor + ' !important; }',
+    // ── Floating launcher bubble ──────────────────────────────────────────────
+    '[data-selector="GUIDE_CHANNEL_BUTTON"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; box-shadow: 0 4px 16px rgba(0,0,0,0.25) !important; border-radius: 50% !important; }',
+    '[data-selector="GUIDE_CHANNEL_BUTTON"]:hover { background: ' + br.accentColor + ' !important; }',
+    // Icon inside the launcher bubble
+    '[data-selector="GUIDE_CHANNEL_ICON"] { color: #FFFFFF !important; fill: #FFFFFF !important; }',
+    '[data-selector="GUIDE_CHANNEL_MENU_ICON"] { color: #FFFFFF !important; fill: #FFFFFF !important; }',
+    // The main menu toggle button (if separate from GUIDE_CHANNEL_BUTTON)
+    '[data-selector="GUIDE_MENU_BUTTON"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; box-shadow: 0 4px 16px rgba(0,0,0,0.25) !important; }',
+    '[data-selector="GUIDE_MENU_BUTTON"] svg { color: #FFFFFF !important; fill: #FFFFFF !important; }',
+    // ── Individual channel buttons in the expanded menu ───────────────────────
+    '[data-selector="GUIDE_CHANNEL_BUTTON_1"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }',
+    '[data-selector="GUIDE_CHANNEL_BUTTON_2"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }',
+    '[data-selector="GUIDE_CHANNEL_BUTTON_3"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }',
+    '[data-selector="GUIDE_CHANNEL_BUTTON_4"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 50% !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }',
+    '[data-selector="GUIDE_CHANNEL_BUTTON_1"]:hover, [data-selector="GUIDE_CHANNEL_BUTTON_2"]:hover, [data-selector="GUIDE_CHANNEL_BUTTON_3"]:hover, [data-selector="GUIDE_CHANNEL_BUTTON_4"]:hover { background: ' + br.accentColor + ' !important; }',
+    // Force all SVG icons inside channel buttons to white
+    '[data-selector="GUIDE_CHANNEL_BUTTON_1"] svg, [data-selector="GUIDE_CHANNEL_BUTTON_2"] svg, [data-selector="GUIDE_CHANNEL_BUTTON_3"] svg, [data-selector="GUIDE_CHANNEL_BUTTON_4"] svg { color: #FFFFFF !important; fill: #FFFFFF !important; }',
+    // ── Portal / widget panel ─────────────────────────────────────────────────
     '[data-selector="PORTAL_HEADER_ICON"] { display: none !important; }',
     '[data-selector="PORTAL_HEADER"] { ' + logoRule + ' color: ' + br.primaryColor + ' !important; border-bottom: 1px solid #e5e7eb !important; }',
     '[data-selector="PORTAL_TITLE"] { display: none !important; }',
@@ -62,11 +79,10 @@
     '[data-selector="KB_WIDGET_TITLE"] { color: ' + br.primaryColor + ' !important; }',
     '[data-selector="KB_WIDGET_SEARCHBAR"] { border-color: ' + br.primaryColor + ' !important; }',
     '[data-selector="KB_SEE_MORE_BUTTON"] { color: ' + br.accentColor + ' !important; }',
-    '[data-selector="GUIDE_CHANNEL_BUTTON_1"], [data-selector="GUIDE_CHANNEL_BUTTON_2"], [data-selector="GUIDE_CHANNEL_BUTTON_3"], [data-selector="GUIDE_CHANNEL_BUTTON_4"] { color: ' + br.primaryColor + ' !important; }',
-    '[data-selector="BEGIN_CHAT"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; }',
-    '[data-selector="SEND_EMAIL"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; }',
+    '[data-selector="BEGIN_CHAT"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; border-radius: 6px !important; }',
+    '[data-selector="SEND_EMAIL"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; border-radius: 6px !important; }',
     '[data-selector="OFFER_BUTTON_1"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; }',
-    '[data-selector="GUIDE_FRAME_CONTENT"] { border-radius: 12px !important; overflow: hidden !important; }'
+    '[data-selector="GUIDE_FRAME_CONTENT"] { border-radius: 12px !important; overflow: hidden !important; box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important; }'
   ].join('\n'));
 
   // ─── 5. Chat CSS branding ────────────────────────────────────────────────────
