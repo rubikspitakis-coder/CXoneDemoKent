@@ -31,7 +31,6 @@
       --highlight-write: #dff6dd;
       --highlight-read-border: #004a99;
       --highlight-write-border: #107c10;
-      --tab-active-border: #004a99;
     }
 
     body {
@@ -58,32 +57,18 @@
       z-index: 100;
     }
     .top-nav .nav-grid { font-size: 20px; cursor: pointer; opacity: 0.85; }
-    .top-nav .nav-app-name {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      white-space: nowrap;
-    }
+    .top-nav .nav-app-name { font-size: 15px; font-weight: 600; letter-spacing: 0.01em; white-space: nowrap; }
     .top-nav .nav-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); margin: 0 4px; }
     .top-nav .nav-module { font-size: 13px; opacity: 0.85; white-space: nowrap; }
     .top-nav .nav-search {
-      flex: 1;
-      max-width: 400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      background: rgba(255,255,255,0.15);
-      border-radius: 2px;
-      padding: 4px 10px;
-      gap: 8px;
+      flex: 1; max-width: 400px; margin: 0 auto;
+      display: flex; align-items: center;
+      background: rgba(255,255,255,0.15); border-radius: 2px;
+      padding: 4px 10px; gap: 8px;
     }
     .top-nav .nav-search input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: white;
-      font-size: 13px;
-      width: 100%;
+      background: transparent; border: none; outline: none;
+      color: white; font-size: 13px; width: 100%;
     }
     .top-nav .nav-search input::placeholder { color: rgba(255,255,255,0.6); }
     .top-nav .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
@@ -96,81 +81,48 @@
     }
 
     /* ── Main Layout ── */
-    .main-layout {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
+    .main-layout { display: flex; flex: 1; overflow: hidden; }
 
     /* ── Sidebar ── */
     .sidebar {
-      width: 200px;
-      background: var(--sidebar-bg);
+      width: 200px; background: var(--sidebar-bg);
       border-right: 1px solid var(--sidebar-border);
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      overflow-y: auto;
+      display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto;
     }
     .sidebar-section { padding: 8px 0; }
     .sidebar-section-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 8px 16px 4px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 16px 4px;
     }
     .sidebar-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 7px 16px;
-      font-size: 13px;
-      color: var(--text-primary);
-      cursor: pointer;
-      border-left: 3px solid transparent;
-      transition: background 0.1s;
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 16px; font-size: 13px; color: var(--text-primary);
+      cursor: pointer; border-left: 3px solid transparent; transition: background 0.1s;
     }
     .sidebar-item:hover { background: rgba(0,0,0,0.04); }
     .sidebar-item.active {
       border-left-color: var(--sidebar-active);
       background: rgba(0,74,153,0.06);
-      color: var(--sidebar-active);
-      font-weight: 600;
+      color: var(--sidebar-active); font-weight: 600;
     }
     .sidebar-item .icon { font-size: 15px; width: 18px; text-align: center; }
     .sidebar-divider { height: 1px; background: var(--sidebar-border); margin: 4px 0; }
 
     /* ── Content Area ── */
-    .content-area {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+    .content-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
     /* ── Record Header ── */
     .record-header {
-      background: var(--header-bg);
-      border-bottom: 1px solid var(--border);
-      padding: 0 20px;
-      flex-shrink: 0;
+      background: var(--header-bg); border-bottom: 1px solid var(--border);
+      padding: 0 20px; flex-shrink: 0;
     }
     .record-breadcrumb {
-      font-size: 12px;
-      color: var(--text-secondary);
-      padding: 8px 0 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-size: 12px; color: var(--text-secondary); padding: 8px 0 4px;
+      display: flex; align-items: center; gap: 6px;
     }
     .record-breadcrumb a { color: var(--accent); text-decoration: none; }
     .record-title-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding-bottom: 10px;
+      display: flex; align-items: center; gap: 14px; padding-bottom: 10px;
     }
     .record-avatar {
       width: 42px; height: 42px; border-radius: 50%;
@@ -180,25 +132,14 @@
     }
     .record-name-block { flex: 1; }
     .record-name {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 20px; font-weight: 600; color: var(--text-primary);
+      display: flex; align-items: center; gap: 8px;
     }
-    .record-saved {
-      font-size: 11px;
-      color: var(--text-secondary);
-      font-weight: 400;
-    }
+    .record-saved { font-size: 11px; color: var(--text-secondary); font-weight: 400; }
     .record-subtitle { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
     .record-meta-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      font-size: 12px;
-      color: var(--text-secondary);
+      display: flex; align-items: center; gap: 20px;
+      font-size: 12px; color: var(--text-secondary);
     }
     .record-meta-right .meta-item { display: flex; flex-direction: column; align-items: flex-end; }
     .record-meta-right .meta-label { font-size: 11px; color: var(--text-secondary); }
@@ -213,104 +154,76 @@
 
     /* ── Action Bar ── */
     .action-bar {
-      background: var(--header-bg);
-      border-bottom: 1px solid var(--border);
-      padding: 6px 20px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
-      flex-wrap: wrap;
+      background: var(--header-bg); border-bottom: 1px solid var(--border);
+      padding: 6px 20px; display: flex; align-items: center;
+      gap: 4px; flex-shrink: 0; flex-wrap: wrap; position: relative;
     }
     .action-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      font-size: 13px;
-      color: var(--text-primary);
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: background 0.1s, border-color 0.1s;
-      white-space: nowrap;
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 10px; font-size: 13px; color: var(--text-primary);
+      background: transparent; border: 1px solid transparent;
+      border-radius: 2px; cursor: pointer;
+      transition: background 0.1s, border-color 0.1s; white-space: nowrap;
     }
     .action-btn:hover { background: rgba(0,0,0,0.05); border-color: var(--border); }
-    .action-btn.primary {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
+    .action-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
     .action-btn.primary:hover { background: #003a7a; }
     .action-btn .btn-icon { font-size: 14px; }
     .action-divider { width: 1px; height: 22px; background: var(--border); margin: 0 4px; }
-    .action-btn.reset-btn {
-      margin-left: auto;
-      background: #fde7e9;
-      color: var(--status-overdue);
-      border-color: #f4b8bc;
+
+    /* More menu (hidden reset lives here) */
+    .more-menu-wrap { margin-left: auto; position: relative; }
+    .more-menu-btn {
+      display: flex; align-items: center; gap: 4px;
+      padding: 5px 8px; font-size: 13px; color: var(--text-secondary);
+      background: transparent; border: 1px solid transparent;
+      border-radius: 2px; cursor: pointer; transition: background 0.1s;
     }
-    .action-btn.reset-btn:hover { background: #f9c8cb; }
+    .more-menu-btn:hover { background: rgba(0,0,0,0.05); border-color: var(--border); }
+    .more-menu-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 4px);
+      background: white; border: 1px solid var(--border);
+      border-radius: 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      min-width: 180px; z-index: 200;
+    }
+    .more-menu-dropdown.open { display: block; }
+    .more-menu-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px; font-size: 13px; color: var(--text-primary);
+      cursor: pointer; transition: background 0.1s;
+    }
+    .more-menu-item:hover { background: var(--sidebar-bg); }
+    .more-menu-item.danger { color: var(--status-overdue); }
+    .more-menu-item.danger:hover { background: var(--status-overdue-bg); }
 
     /* ── Tab Bar ── */
     .tab-bar {
-      background: var(--body-bg);
-      border-bottom: 1px solid var(--border);
-      padding: 0 20px;
-      display: flex;
-      gap: 0;
-      flex-shrink: 0;
+      background: var(--body-bg); border-bottom: 1px solid var(--border);
+      padding: 0 20px; display: flex; gap: 0; flex-shrink: 0;
     }
     .tab-item {
-      padding: 10px 16px;
-      font-size: 13px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: color 0.1s;
-      white-space: nowrap;
+      padding: 10px 16px; font-size: 13px; color: var(--text-secondary);
+      cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.1s; white-space: nowrap;
     }
     .tab-item:hover { color: var(--text-primary); }
-    .tab-item.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      font-weight: 600;
-    }
+    .tab-item.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 
     /* ── Record Body ── */
-    .record-body {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-    }
+    .record-body { flex: 1; display: flex; overflow: hidden; }
 
     /* ── Form Panel ── */
-    .form-panel {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px 24px;
-    }
+    .form-panel { flex: 1; overflow-y: auto; padding: 20px 24px; }
 
-    .form-section {
-      margin-bottom: 24px;
-    }
+    .form-section { margin-bottom: 24px; }
     .form-section-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 12px;
+      font-size: 13px; font-weight: 600; color: var(--text-primary);
+      padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 12px;
     }
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+
+    /* ── Editable field ── */
     .form-field {
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       padding: 6px 12px 6px 0;
       border-bottom: 1px solid transparent;
       transition: background 0.3s, border-color 0.3s;
@@ -318,216 +231,172 @@
     }
     .form-field.full-width { grid-column: 1 / -1; }
     .form-field label {
-      font-size: 12px;
-      color: var(--text-label);
-      margin-bottom: 3px;
-      white-space: nowrap;
+      font-size: 12px; color: var(--text-label); margin-bottom: 3px; white-space: nowrap;
     }
-    .form-field .field-value {
-      font-size: 14px;
-      color: var(--text-primary);
-      padding: 4px 0;
-      min-height: 28px;
-      display: flex;
-      align-items: center;
+
+    /* Display row — shown when not editing */
+    .field-display {
+      display: flex; align-items: center;
+      font-size: 14px; color: var(--text-primary);
+      padding: 4px 0; min-height: 28px;
       border-bottom: 1px solid var(--border);
+      cursor: pointer; gap: 6px;
     }
-    .form-field .field-value.empty { color: var(--text-secondary); font-style: italic; }
-
-    /* Field highlight animations */
-    @keyframes highlightRead {
-      0% { background: transparent; }
-      20% { background: var(--highlight-read); border-color: var(--highlight-read-border); }
-      80% { background: var(--highlight-read); border-color: var(--highlight-read-border); }
-      100% { background: transparent; border-color: transparent; }
-    }
-    @keyframes highlightWrite {
-      0% { background: transparent; }
-      20% { background: var(--highlight-write); border-color: var(--highlight-write-border); }
-      80% { background: var(--highlight-write); border-color: var(--highlight-write-border); }
-      100% { background: transparent; border-color: transparent; }
-    }
-    .form-field.flash-read {
-      animation: highlightRead 2.5s ease forwards;
-    }
-    .form-field.flash-write {
-      animation: highlightWrite 2.5s ease forwards;
+    .field-display:hover .edit-pencil { opacity: 1; }
+    .field-display .field-text { flex: 1; }
+    .field-display .field-text.empty { color: var(--text-secondary); font-style: italic; }
+    .edit-pencil {
+      font-size: 12px; opacity: 0; color: var(--text-secondary);
+      transition: opacity 0.15s; flex-shrink: 0;
     }
 
-    /* Status badge */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
+    /* Edit row — shown when editing */
+    .field-edit { display: none; flex-direction: column; gap: 4px; }
+    .field-edit input,
+    .field-edit select,
+    .field-edit textarea {
+      font-family: inherit; font-size: 14px;
+      border: 1px solid var(--accent); border-radius: 2px;
+      padding: 4px 8px; outline: none; width: 100%;
+      color: var(--text-primary); background: white;
     }
-    .status-badge.active { background: var(--status-active-bg); color: var(--status-active); }
-    .status-badge.overdue { background: var(--status-overdue-bg); color: var(--status-overdue); }
-    .status-badge.pending { background: var(--status-pending-bg); color: var(--status-pending); }
-    .status-dot {
-      width: 7px; height: 7px; border-radius: 50%;
+    .field-edit textarea { resize: vertical; min-height: 60px; }
+    .field-edit-actions { display: flex; gap: 6px; }
+    .field-save-btn, .field-cancel-btn {
+      padding: 3px 10px; font-size: 12px; border-radius: 2px;
+      cursor: pointer; border: 1px solid transparent;
     }
-    .status-badge.active .status-dot { background: var(--status-active); }
-    .status-badge.overdue .status-dot { background: var(--status-overdue); }
-    .status-badge.pending .status-dot { background: var(--status-pending); }
+    .field-save-btn {
+      background: var(--accent); color: white; border-color: var(--accent);
+    }
+    .field-save-btn:hover { background: #003a7a; }
+    .field-cancel-btn {
+      background: white; color: var(--text-secondary); border-color: var(--border);
+    }
+    .field-cancel-btn:hover { background: var(--sidebar-bg); }
 
-    /* Membership badge */
+    /* Editing state on the wrapper */
+    .form-field.editing .field-display { display: none; }
+    .form-field.editing .field-edit { display: flex; }
+
+    /* ── Badges ── */
     .membership-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 2px;
-      font-size: 12px;
-      font-weight: 700;
-      background: var(--accent-light);
-      color: var(--accent);
-      letter-spacing: 0.04em;
+      display: inline-block; padding: 2px 8px; border-radius: 2px;
+      font-size: 12px; font-weight: 600; background: var(--accent-light); color: var(--accent);
     }
-
-    /* CPD progress */
-    .cpd-container { width: 100%; }
-    .cpd-bar-track {
-      height: 6px;
-      background: var(--border);
-      border-radius: 3px;
-      margin-top: 6px;
-      overflow: hidden;
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600;
     }
-    .cpd-bar-fill {
-      height: 100%;
-      border-radius: 3px;
-      background: var(--accent);
-      transition: width 0.6s ease;
+    .status-badge .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .status-badge.active { background: var(--status-active-bg); color: var(--status-active); }
+    .status-badge.active .status-dot { background: var(--status-active); }
+    .status-badge.overdue, .status-badge.suspended {
+      background: var(--status-overdue-bg); color: var(--status-overdue);
     }
-    .cpd-bar-fill.complete { background: var(--status-active); }
-    .cpd-label {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-top: 3px;
+    .status-badge.overdue .status-dot, .status-badge.suspended .status-dot { background: var(--status-overdue); }
+    .status-badge.pending, .status-badge.inactive {
+      background: var(--status-pending-bg); color: var(--status-pending);
     }
-
-    /* Balance */
+    .status-badge.pending .status-dot, .status-badge.inactive .status-dot { background: var(--status-pending); }
     .balance-value { font-weight: 600; }
     .balance-value.overdue { color: var(--status-overdue); }
     .balance-value.clear { color: var(--status-active); }
 
-    /* ── Side Panel ── */
+    /* ── CPD Bar ── */
+    .cpd-container { width: 100%; padding: 4px 0; }
+    .cpd-bar-track {
+      width: 100%; height: 8px; background: #e1dfdd;
+      border-radius: 4px; overflow: hidden; margin: 6px 0 4px;
+    }
+    .cpd-bar-fill {
+      height: 100%; background: var(--accent);
+      border-radius: 4px; transition: width 0.5s ease;
+    }
+    .cpd-bar-fill.complete { background: var(--status-active); }
+    .cpd-label { font-size: 12px; color: var(--text-secondary); }
+
+    /* ── Field highlight animations ── */
+    @keyframes highlightRead {
+      0%   { background: transparent; }
+      20%  { background: var(--highlight-read); border-color: var(--highlight-read-border); }
+      80%  { background: var(--highlight-read); border-color: var(--highlight-read-border); }
+      100% { background: transparent; border-color: transparent; }
+    }
+    @keyframes highlightWrite {
+      0%   { background: transparent; }
+      20%  { background: var(--highlight-write); border-color: var(--highlight-write-border); }
+      80%  { background: var(--highlight-write); border-color: var(--highlight-write-border); }
+      100% { background: transparent; border-color: transparent; }
+    }
+    .flash-read  { animation: highlightRead  2.5s ease forwards; }
+    .flash-write { animation: highlightWrite 2.5s ease forwards; }
+
+    /* ── Side Panel (activity log only) ── */
     .side-panel {
-      width: 320px;
-      border-left: 1px solid var(--border);
-      background: var(--body-bg);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      flex-shrink: 0;
+      width: 280px; border-left: 1px solid var(--border);
+      display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
     }
     .side-panel-header {
-      padding: 14px 16px 10px;
-      font-size: 14px;
-      font-weight: 600;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 12px 16px; font-size: 13px; font-weight: 600;
+      color: var(--text-primary); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .live-indicator {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--status-active); font-weight: 600;
+    }
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--status-active);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.85); }
     }
     .side-panel-body { flex: 1; overflow-y: auto; padding: 12px 16px; }
 
-    /* Summary cards in side panel */
-    .summary-card {
-      background: var(--sidebar-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
-    }
-    .summary-card-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 6px;
-    }
-    .summary-card-value {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-    .summary-card-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
-
-    /* Live indicator */
-    .live-indicator {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--status-active);
-      font-weight: 600;
-      padding: 8px 16px;
-      border-bottom: 1px solid var(--border);
-      background: var(--status-active-bg);
-    }
-    .live-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--status-active);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
     /* Activity log */
-    .activity-log { margin-top: 4px; }
-    .activity-entry {
-      display: flex;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 12px;
-    }
-    .activity-entry:last-child { border-bottom: none; }
+    .activity-log { display: flex; flex-direction: column; gap: 10px; }
+    .activity-entry { display: flex; gap: 8px; align-items: flex-start; }
     .activity-icon {
-      width: 28px; height: 28px; border-radius: 50%;
+      width: 24px; height: 24px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; flex-shrink: 0;
+      font-size: 12px; flex-shrink: 0; margin-top: 1px;
     }
-    .activity-icon.read { background: var(--accent-light); color: var(--accent); }
-    .activity-icon.write { background: var(--status-active-bg); color: var(--status-active); }
-    .activity-icon.reset { background: var(--status-overdue-bg); color: var(--status-overdue); }
-    .activity-text { flex: 1; }
+    .activity-icon.read  { background: var(--highlight-read); }
+    .activity-icon.write { background: var(--highlight-write); }
+    .activity-icon.reset { background: #f3f2f1; }
+    .activity-text { font-size: 12px; color: var(--text-primary); line-height: 1.4; }
     .activity-text strong { font-weight: 600; }
     .activity-time { color: var(--text-secondary); font-size: 11px; margin-top: 2px; }
 
-    /* Loading state */
+    /* ── Save toast ── */
+    .save-toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #107c10; color: white; padding: 8px 18px;
+      border-radius: 4px; font-size: 13px; font-weight: 600;
+      opacity: 0; transition: opacity 0.2s, transform 0.2s; z-index: 500;
+      pointer-events: none;
+    }
+    .save-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Loading overlay ── */
     .loading-overlay {
-      position: fixed; inset: 0;
-      background: rgba(255,255,255,0.85);
+      position: fixed; inset: 0; background: rgba(255,255,255,0.85);
       display: flex; align-items: center; justify-content: center;
-      z-index: 999;
-      font-size: 14px;
-      color: var(--text-secondary);
-      gap: 10px;
+      z-index: 999; font-size: 14px; color: var(--text-secondary); gap: 10px;
     }
     .spinner {
-      width: 20px; height: 20px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
+      width: 20px; height: 20px; border: 2px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Responsive tweaks */
-    @media (max-width: 900px) {
-      .side-panel { display: none; }
-      .form-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 680px) {
-      .sidebar { display: none; }
-    }
+    @media (max-width: 900px) { .side-panel { display: none; } .form-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 680px) { .sidebar { display: none; } }
   </style>
 </head>
 <body>
@@ -537,6 +406,9 @@
   <div class="spinner"></div>
   <span>Loading member record…</span>
 </div>
+
+<!-- Save toast -->
+<div class="save-toast" id="saveToast"></div>
 
 <!-- Top Nav -->
 <nav class="top-nav">
@@ -601,7 +473,7 @@
         <div class="record-name-block">
           <div class="record-name">
             <span id="recordFullName">Loading…</span>
-            <span class="record-saved">● Saved</span>
+            <span class="record-saved" id="recordSavedBadge">● Saved</span>
           </div>
           <div class="record-subtitle">Contact · <span id="recordCompany">—</span></div>
         </div>
@@ -623,16 +495,25 @@
 
     <!-- Action Bar -->
     <div class="action-bar">
-      <button class="action-btn primary"><span class="btn-icon">💾</span> Save</button>
-      <button class="action-btn"><span class="btn-icon">✖</span> Save &amp; Close</button>
+      <button class="action-btn primary" onclick="saveAllEdits()"><span class="btn-icon">💾</span> Save</button>
+      <button class="action-btn" onclick="cancelAllEdits()"><span class="btn-icon">✖</span> Discard</button>
       <button class="action-btn"><span class="btn-icon">＋</span> New</button>
       <div class="action-divider"></div>
       <button class="action-btn"><span class="btn-icon">🔗</span> Connect</button>
       <button class="action-btn"><span class="btn-icon">📋</span> Assign</button>
       <button class="action-btn"><span class="btn-icon">🗑</span> Delete</button>
       <div class="action-divider"></div>
-      <button class="action-btn"><span class="btn-icon">🔄</span> Refresh</button>
-      <button class="action-btn reset-btn" onclick="resetDemo()"><span class="btn-icon">↺</span> Reset Demo Data</button>
+      <button class="action-btn" onclick="refreshRecord()"><span class="btn-icon">🔄</span> Refresh</button>
+
+      <!-- More (⋯) menu — Reset Demo Data lives here -->
+      <div class="more-menu-wrap">
+        <button class="more-menu-btn" id="moreMenuBtn" onclick="toggleMoreMenu()">
+          <span style="font-size:16px; letter-spacing:1px;">···</span>
+        </button>
+        <div class="more-menu-dropdown" id="moreMenuDropdown">
+          <div class="more-menu-item danger" onclick="resetDemo()">↺ &nbsp;Reset Demo Data</div>
+        </div>
+      </div>
     </div>
 
     <!-- Tab Bar -->
@@ -654,38 +535,119 @@
         <div class="form-section">
           <div class="form-section-title">Contact Information</div>
           <div class="form-grid">
+
+            <!-- First Name -->
             <div class="form-field" data-field="firstName">
               <label>First Name</label>
-              <div class="field-value" id="field-firstName">—</div>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-firstName">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="text" id="edit-firstName" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('firstName')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
+
+            <!-- Business Phone -->
             <div class="form-field" data-field="phone">
               <label>Business Phone</label>
-              <div class="field-value" id="field-phone">—</div>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-phone">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="tel" id="edit-phone" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('phone')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
+
+            <!-- Last Name -->
             <div class="form-field" data-field="lastName">
               <label>Last Name</label>
-              <div class="field-value" id="field-lastName">—</div>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-lastName">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="text" id="edit-lastName" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('lastName')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
+
+            <!-- Email -->
             <div class="form-field" data-field="email">
               <label>Email Address</label>
-              <div class="field-value" id="field-email">—</div>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-email">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="email" id="edit-email" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('email')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
+
+            <!-- Job Title (read-only display) -->
             <div class="form-field" data-field="jobTitle">
               <label>Job Title</label>
-              <div class="field-value" id="field-jobTitle">—</div>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-jobTitle">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="text" id="edit-jobTitle" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('jobTitle')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
+
+            <!-- Company Name -->
             <div class="form-field" data-field="company">
               <label>Company Name</label>
-              <div class="field-value" id="field-company">—</div>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-company">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="text" id="edit-company" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('company')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
+
+            <!-- Preferred Channel -->
             <div class="form-field" data-field="preferredChannel">
               <label>Preferred Channel</label>
-              <div class="field-value" id="field-preferredChannel">—</div>
+              <div class="field-display">
+                <span class="field-text" id="field-preferredChannel">—</span>
+              </div>
             </div>
+
+            <!-- Last Contact Date -->
             <div class="form-field" data-field="lastContactDate">
               <label>Last Contact Date</label>
-              <div class="field-value" id="field-lastContactDate">—</div>
+              <div class="field-display">
+                <span class="field-text" id="field-lastContactDate">—</span>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -693,25 +655,72 @@
         <div class="form-section">
           <div class="form-section-title">Membership Details</div>
           <div class="form-grid">
+
+            <!-- Membership Type -->
             <div class="form-field" data-field="membershipType">
               <label>Membership Type</label>
-              <div class="field-value" id="field-membershipType">—</div>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-membershipType">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <select id="edit-membershipType">
+                  <option value="Associate">Associate</option>
+                  <option value="Member">Member</option>
+                  <option value="Fellow">Fellow</option>
+                  <option value="Student">Student</option>
+                  <option value="Affiliate">Affiliate</option>
+                  <option value="Life Member">Life Member</option>
+                </select>
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('membershipType')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
+
+            <!-- Status -->
             <div class="form-field" data-field="status">
               <label>Status</label>
-              <div class="field-value" id="field-status">—</div>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-status">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <select id="edit-status">
+                  <option value="Active">Active</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Overdue">Overdue</option>
+                  <option value="Suspended">Suspended</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('status')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
+
+            <!-- Renewal Date -->
             <div class="form-field" data-field="renewalDate">
               <label>Renewal Date</label>
-              <div class="field-value" id="field-renewalDate">—</div>
+              <div class="field-display">
+                <span class="field-text" id="field-renewalDate">—</span>
+              </div>
             </div>
+
+            <!-- Outstanding Balance -->
             <div class="form-field" data-field="outstandingBalance">
               <label>Outstanding Balance</label>
-              <div class="field-value" id="field-outstandingBalance">—</div>
+              <div class="field-display">
+                <span class="field-text" id="field-outstandingBalance">—</span>
+              </div>
             </div>
+
+            <!-- CPD Hours -->
             <div class="form-field full-width" data-field="cpdHours">
               <label>CPD Hours (Target: 120 hrs)</label>
-              <div class="field-value" style="flex-direction: column; align-items: flex-start; border-bottom: none;">
+              <div class="field-display" style="flex-direction: column; align-items: flex-start; border-bottom: none; cursor: default;">
                 <div class="cpd-container">
                   <div style="display:flex; justify-content:space-between; align-items:center;">
                     <span id="field-cpdHours" style="font-weight:600;">—</span>
@@ -724,6 +733,7 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -733,49 +743,36 @@
           <div class="form-grid">
             <div class="form-field full-width" data-field="notes">
               <label>Notes</label>
-              <div class="field-value" id="field-notes" style="min-height:48px; align-items: flex-start; padding-top: 6px;">—</div>
+              <div class="field-display" onclick="startEdit(this)" style="min-height:48px; align-items: flex-start; padding-top: 6px;">
+                <span class="field-text" id="field-notes" style="white-space: pre-wrap;">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <textarea id="edit-notes" rows="4"></textarea>
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('notes')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-      </div>
+      </div><!-- /form-panel -->
 
-      <!-- Side Panel -->
+      <!-- Side Panel — Cognigy Activity only -->
       <div class="side-panel">
-        <div class="live-indicator">
-          <div class="live-dot"></div>
-          Live CRM — Cognigy Connected
-        </div>
         <div class="side-panel-header">
-          <span>Member Summary</span>
+          <span>Cognigy Activity</span>
+          <div class="live-indicator">
+            <div class="live-dot"></div>
+            Live
+          </div>
         </div>
         <div class="side-panel-body">
-          <div class="summary-card">
-            <div class="summary-card-title">Membership Type</div>
-            <div class="summary-card-value" id="summaryType">—</div>
-          </div>
-          <div class="summary-card">
-            <div class="summary-card-title">CPD Hours</div>
-            <div class="summary-card-value" id="summaryCpd">—</div>
-            <div class="summary-card-sub" id="summaryCpdSub">of 120 hrs required</div>
-          </div>
-          <div class="summary-card">
-            <div class="summary-card-title">Status</div>
-            <div class="summary-card-value" id="summaryStatus">—</div>
-          </div>
-          <div class="summary-card">
-            <div class="summary-card-title">Outstanding Balance</div>
-            <div class="summary-card-value" id="summaryBalance">—</div>
-          </div>
-
-          <div style="margin-top: 16px;">
-            <div class="side-panel-header" style="padding: 0 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 8px;">
-              <span style="font-size:13px;">Cognigy Activity</span>
-            </div>
-            <div class="activity-log" id="activityLog">
-              <div class="activity-entry" style="color: var(--text-secondary); font-style: italic;">
-                Waiting for Cognigy interaction…
-              </div>
+          <div class="activity-log" id="activityLog">
+            <div class="activity-entry" style="color: var(--text-secondary); font-style: italic; font-size:12px;">
+              Waiting for Cognigy interaction…
             </div>
           </div>
         </div>
@@ -788,30 +785,45 @@
 <script>
   const DEMO_PHONE = '+61416012160';
   let currentMember = null;
+  // Track pending edits: { fieldName: newValue }
+  let pendingEdits = {};
+
+  // ── Close more menu on outside click ─────────────────────────────────────
+  document.addEventListener('click', e => {
+    const wrap = document.getElementById('moreMenuDropdown');
+    const btn  = document.getElementById('moreMenuBtn');
+    if (wrap && !wrap.contains(e.target) && !btn.contains(e.target)) {
+      wrap.classList.remove('open');
+    }
+  });
+
+  function toggleMoreMenu() {
+    document.getElementById('moreMenuDropdown').classList.toggle('open');
+  }
 
   // ── Render member record ──────────────────────────────────────────────────
   function renderMember(m) {
     currentMember = m;
 
     // Header
-    const initials = (m.firstName[0] + m.lastName[0]).toUpperCase();
+    const initials = ((m.firstName || '?')[0] + (m.lastName || '?')[0]).toUpperCase();
     document.getElementById('recordAvatar').textContent = initials;
     document.getElementById('recordFullName').textContent = `${m.firstName} ${m.lastName}`;
     document.getElementById('breadcrumbName').textContent = `${m.firstName} ${m.lastName}`;
     document.getElementById('recordCompany').textContent = m.company || '—';
     document.getElementById('metaPreferredChannel').textContent = m.preferredChannel || '—';
 
-    // Form fields
-    setField('firstName', m.firstName);
-    setField('lastName', m.lastName);
-    setField('phone', m.phone);
-    setField('email', m.email || '—');
-    setField('jobTitle', m.jobTitle || '—');
-    setField('company', m.company || '—');
-    setField('preferredChannel', m.preferredChannel || '—');
-    setField('lastContactDate', m.lastContactDate || '—');
-    setField('renewalDate', m.renewalDate || '—');
-    setField('notes', m.notes || '—');
+    // Plain text fields
+    setText('firstName', m.firstName);
+    setText('lastName', m.lastName);
+    setText('phone', m.phone);
+    setText('email', m.email || '—');
+    setText('jobTitle', m.jobTitle || '—');
+    setText('company', m.company || '—');
+    setText('preferredChannel', m.preferredChannel || '—');
+    setText('lastContactDate', m.lastContactDate || '—');
+    setText('renewalDate', m.renewalDate || '—');
+    setText('notes', m.notes || '—');
 
     // Membership type badge
     const typeEl = document.getElementById('field-membershipType');
@@ -819,7 +831,7 @@
 
     // Status badge
     const statusEl = document.getElementById('field-status');
-    const statusClass = m.status.toLowerCase();
+    const statusClass = (m.status || '').toLowerCase();
     statusEl.innerHTML = `<span class="status-badge ${statusClass}"><span class="status-dot"></span>${m.status}</span>`;
 
     // Outstanding balance
@@ -836,21 +848,91 @@
     document.getElementById('cpdPct').textContent = `${pct}%`;
     document.getElementById('cpdBarFill').style.width = `${pct}%`;
     document.getElementById('cpdBarFill').className = `cpd-bar-fill${cpd >= target ? ' complete' : ''}`;
-    const remaining = target - cpd;
     document.getElementById('cpdLabel').textContent = cpd >= target
       ? '✔ CPD requirement met'
-      : `${remaining} hrs remaining to meet requirement`;
-
-    // Side panel summary
-    document.getElementById('summaryType').innerHTML = `<span class="membership-badge">${m.membershipType}</span>`;
-    document.getElementById('summaryCpd').textContent = `${cpd} / ${target}`;
-    document.getElementById('summaryStatus').innerHTML = `<span class="status-badge ${statusClass}" style="font-size:14px;"><span class="status-dot"></span>${m.status}</span>`;
-    document.getElementById('summaryBalance').innerHTML = `<span class="balance-value ${balClass}">$${bal.toFixed(2)}</span>`;
+      : `${target - cpd} hrs remaining to meet requirement`;
   }
 
-  function setField(fieldName, value) {
+  function setText(fieldName, value) {
     const el = document.getElementById(`field-${fieldName}`);
-    if (el) el.textContent = value;
+    if (!el) return;
+    el.textContent = value || '—';
+    el.classList.toggle('empty', !value);
+  }
+
+  // ── Inline editing ────────────────────────────────────────────────────────
+  function startEdit(displayEl) {
+    const wrapper = displayEl.closest('.form-field');
+    if (!wrapper) return;
+    const fieldName = wrapper.dataset.field;
+    const editInput = document.getElementById(`edit-${fieldName}`);
+    if (!editInput) return; // field not editable
+
+    // Pre-fill with current raw value
+    const rawValue = currentMember ? (currentMember[fieldName] ?? '') : '';
+    if (editInput.tagName === 'SELECT') {
+      editInput.value = rawValue;
+    } else {
+      editInput.value = rawValue;
+    }
+
+    wrapper.classList.add('editing');
+    editInput.focus();
+  }
+
+  function cancelEdit(btn) {
+    const wrapper = btn.closest('.form-field');
+    wrapper.classList.remove('editing');
+  }
+
+  function cancelAllEdits() {
+    document.querySelectorAll('.form-field.editing').forEach(w => w.classList.remove('editing'));
+    pendingEdits = {};
+  }
+
+  async function commitEdit(fieldName) {
+    const wrapper = document.querySelector(`[data-field="${fieldName}"]`);
+    const editInput = document.getElementById(`edit-${fieldName}`);
+    if (!wrapper || !editInput) return;
+
+    const newValue = editInput.value.trim();
+    wrapper.classList.remove('editing');
+
+    // Immediately save to DB
+    try {
+      const body = { [fieldName]: newValue };
+      const r = await fetch(`/api/member/${encodeURIComponent(DEMO_PHONE)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!r.ok) throw new Error('Save failed');
+      const updated = await r.json();
+      renderMember(updated);
+      showToast(`${fieldLabel(fieldName)} saved`);
+    } catch (e) {
+      alert('Could not save: ' + e.message);
+    }
+  }
+
+  async function saveAllEdits() {
+    // Commit any open edit fields
+    const openFields = [...document.querySelectorAll('.form-field.editing')]
+      .map(w => w.dataset.field);
+    if (openFields.length === 0) {
+      showToast('No unsaved changes');
+      return;
+    }
+    for (const f of openFields) {
+      await commitEdit(f);
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('saveToast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
   }
 
   // ── Field flash ───────────────────────────────────────────────────────────
@@ -859,7 +941,7 @@
       const container = document.querySelector(`[data-field="${field}"]`);
       if (!container) return;
       container.classList.remove('flash-read', 'flash-write');
-      void container.offsetWidth; // force reflow
+      void container.offsetWidth;
       container.classList.add(type === 'read' ? 'flash-read' : 'flash-write');
       setTimeout(() => container.classList.remove('flash-read', 'flash-write'), 2600);
     });
@@ -868,7 +950,6 @@
   // ── Activity log ──────────────────────────────────────────────────────────
   function addActivity(icon, iconClass, html) {
     const log = document.getElementById('activityLog');
-    // Remove placeholder
     const placeholder = log.querySelector('[style*="italic"]');
     if (placeholder) placeholder.remove();
 
@@ -882,8 +963,7 @@
         <div class="activity-time">${now}</div>
       </div>`;
     log.prepend(entry);
-    // Keep max 8 entries
-    while (log.children.length > 8) log.removeChild(log.lastChild);
+    while (log.children.length > 10) log.removeChild(log.lastChild);
   }
 
   // ── SSE ───────────────────────────────────────────────────────────────────
@@ -915,9 +995,7 @@
       addActivity('↺', 'reset', 'Demo data reset to initial state');
     });
 
-    es.onerror = () => {
-      setTimeout(connectSSE, 3000);
-    };
+    es.onerror = () => setTimeout(connectSSE, 3000);
   }
 
   function fieldLabel(field) {
@@ -933,14 +1011,24 @@
 
   // ── Reset demo ────────────────────────────────────────────────────────────
   async function resetDemo() {
+    document.getElementById('moreMenuDropdown').classList.remove('open');
     if (!confirm('Reset all demo data to the initial seed state?')) return;
     try {
       const r = await fetch('/api/reset', { method: 'POST' });
       if (!r.ok) throw new Error('Reset failed');
+      showToast('Demo data reset');
       addActivity('↺', 'reset', 'Demo data reset to initial state');
     } catch (e) {
       alert('Reset failed: ' + e.message);
     }
+  }
+
+  // ── Refresh record ────────────────────────────────────────────────────────
+  async function refreshRecord() {
+    try {
+      const r = await fetch(`/api/member/${encodeURIComponent(DEMO_PHONE)}`);
+      if (r.ok) { renderMember(await r.json()); showToast('Record refreshed'); }
+    } catch (e) { /* silent */ }
   }
 
   // ── Init ──────────────────────────────────────────────────────────────────
@@ -948,14 +1036,11 @@
     try {
       const r = await fetch(`/api/member/${encodeURIComponent(DEMO_PHONE)}`);
       if (r.status === 404) {
-        // Auto-seed if not found
         await fetch('/api/reset', { method: 'POST' });
         const r2 = await fetch(`/api/member/${encodeURIComponent(DEMO_PHONE)}`);
-        const m = await r2.json();
-        renderMember(m);
+        renderMember(await r2.json());
       } else if (r.ok) {
-        const m = await r.json();
-        renderMember(m);
+        renderMember(await r.json());
       } else {
         throw new Error('Could not load member record');
       }
