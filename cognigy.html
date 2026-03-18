@@ -704,8 +704,16 @@
             <!-- Renewal Date -->
             <div class="form-field" data-field="renewalDate">
               <label>Renewal Date</label>
-              <div class="field-display">
+              <div class="field-display" onclick="startEdit(this)">
                 <span class="field-text" id="field-renewalDate">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="text" id="edit-renewalDate" placeholder="e.g. 31 Dec 2025" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('renewalDate')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
               </div>
             </div>
 
@@ -720,16 +728,26 @@
             <!-- CPD Hours -->
             <div class="form-field full-width" data-field="cpdHours">
               <label>CPD Hours (Target: 120 hrs)</label>
-              <div class="field-display" style="flex-direction: column; align-items: flex-start; border-bottom: none; cursor: default;">
-                <div class="cpd-container">
+              <div class="field-display" onclick="startEdit(this)" style="flex-direction: column; align-items: flex-start; border-bottom: none;">
+                <div class="cpd-container" style="width:100%;">
                   <div style="display:flex; justify-content:space-between; align-items:center;">
                     <span id="field-cpdHours" style="font-weight:600;">—</span>
-                    <span id="cpdPct" style="font-size:12px; color:var(--text-secondary);">—</span>
+                    <span style="display:flex;align-items:center;gap:8px;">
+                      <span id="cpdPct" style="font-size:12px; color:var(--text-secondary);">—</span>
+                      <span class="edit-pencil" style="opacity:0.5;">✎</span>
+                    </span>
                   </div>
                   <div class="cpd-bar-track">
                     <div class="cpd-bar-fill" id="cpdBarFill" style="width:0%"></div>
                   </div>
                   <div class="cpd-label" id="cpdLabel">—</div>
+                </div>
+              </div>
+              <div class="field-edit">
+                <input type="number" id="edit-cpdHours" min="0" max="999" placeholder="e.g. 80" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('cpdHours')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
                 </div>
               </div>
             </div>
@@ -870,11 +888,7 @@
 
     // Pre-fill with current raw value
     const rawValue = currentMember ? (currentMember[fieldName] ?? '') : '';
-    if (editInput.tagName === 'SELECT') {
-      editInput.value = rawValue;
-    } else {
-      editInput.value = rawValue;
-    }
+    editInput.value = rawValue;
 
     wrapper.classList.add('editing');
     editInput.focus();
