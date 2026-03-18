@@ -131,12 +131,21 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+// API key for server-to-server calls (e.g. Cognigy HTTP Request nodes)
+const COGNIGY_API_KEY = process.env.COGNIGY_API_KEY || '16a03c7228cb2bcfa6dc3a486cefb904842d392688245cd0';
+
 // Protect everything except the auth endpoint and login page assets
 app.use((req, res, next) => {
   const password = process.env.CX1_PASSWORD;
   if (!password) return res.status(503).send('Site not configured');
   if (req.path === '/auth') return next();
   if (req.path === '/logout') return next();
+
+  // Allow API key bearer access to /api/member/* routes (for Cognigy)
+  if (req.path.startsWith('/api/member') || req.path.startsWith('/api/reset')) {
+    const apiKey = req.headers['x-api-key'];
+    if (apiKey && apiKey === COGNIGY_API_KEY) return next();
+  }
 
   const cookies = parseCookies(req.headers.cookie);
   if (cookies[AUTH_COOKIE] === authToken(password)) return next();
