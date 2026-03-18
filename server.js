@@ -144,6 +144,11 @@ app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'cx1-login.html'));
 });
 
+// Favicon
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, 'cx1-static', 'favicon.ico'));
+});
+
 // Landing page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'landing.html'));
@@ -691,7 +696,8 @@ app.patch('/api/member/:phone', async (req, res) => {
   if (!prisma) return res.status(503).json({ error: 'Database not available' });
 
   // Accept any updatable field from the request body
-  const ALLOWED = ['status', 'cpdHours', 'notes', 'email', 'jobTitle', 'company',
+  const ALLOWED = ['firstName', 'lastName', 'phone', 'email', 'jobTitle', 'company',
+    'membershipType', 'status', 'cpdHours', 'notes',
     'renewalDate', 'outstandingBalance', 'preferredChannel', 'lastContactDate'];
   const updateData = {};
   const changes = {};
