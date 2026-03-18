@@ -31,7 +31,8 @@
   cxone('guide', 'setDesiredGuideWidth', '400px');
   cxone('guide', 'setDesiredGuideHeight', '40em');
   cxone('chat', 'setWindowWidth', '400px');
-  cxone('chat', 'setWindowHeight', '85vh');
+  cxone('chat', 'setWindowHeight', '100%');
+  cxone('chat', 'setOffsetY', '0');  // anchor to bottom edge so full height fills properly
 
   // Push the floating channel buttons away from the screen edges
   cxone('guide', 'setOffsetX', '24px');  // horizontal gap from right edge
@@ -87,7 +88,8 @@
     '[data-selector="TEXTAREA"]:focus { border-color: ' + br.primaryColor + ' !important; outline: none !important; box-shadow: 0 0 0 2px rgba(26,43,74,0.15) !important; }',
     '[data-selector="PRIMARY_BUTTON"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; border-radius: ' + br.borderRadius + ' !important; }',
     '[data-selector="SECONDARY_BUTTON"] { border-color: ' + br.primaryColor + ' !important; color: ' + br.primaryColor + ' !important; border-radius: ' + br.borderRadius + ' !important; }',
-    '[data-selector="CONTENT"] { background: ' + br.contentBg + ' !important; }',
+    '[data-selector="CONTENT"] { background: ' + br.contentBg + ' !important; max-height: none !important; height: 100% !important; flex: 1 !important; }',
+    '[data-selector="MESSAGES"] { max-height: none !important; flex: 1 !important; overflow-y: auto !important; }',
     '[data-selector="START_NEW_CHAT"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; border-radius: ' + br.borderRadius + ' !important; }'
   ].join('\n'));
 
