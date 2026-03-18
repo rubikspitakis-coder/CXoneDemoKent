@@ -1,0 +1,9 @@
+# nixpacks.toml
+# Override the build phase to only run prisma generate
+# (npm ci is already handled by the install phase)
+[phases.build]
+cmds = ["npx prisma generate"]
+dependsOn = ["install"]
+
+[start]
+cmd = "npx prisma db push --accept-data-loss && node server.js"
