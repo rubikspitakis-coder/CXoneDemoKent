@@ -76,11 +76,19 @@
     '[data-selector="HEADER_ACTION_MENU_BUTTON"] { color: #FFFFFF !important; }',
     '[data-selector="CUSTOMER_MESSAGE_BUBBLE"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; }',
     '[data-selector="AGENT_MESSAGE_BUBBLE"] { background: ' + br.lightBg + ' !important; color: ' + br.primaryColor + ' !important; }',
-    '[data-selector="SEND_BUTTON"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; }',
+    // Send button — replace paper airplane with a clean branded pill button
+    '[data-selector="SEND_BUTTON"] { background: ' + br.primaryColor + ' !important; color: #FFFFFF !important; border-radius: 6px !important; min-width: 64px !important; padding: 0 16px !important; font-size: 13px !important; font-weight: 600 !important; letter-spacing: 0.03em !important; border: none !important; }',
+    '[data-selector="SEND_BUTTON"]:hover { background: ' + br.accentColor + ' !important; }',
+    // Hide the SVG paper airplane icon inside the send button and show text instead
+    '[data-selector="SEND_BUTTON"] svg { display: none !important; }',
+    '[data-selector="SEND_BUTTON"]::after { content: "Send" !important; font-size: 13px !important; font-weight: 600 !important; }',
+    // Reply box and textarea styling
+    '[data-selector="REPLY_BOX"] { border-top: 2px solid ' + br.primaryColor + ' !important; padding: 8px !important; background: #FFFFFF !important; }',
+    '[data-selector="TEXTAREA"] { border: 1px solid #d1d5db !important; border-radius: 6px !important; padding: 8px 12px !important; font-size: 14px !important; resize: none !important; }',
+    '[data-selector="TEXTAREA"]:focus { border-color: ' + br.primaryColor + ' !important; outline: none !important; box-shadow: 0 0 0 2px rgba(26,43,74,0.15) !important; }',
     '[data-selector="PRIMARY_BUTTON"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; border-radius: ' + br.borderRadius + ' !important; }',
     '[data-selector="SECONDARY_BUTTON"] { border-color: ' + br.primaryColor + ' !important; color: ' + br.primaryColor + ' !important; border-radius: ' + br.borderRadius + ' !important; }',
     '[data-selector="CONTENT"] { background: ' + br.contentBg + ' !important; }',
-    '[data-selector="TEXTAREA"] { border-color: ' + br.primaryColor + ' !important; }',
     '[data-selector="START_NEW_CHAT"] { background: ' + br.accentColor + ' !important; color: #FFFFFF !important; border-radius: ' + br.borderRadius + ' !important; }'
   ].join('\n'));
 
