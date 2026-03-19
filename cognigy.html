@@ -733,7 +733,7 @@
                 <span class="edit-pencil">✎</span>
               </div>
               <div class="field-edit">
-                <input type="text" id="edit-lastContactDate" placeholder="e.g. 19 Mar 2026" />
+                <input type="date" id="edit-lastContactDate" />
                 <div class="field-edit-actions">
                   <button class="field-save-btn" onclick="commitEdit('lastContactDate')">Save</button>
                   <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
@@ -802,7 +802,7 @@
                 <span class="edit-pencil">✎</span>
               </div>
               <div class="field-edit">
-                <input type="text" id="edit-renewalDate" placeholder="e.g. 31 Dec 2025" />
+                <input type="date" id="edit-renewalDate" />
                 <div class="field-edit-actions">
                   <button class="field-save-btn" onclick="commitEdit('renewalDate')">Save</button>
                   <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
@@ -813,8 +813,16 @@
             <!-- Outstanding Balance -->
             <div class="form-field" data-field="outstandingBalance">
               <label>Outstanding Balance</label>
-              <div class="field-display">
+              <div class="field-display" onclick="startEdit(this)">
                 <span class="field-text" id="field-outstandingBalance">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit" style="display:none;">
+                <input type="number" id="edit-outstandingBalance" min="0" step="0.01" placeholder="0.00" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('outstandingBalance')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
               </div>
             </div>
 
@@ -936,8 +944,8 @@
     setText('jobTitle', m.jobTitle || '—');
     setText('company', m.company || '—');
     setText('preferredChannel', m.preferredChannel || '—');
-    setText('lastContactDate', m.lastContactDate || '—');
-    setText('renewalDate', m.renewalDate || '—');
+    setText('lastContactDate', formatDate(m.lastContactDate));
+    setText('renewalDate', formatDate(m.renewalDate));
     setText('notes', m.notes || '—');
     setText('clientManager', m.clientManager || '—');
 
@@ -969,6 +977,15 @@
       : `${target - cpd} hrs remaining to meet requirement`;
   }
 
+  function formatDate(val) {
+    if (!val) return '—';
+    try {
+      const d = new Date(val);
+      if (isNaN(d)) return val;
+      return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch { return val; }
+  }
+
   function setText(fieldName, value) {
     const el = document.getElementById(`field-${fieldName}`);
     if (!el) return;
@@ -991,6 +1008,20 @@
       const opts = Array.from(editInput.options);
       const match = opts.findIndex(o => o.value === String(rawValue));
       editInput.selectedIndex = match >= 0 ? match : 0;
+    } else if (editInput.type === 'date') {
+      // Convert stored value to YYYY-MM-DD for the date picker
+      if (rawValue) {
+        try {
+          const d = new Date(rawValue);
+          if (!isNaN(d)) {
+            editInput.value = d.toISOString().slice(0, 10);
+          } else {
+            editInput.value = '';
+          }
+        } catch { editInput.value = ''; }
+      } else {
+        editInput.value = '';
+      }
     } else {
       editInput.value = rawValue;
     }
@@ -1014,10 +1045,17 @@
     const editInput = document.getElementById(`edit-${fieldName}`);
     if (!wrapper || !editInput) return;
 
-    // Get value — handle number inputs specially
+    // Get value — handle number and date inputs specially
     let newValue;
     if (editInput.type === 'number') {
       newValue = editInput.value === '' ? null : Number(editInput.value);
+    } else if (editInput.type === 'date') {
+      if (!editInput.value) { newValue = ''; }
+      else {
+        // Store as ISO string, display as readable date
+        const d = new Date(editInput.value);
+        newValue = d.toISOString();
+      }
     } else {
       newValue = editInput.value.trim();
     }
