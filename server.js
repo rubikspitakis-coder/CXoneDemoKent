@@ -145,8 +145,9 @@ app.use((req, res, next) => {
   if (req.path === '/logout') return next();
 
   // Allow API key bearer access to /api/member/* routes (for Cognigy)
+  // Accepts key via x-api-key header OR ?apikey= query param (Cognigy PATCH workaround)
   if (req.path.startsWith('/api/member') || req.path.startsWith('/api/reset')) {
-    const apiKey = req.headers['x-api-key'];
+    const apiKey = req.headers['x-api-key'] || req.query.apikey;
     if (apiKey && apiKey === COGNIGY_API_KEY) return next();
   }
 
