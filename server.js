@@ -137,6 +137,57 @@ app.get('/logout', (req, res) => {
 // API key for server-to-server calls (e.g. Cognigy HTTP Request nodes)
 const COGNIGY_API_KEY = process.env.COGNIGY_API_KEY || '16a03c7228cb2bcfa6dc3a486cefb904842d392688245cd0';
 
+// ─── Cognigy Public Token-in-Path Endpoint ───────────────────────────────────
+// Registered BEFORE auth middleware so it is never blocked by the login wall.
+// URL: POST /cognigy/update/:token/:phone
+// The token is the COGNIGY_API_KEY embedded in the URL path — no headers needed.
+app.post('/cognigy/update/:token/:phone', async (req, res) => {
+  if (req.params.token !== COGNIGY_API_KEY) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+  if (!prisma) return res.status(503).json({ error: 'Database not available' });
+
+  const ALLOWED = ['firstName', 'lastName', 'phone', 'email', 'jobTitle', 'company',
+    'membershipType', 'status', 'cpdHours', 'notes',
+    'renewalDate', 'outstandingBalance', 'preferredChannel', 'lastContactDate', 'clientManager'];
+  const updateData = {};
+  const changes = {};
+  for (const field of ALLOWED) {
+    const raw = req.body[field];
+    if (raw === undefined || raw === null || raw === '') continue;
+    let val;
+    if (field === 'cpdHours') {
+      val = parseInt(raw, 10);
+      if (isNaN(val)) continue;
+    } else if (field === 'outstandingBalance') {
+      val = parseFloat(raw);
+      if (isNaN(val)) continue;
+    } else {
+      val = raw;
+    }
+    updateData[field] = val;
+    changes[field] = val;
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    return res.status(400).json({ error: 'No valid fields to update' });
+  }
+
+  try {
+    const phone = decodeURIComponent(req.params.phone);
+    const member = await prisma.member.update({
+      where: { phone },
+      data: updateData
+    });
+    broadcastEvent('member-updated', { phone, member, changes });
+    res.json(member);
+  } catch (e) {
+    if (e.code === 'P2025') return res.status(404).json({ error: 'Member not found' });
+    console.error('[POST /cognigy/update]', e);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // Protect everything except the auth endpoint and login page assets
 app.use((req, res, next) => {
   const password = process.env.CX1_PASSWORD;
