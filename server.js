@@ -155,6 +155,8 @@ app.post('/cognigy/update/:token/:phone', async (req, res) => {
   for (const field of ALLOWED) {
     const raw = req.body[field];
     if (raw === undefined || raw === null || raw === '') continue;
+    // Cognigy resolves missing template vars to {} — reject non-primitive values
+    if (typeof raw === 'object') continue;
     let val;
     if (field === 'cpdHours') {
       val = parseInt(raw, 10);
@@ -163,7 +165,7 @@ app.post('/cognigy/update/:token/:phone', async (req, res) => {
       val = parseFloat(raw);
       if (isNaN(val)) continue;
     } else {
-      val = raw;
+      val = String(raw);
     }
     updateData[field] = val;
     changes[field] = val;
@@ -772,6 +774,8 @@ app.patch('/api/member/:phone', async (req, res) => {
     const raw = req.body[field];
     // Skip undefined, null, or empty strings — prevents unset Cognigy tool params from overwriting real data
     if (raw === undefined || raw === null || raw === '') continue;
+    // Cognigy resolves missing template vars to {} — reject non-primitive values
+    if (typeof raw === 'object') continue;
     let val;
     if (field === 'cpdHours') {
       val = parseInt(raw, 10);
@@ -780,7 +784,7 @@ app.patch('/api/member/:phone', async (req, res) => {
       val = parseFloat(raw);
       if (isNaN(val)) continue;
     } else {
-      val = raw;
+      val = String(raw);
     }
     updateData[field] = val;
     changes[field] = val;
