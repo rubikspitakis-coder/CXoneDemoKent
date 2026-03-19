@@ -717,20 +717,21 @@ app.patch('/api/member/:phone', async (req, res) => {
   const updateData = {};
   const changes = {};
   for (const field of ALLOWED) {
-    if (req.body[field] !== undefined && req.body[field] !== null) {
-      let val;
-      if (field === 'cpdHours') {
-        val = parseInt(req.body[field], 10);
-        if (isNaN(val)) continue; // skip invalid numbers
-      } else if (field === 'outstandingBalance') {
-        val = parseFloat(req.body[field]);
-        if (isNaN(val)) continue;
-      } else {
-        val = req.body[field];
-      }
-      updateData[field] = val;
-      changes[field] = val;
+    const raw = req.body[field];
+    // Skip undefined, null, or empty strings — prevents unset Cognigy tool params from overwriting real data
+    if (raw === undefined || raw === null || raw === '') continue;
+    let val;
+    if (field === 'cpdHours') {
+      val = parseInt(raw, 10);
+      if (isNaN(val)) continue;
+    } else if (field === 'outstandingBalance') {
+      val = parseFloat(raw);
+      if (isNaN(val)) continue;
+    } else {
+      val = raw;
     }
+    updateData[field] = val;
+    changes[field] = val;
   }
 
   if (Object.keys(updateData).length === 0) {
