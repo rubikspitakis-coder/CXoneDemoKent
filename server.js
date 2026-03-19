@@ -153,6 +153,9 @@ app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'cx1-login.html'));
 });
 
+// Public keep-alive ping — no auth required, used to prevent cold starts
+app.get('/ping', (req, res) => res.json({ ok: true, ts: Date.now() }));
+
 // Favicon
 app.get('/favicon.ico', (req, res) => {
   res.sendFile(path.join(__dirname, 'cx1-static', 'favicon.ico'));

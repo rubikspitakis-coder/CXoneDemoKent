@@ -384,10 +384,12 @@
 
     /* ── Loading overlay ── */
     .loading-overlay {
-      position: fixed; inset: 0; background: rgba(255,255,255,0.85);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 999; font-size: 14px; color: var(--text-secondary); gap: 10px;
+      position: fixed; inset: 0; background: var(--body-bg);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
     }
+    .loading-overlay.hidden { display: none; }
     .spinner {
       width: 20px; height: 20px; border: 2px solid var(--border);
       border-top-color: var(--accent); border-radius: 50%;
@@ -395,16 +397,123 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Skeleton shimmer */
+    @keyframes shimmer {
+      0%   { background-position: -600px 0; }
+      100% { background-position: 600px 0; }
+    }
+    .skel {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 600px 100%;
+      animation: shimmer 1.4s infinite linear;
+      border-radius: 4px;
+    }
+    /* Skeleton nav bar */
+    .skel-nav {
+      height: 48px; background: var(--nav-bg); flex-shrink: 0;
+      display: flex; align-items: center; padding: 0 16px; gap: 12px;
+    }
+    .skel-nav .skel { background: rgba(255,255,255,0.15); }
+    /* Skeleton action bar */
+    .skel-bar {
+      height: 44px; background: var(--header-bg); border-bottom: 1px solid var(--border);
+      flex-shrink: 0; display: flex; align-items: center; padding: 0 16px; gap: 8px;
+    }
+    /* Skeleton body */
+    .skel-body {
+      flex: 1; display: flex; overflow: hidden;
+    }
+    .skel-sidebar {
+      width: 200px; border-right: 1px solid var(--border); padding: 16px 12px;
+      display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;
+    }
+    .skel-content {
+      flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 16px; overflow: hidden;
+    }
+    .skel-header-card {
+      height: 80px; border: 1px solid var(--border); border-radius: 4px; padding: 16px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .skel-avatar { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; }
+    .skel-fields {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .skel-field { height: 52px; border-radius: 4px; }
+    .skel-side { width: 280px; border-left: 1px solid var(--border); padding: 16px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; }
+    @media (max-width: 900px) { .skel-side { display: none; } }
+    @media (max-width: 680px) { .skel-sidebar { display: none; } }
+
     @media (max-width: 900px) { .side-panel { display: none; } .form-grid { grid-template-columns: 1fr; } }
     @media (max-width: 680px) { .sidebar { display: none; } }
   </style>
 </head>
 <body>
 
-<!-- Loading overlay -->
+<!-- Loading overlay: skeleton shimmer -->
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner"></div>
-  <span>Loading member record…</span>
+  <!-- Skeleton nav -->
+  <div class="skel-nav">
+    <div class="skel" style="width:20px;height:20px;"></div>
+    <div class="skel" style="width:140px;height:16px;"></div>
+    <div class="skel" style="width:1px;height:24px;margin:0 4px;"></div>
+    <div class="skel" style="width:100px;height:14px;"></div>
+    <div style="flex:1;"></div>
+    <div class="skel" style="width:200px;height:28px;border-radius:2px;"></div>
+    <div style="flex:1;"></div>
+    <div class="skel" style="width:32px;height:32px;border-radius:50%;"></div>
+  </div>
+  <!-- Skeleton action bar -->
+  <div class="skel-bar">
+    <div class="skel" style="width:60px;height:26px;"></div>
+    <div class="skel" style="width:60px;height:26px;"></div>
+    <div class="skel" style="width:60px;height:26px;"></div>
+    <div style="flex:1;"></div>
+    <div class="skel" style="width:80px;height:26px;"></div>
+    <div class="skel" style="width:28px;height:26px;"></div>
+  </div>
+  <!-- Skeleton body -->
+  <div class="skel-body">
+    <!-- Sidebar -->
+    <div class="skel-sidebar">
+      <div class="skel" style="height:14px;width:80%;"></div>
+      <div class="skel" style="height:32px;"></div>
+      <div class="skel" style="height:32px;"></div>
+      <div class="skel" style="height:32px;"></div>
+      <div class="skel" style="height:32px;"></div>
+      <div class="skel" style="height:32px;"></div>
+    </div>
+    <!-- Main content -->
+    <div class="skel-content">
+      <!-- Header card -->
+      <div class="skel-header-card">
+        <div class="skel skel-avatar"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+          <div class="skel" style="height:18px;width:200px;"></div>
+          <div class="skel" style="height:13px;width:140px;"></div>
+        </div>
+        <div class="skel" style="width:80px;height:26px;"></div>
+        <div class="skel" style="width:80px;height:26px;"></div>
+      </div>
+      <!-- Fields grid -->
+      <div class="skel-fields">
+        <div class="skel skel-field"></div>
+        <div class="skel skel-field"></div>
+        <div class="skel skel-field"></div>
+        <div class="skel skel-field"></div>
+        <div class="skel skel-field"></div>
+        <div class="skel skel-field"></div>
+        <div class="skel skel-field"></div>
+        <div class="skel skel-field"></div>
+      </div>
+    </div>
+    <!-- Side panel -->
+    <div class="skel-side">
+      <div class="skel" style="height:16px;width:60%;"></div>
+      <div class="skel" style="height:48px;"></div>
+      <div class="skel" style="height:48px;"></div>
+      <div class="skel" style="height:48px;"></div>
+    </div>
+  </div>
 </div>
 
 <!-- Save toast -->
@@ -1116,12 +1225,20 @@
       document.getElementById('recordFullName').textContent = 'Error loading record';
       console.error(e);
     } finally {
-      document.getElementById('loadingOverlay').style.display = 'none';
+      document.getElementById('loadingOverlay').classList.add('hidden');
     }
     connectSSE();
   }
 
+  // ── Keep-alive ping (every 4 min to prevent Railway cold starts) ──────────
+  function startKeepAlive() {
+    setInterval(() => {
+      fetch('/ping').catch(() => {}); // fire and forget
+    }, 4 * 60 * 1000); // 4 minutes
+  }
+
   init();
+  startKeepAlive();
 </script>
 </body>
 </html>
