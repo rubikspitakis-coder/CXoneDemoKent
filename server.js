@@ -711,10 +711,17 @@ app.patch('/api/member/:phone', async (req, res) => {
   const updateData = {};
   const changes = {};
   for (const field of ALLOWED) {
-    if (req.body[field] !== undefined) {
-      const val = field === 'cpdHours' ? parseInt(req.body[field], 10)
-        : field === 'outstandingBalance' ? parseFloat(req.body[field])
-        : req.body[field];
+    if (req.body[field] !== undefined && req.body[field] !== null) {
+      let val;
+      if (field === 'cpdHours') {
+        val = parseInt(req.body[field], 10);
+        if (isNaN(val)) continue; // skip invalid numbers
+      } else if (field === 'outstandingBalance') {
+        val = parseFloat(req.body[field]);
+        if (isNaN(val)) continue;
+      } else {
+        val = req.body[field];
+      }
       updateData[field] = val;
       changes[field] = val;
     }

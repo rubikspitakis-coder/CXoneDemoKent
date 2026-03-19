@@ -909,7 +909,14 @@
     const editInput = document.getElementById(`edit-${fieldName}`);
     if (!wrapper || !editInput) return;
 
-    const newValue = editInput.value.trim();
+    // Get value — handle number inputs specially
+    let newValue;
+    if (editInput.type === 'number') {
+      newValue = editInput.value === '' ? null : Number(editInput.value);
+    } else {
+      newValue = editInput.value.trim();
+    }
+
     wrapper.classList.remove('editing');
 
     // Immediately save to DB
@@ -920,12 +927,16 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
-      if (!r.ok) throw new Error('Save failed');
+      if (!r.ok) {
+        let errMsg = 'Save failed';
+        try { const errBody = await r.json(); errMsg = errBody.error || errMsg; } catch {}
+        throw new Error(errMsg);
+      }
       const updated = await r.json();
       renderMember(updated);
       showToast(`${fieldLabel(fieldName)} saved`);
     } catch (e) {
-      alert('Could not save: ' + e.message);
+      alert('Could not save ' + fieldLabel(fieldName) + ': ' + e.message);
     }
   }
 
