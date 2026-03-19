@@ -24,5 +24,6 @@ model Member {
   preferredChannel     String   @default("Phone")
   outstandingBalance   Float    @default(0)
   notes                String   @default("")
+  clientManager        String   @default("")
   lastUpdated          DateTime @updatedAt
 }

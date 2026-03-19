@@ -744,16 +744,38 @@
             <!-- Preferred Channel -->
             <div class="form-field" data-field="preferredChannel">
               <label>Preferred Channel</label>
-              <div class="field-display">
+              <div class="field-display" onclick="startEdit(this)">
                 <span class="field-text" id="field-preferredChannel">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <select id="edit-preferredChannel">
+                  <option value="Phone">Phone</option>
+                  <option value="Email">Email</option>
+                  <option value="SMS">SMS</option>
+                  <option value="Chat">Chat</option>
+                  <option value="Post">Post</option>
+                </select>
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('preferredChannel')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
               </div>
             </div>
 
             <!-- Last Contact Date -->
             <div class="form-field" data-field="lastContactDate">
               <label>Last Contact Date</label>
-              <div class="field-display">
+              <div class="field-display" onclick="startEdit(this)">
                 <span class="field-text" id="field-lastContactDate">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="text" id="edit-lastContactDate" placeholder="e.g. 19 Mar 2026" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('lastContactDate')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
               </div>
             </div>
 
@@ -885,12 +907,33 @@
           </div>
         </div>
 
+        <!-- Account Management -->
+        <div class="form-section">
+          <div class="form-section-title">Account Management</div>
+          <div class="form-grid">
+            <div class="form-field" data-field="clientManager">
+              <label>Client Manager</label>
+              <div class="field-display" onclick="startEdit(this)">
+                <span class="field-text" id="field-clientManager">—</span>
+                <span class="edit-pencil">✎</span>
+              </div>
+              <div class="field-edit">
+                <input type="text" id="edit-clientManager" placeholder="e.g. Tim Huggins" />
+                <div class="field-edit-actions">
+                  <button class="field-save-btn" onclick="commitEdit('clientManager')">Save</button>
+                  <button class="field-cancel-btn" onclick="cancelEdit(this)">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div><!-- /form-panel -->
 
       <!-- Side Panel — Cognigy Activity only -->
       <div class="side-panel">
         <div class="side-panel-header">
-          <span>AI Activity</span>
+          <span>Activity</span>
           <div class="live-indicator">
             <div class="live-dot"></div>
             Live
@@ -951,6 +994,7 @@
     setText('lastContactDate', m.lastContactDate || '—');
     setText('renewalDate', m.renewalDate || '—');
     setText('notes', m.notes || '—');
+    setText('clientManager', m.clientManager || '—');
 
     // Membership type badge
     const typeEl = document.getElementById('field-membershipType');
@@ -997,7 +1041,14 @@
 
     // Pre-fill with current raw value
     const rawValue = currentMember ? (currentMember[fieldName] ?? '') : '';
-    editInput.value = rawValue;
+    if (editInput.tagName === 'SELECT') {
+      // For select elements, find and select the matching option
+      const opts = Array.from(editInput.options);
+      const match = opts.findIndex(o => o.value === String(rawValue));
+      editInput.selectedIndex = match >= 0 ? match : 0;
+    } else {
+      editInput.value = rawValue;
+    }
 
     wrapper.classList.add('editing');
     editInput.focus();
@@ -1179,7 +1230,7 @@
       notes: 'Notes', renewalDate: 'Renewal Date', outstandingBalance: 'Outstanding Balance',
       preferredChannel: 'Preferred Channel', lastContactDate: 'Last Contact Date',
       email: 'Email', jobTitle: 'Job Title', company: 'Company', phone: 'Phone',
-      firstName: 'First Name', lastName: 'Last Name'
+      firstName: 'First Name', lastName: 'Last Name', clientManager: 'Client Manager'
     };
     return labels[field] || field;
   }

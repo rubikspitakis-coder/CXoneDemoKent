@@ -42,7 +42,8 @@ function seedMembers() {
       renewalDate: '31 Mar 2026',
       outstandingBalance: 450.00,
       preferredChannel: 'Phone',
-      lastContactDate: '12 Feb 2026'
+      lastContactDate: '12 Feb 2026',
+      clientManager: 'Tim Huggins'
     },
     {
       phone: '+61400000002',
@@ -58,7 +59,8 @@ function seedMembers() {
       renewalDate: '30 Jun 2026',
       outstandingBalance: 0.00,
       preferredChannel: 'Email',
-      lastContactDate: '28 Jan 2026'
+      lastContactDate: '28 Jan 2026',
+      clientManager: 'Tim Huggins'
     },
     {
       phone: '+61400000003',
@@ -74,7 +76,8 @@ function seedMembers() {
       renewalDate: '30 Sep 2026',
       outstandingBalance: 220.00,
       preferredChannel: 'SMS',
-      lastContactDate: '05 Mar 2026'
+      lastContactDate: '05 Mar 2026',
+      clientManager: 'Tim Huggins'
     }
   ];
 }
@@ -710,7 +713,7 @@ app.patch('/api/member/:phone', async (req, res) => {
   // Accept any updatable field from the request body
   const ALLOWED = ['firstName', 'lastName', 'phone', 'email', 'jobTitle', 'company',
     'membershipType', 'status', 'cpdHours', 'notes',
-    'renewalDate', 'outstandingBalance', 'preferredChannel', 'lastContactDate'];
+    'renewalDate', 'outstandingBalance', 'preferredChannel', 'lastContactDate', 'clientManager'];
   const updateData = {};
   const changes = {};
   for (const field of ALLOWED) {
